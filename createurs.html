@@ -1,0 +1,377 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="theme-color" content="#080b20">
+    <meta name="description" content="Découvre les artistes et créateurs qui façonnent la pop culture africaine avec YOKAIRA.">
+
+    <title>Créateurs — YOKAIRA</title>
+
+    <link rel="stylesheet" href="style.css">
+
+    <style>
+        .creators-hero {
+            padding: 100px 7% 60px;
+            text-align: center;
+        }
+
+        .creators-hero h1 {
+            font-size: clamp(2.5rem, 7vw, 5rem);
+            margin: 20px 0;
+        }
+
+        .creators-hero .text {
+            max-width: 650px;
+            margin: 0 auto;
+        }
+
+        .creators-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(min(100%, 250px), 1fr));
+            gap: 24px;
+            padding: 30px 7% 70px;
+        }
+
+        .creator-card {
+            padding: 28px;
+            border: 1px solid rgba(130, 120, 255, 0.3);
+            border-radius: 18px;
+            background: rgba(18, 23, 55, 0.8);
+            transition: transform 0.3s, border-color 0.3s;
+        }
+
+        .creator-card:hover {
+            transform: translateY(-5px);
+            border-color: #a78bfa;
+        }
+
+        .creator-icon {
+            font-size: 2.8rem;
+            margin-bottom: 18px;
+        }
+
+        .creator-card h3 {
+            margin: 0 0 12px;
+        }
+
+        .creator-card p {
+            line-height: 1.7;
+        }
+
+        .creator-card .button {
+            display: inline-block;
+            margin-top: 12px;
+            text-decoration: none;
+        }
+
+        .creator-banner {
+            margin: 0 7% 70px;
+            padding: 30px;
+            border: 1px solid rgba(130, 120, 255, 0.3);
+            border-radius: 18px;
+            background: rgba(25, 25, 70, 0.65);
+        }
+
+        .creator-note {
+            font-size: 0.9rem;
+            line-height: 1.7;
+            opacity: 0.85;
+        }
+
+        .creator-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin: 20px 0;
+        }
+
+        .creator-tags span {
+            padding: 8px 13px;
+            border: 1px solid rgba(150, 130, 255, 0.35);
+            border-radius: 30px;
+            background: rgba(100, 80, 200, 0.15);
+            font-size: 0.9rem;
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- NAVIGATION -->
+    <header>
+        <div class="logo">
+            <a href="index.html" aria-label="Accueil YOKAIRA">
+                <img src="logo.png" alt="YOKAIRA">
+            </a>
+        </div>
+
+        <nav aria-label="Navigation principale">
+            <a href="index.html">Accueil</a>
+            <a href="univers.html">Univers</a>
+            <a href="actualites.html">Actualités</a>
+            <a href="communaute.html">Communauté</a>
+            <a href="createurs.html" aria-current="page">Créateurs</a>
+            <a href="login.html">Mon compte</a>
+        </nav>
+    </header>
+
+
+    <main>
+
+        <!-- INTRODUCTION -->
+        <section class="creators-hero">
+
+            <p class="section-tag">LES TALENTS DE DEMAIN</p>
+
+            <h1>CRÉATEURS<br>YOKAIRA</h1>
+
+            <p class="text">
+                Dessiner un monde, raconter une histoire, créer
+                un personnage ou imaginer un jeu : chaque talent
+                peut contribuer à façonner la pop culture de demain.
+            </p>
+
+            <br>
+
+            <a href="register.html" class="button">
+                Rejoindre YOKAIRA
+            </a>
+
+        </section>
+
+
+        <!-- DISCIPLINES -->
+        <section id="disciplines">
+
+            <p class="section-tag">01 — LES DISCIPLINES</p>
+
+            <h2>Exprime ta créativité.</h2>
+
+            <p class="text">
+                Quel que soit ton domaine, YOKAIRA veut donner
+                une place aux personnes qui imaginent et créent.
+            </p>
+
+            <div class="creators-grid">
+
+                <article class="creator-card">
+
+                    <div class="creator-icon">🎨</div>
+
+                    <h3>Illustration & Art</h3>
+
+                    <p class="text">
+                        Dessins traditionnels, illustrations numériques,
+                        concept art et personnages originaux.
+                    </p>
+
+                    <a href="register.html" class="button">
+                        Rejoindre
+                    </a>
+
+                </article>
+
+
+                <article class="creator-card">
+
+                    <div class="creator-icon">📚</div>
+
+                    <h3>Manga & Bande dessinée</h3>
+
+                    <p class="text">
+                        Des histoires originales, des planches,
+                        des personnages et des univers à explorer.
+                    </p>
+
+                    <a href="register.html" class="button">
+                        Rejoindre
+                    </a>
+
+                </article>
+
+
+                <article class="creator-card">
+
+                    <div class="creator-icon">🎭</div>
+
+                    <h3>Cosplay</h3>
+
+                    <p class="text">
+                        Costumes, accessoires, maquillage et interprétation
+                        de personnages issus de tous les univers.
+                    </p>
+
+                    <a href="register.html" class="button">
+                        Rejoindre
+                    </a>
+
+                </article>
+
+
+                <article class="creator-card">
+
+                    <div class="creator-icon">🎬</div>
+
+                    <h3>Animation & Vidéo</h3>
+
+                    <p class="text">
+                        Courts-métrages, animation, montage et
+                        créations audiovisuelles.
+                    </p>
+
+                    <a href="register.html" class="button">
+                        Rejoindre
+                    </a>
+
+                </article>
+
+
+                <article class="creator-card">
+
+                    <div class="creator-icon">✍️</div>
+
+                    <h3>Écriture & Storytelling</h3>
+
+                    <p class="text">
+                        Romans, scénarios, récits fantastiques et
+                        histoires inspirées des cultures africaines.
+                    </p>
+
+                    <a href="register.html" class="button">
+                        Rejoindre
+                    </a>
+
+                </article>
+
+
+                <article class="creator-card">
+
+                    <div class="creator-icon">🎮</div>
+
+                    <h3>Jeux vidéo</h3>
+
+                    <p class="text">
+                        Game design, programmation, création de mondes,
+                        personnages et expériences interactives.
+                    </p>
+
+                    <a href="register.html" class="button">
+                        Rejoindre
+                    </a>
+
+                </article>
+
+            </div>
+
+        </section>
+
+
+        <!-- GALERIE À VENIR -->
+        <section id="galerie">
+
+            <p class="section-tag">02 — GALERIE DES TALENTS</p>
+
+            <h2>Les créations<br>prennent vie.</h2>
+
+            <div class="creator-banner">
+
+                <h3>✨ Une galerie en préparation</h3>
+
+                <p class="text">
+                    Nous préparons un espace où les créateurs pourront
+                    présenter leurs œuvres et faire découvrir leurs projets.
+                </p>
+
+                <p class="text">
+                    À terme, chaque membre pourra disposer d'un profil
+                    de créateur avec une biographie, ses œuvres et ses liens
+                    professionnels.
+                </p>
+
+                <p class="creator-note">
+                    Les dépôts d'images et les portfolios personnels
+                    ne sont pas encore activés sur cette page.
+                </p>
+
+            </div>
+
+        </section>
+
+
+        <!-- IDENTITÉ AFRICAINE -->
+        <section id="afrofuturisme">
+
+            <p class="section-tag">03 — NOTRE INSPIRATION</p>
+
+            <h2>Imaginer depuis<br>l'Afrique.</h2>
+
+            <p class="text">
+                Nos cultures, nos langues, nos légendes et nos visions
+                du futur sont des sources d'inspiration pour raconter
+                des histoires nouvelles.
+
+                <br><br>
+
+                YOKAIRA veut contribuer à faire émerger des univers
+                originaux où les imaginaires africains occupent
+                pleinement leur place.
+            </p>
+
+            <div class="creator-tags">
+                <span>Afrofuturisme</span>
+                <span>Mythologies</span>
+                <span>Illustration</span>
+                <span>Manga africain</span>
+                <span>Création numérique</span>
+            </div>
+
+        </section>
+
+
+        <!-- APPEL À L'ACTION -->
+        <section class="join-section">
+
+            <p class="section-tag">04 — TON TALENT COMPTE</p>
+
+            <h2>Montre-nous<br>ce que tu imagines.</h2>
+
+            <p class="text">
+                Rejoins une communauté qui veut découvrir les talents
+                et faire grandir la création.
+            </p>
+
+            <a href="register.html" class="button">
+                Rejoindre YOKAIRA
+            </a>
+
+        </section>
+
+    </main>
+
+
+    <!-- FOOTER -->
+    <footer>
+
+        <div class="logo">
+            <a href="index.html">YOKAIRA</a>
+        </div>
+
+        <p>La pop culture africaine du futur.</p>
+
+        <nav aria-label="Navigation de pied de page">
+            <a href="index.html">Accueil</a>
+            <a href="univers.html">Univers</a>
+            <a href="actualites.html">Actualités</a>
+            <a href="communaute.html">Communauté</a>
+            <a href="login.html">Mon compte</a>
+        </nav>
+
+        <small>© 2026 YOKAIRA — Tous droits réservés.</small>
+
+    </footer>
+
+    <script src="script.js"></script>
+
+</body>
+</html>
