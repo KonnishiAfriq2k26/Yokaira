@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Créer un compte — YOKAIRA</title>
+
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+    <main class="auth-page">
+
+        <div class="auth-card">
+
+            <div class="auth-logo">
+                <a href="index.html" class="logo">YOKAIRA</a>
+            </div>
+
+            <h1>Créer un compte</h1>
+
+            <p class="auth-subtitle">
+                Rejoins la communauté YOKAIRA
+            </p>
+
+            <form id="registerForm">
+
+                <div class="form-group">
+                    <label for="registerUsername">
+                        Nom d'utilisateur
+                    </label>
+
+                    <input
+                        type="text"
+                        id="registerUsername"
+                        name="username"
+                        placeholder="Ton pseudo"
+                        autocomplete="username"
+                        required
+                    >
+                </div>
+
+
+                <div class="form-group">
+                    <label for="registerEmail">
+                        Email <span>(facultatif)</span>
+                    </label>
+
+                    <input
+                        type="email"
+                        id="registerEmail"
+                        name="email"
+                        placeholder="ton@email.com"
+                        autocomplete="email"
+                    >
+                </div>
+
+
+                <div class="form-group">
+                    <label for="registerPassword">
+                        Mot de passe
+                    </label>
+
+                    <input
+                        type="password"
+                        id="registerPassword"
+                        name="password"
+                        placeholder="Choisis un mot de passe"
+                        autocomplete="new-password"
+                        required
+                    >
+                </div>
+
+
+                <button type="submit" class="auth-button">
+                    Créer mon compte
+                </button>
+
+            </form>
+
+
+            <p class="auth-switch">
+                Tu as déjà un compte ?
+                <a href="login.html">Se connecter</a>
+            </p>
+
+        </div>
+
+    </main>
+
+
+    <script src="script.js"></script>
+
+</body>
+</html>
