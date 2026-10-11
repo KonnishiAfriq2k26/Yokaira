@@ -1,8 +1,11 @@
-<!DOCTYPE html><html lang="fr"><head>
+<!DOCTYPE html>
+<html lang="fr">
+<head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="theme-color" content="#080b20">
-    <meta name="description" content="Explore l'univers YOKAIRA, un monde de pop culture, d'anime, de manga et d'imaginaire africain."><title>Univers — YOKAIRA</title>
+    <meta name="description" content="Explore l'univers YOKAIRA, un monde de pop culture, d'anime, de manga et d'imaginaire africain.">
+    <title>Univers — YOKAIRA</title>
 
 <link rel="stylesheet" href="style.css">
 <style>
@@ -45,19 +48,15 @@ body {
 </style>
 
 <nav class="yokaira-bottom-nav">
-
     <a href="univers.html" data-page="univers.html">
         <span class="icon">◉</span>Univers
     </a>
-
     <a href="messages.html" data-page="messages.html">
         <span class="icon">●</span>Discussions
     </a>
-
     <a href="communaute.html" data-page="communaute.html">
         <span class="icon">♧</span>Communauté
     </a>
-
     <a href="profil.html" data-page="profil.html">
         <span class="icon">♙</span>Profil
     </a>
@@ -72,9 +71,11 @@ document.querySelectorAll(".yokaira-bottom-nav a").forEach(lien => {
     }
 });
 </script>
-</head><body><!-- EN-TÊTE -->
-<header>
+</head>
+<body>
 
+<!-- EN-TÊTE -->
+<header>
     <div class="logo">
         <a href="index.html" aria-label="Retour à l'accueil">
             <img src="logo.png" alt="Logo YOKAIRA">
@@ -89,17 +90,13 @@ document.querySelectorAll(".yokaira-bottom-nav a").forEach(lien => {
         <a href="createurs.html">Créateurs</a>
         <a href="profil.html">Mon compte</a>
     </nav>
-
 </header>
-
 
 <main>
 
     <!-- HERO -->
     <section class="hero" id="accueil">
-
         <div class="hero-content">
-
             <div class="hero-logo">
                 <img src="logo.png" alt="Logo YOKAIRA">
             </div>
@@ -119,15 +116,11 @@ document.querySelectorAll(".yokaira-bottom-nav a").forEach(lien => {
             <a href="#histoire" class="button">
                 Découvrir notre univers
             </a>
-
         </div>
-
     </section>
-
 
     <!-- L'HISTOIRE -->
     <section id="histoire">
-
         <p class="section-tag">
             01 — LE COMMENCEMENT
         </p>
@@ -152,15 +145,11 @@ document.querySelectorAll(".yokaira-bottom-nav a").forEach(lien => {
             pop culture africaine peut raconter ses propres histoires
             et imaginer ses propres mondes.
         </p>
-
     </section>
-
 
     <!-- LE PORTAIL -->
     <section id="portail" class="universe-section">
-
         <div class="universe-content">
-
             <p class="section-tag">
                 02 — LE PORTAIL
             </p>
@@ -194,15 +183,11 @@ document.querySelectorAll(".yokaira-bottom-nav a").forEach(lien => {
                 <br>
                 L'aventure ne fait que commencer.
             </p>
-
         </div>
-
     </section>
-
 
     <!-- NOS PASSIONS -->
     <section id="passions">
-
         <p class="section-tag">
             03 — NOS MONDES
         </p>
@@ -219,7 +204,6 @@ document.querySelectorAll(".yokaira-bottom-nav a").forEach(lien => {
         </p>
 
         <div class="cards-container">
-
             <article class="card">
                 <h3>Anime & Manga</h3>
                 <p>
@@ -251,15 +235,11 @@ document.querySelectorAll(".yokaira-bottom-nav a").forEach(lien => {
                     nos imaginaires et notre avenir.
                 </p>
             </article>
-
         </div>
-
     </section>
-
 
     <!-- REJOINDRE YOKAIRA -->
     <section id="rejoindre" class="join-section">
-
         <p class="section-tag">
             04 — TON AVENTURE
         </p>
@@ -276,7 +256,6 @@ document.querySelectorAll(".yokaira-bottom-nav a").forEach(lien => {
         </p>
 
         <div class="join-box" id="join-box">
-
             <a href="register.html" class="button">
                 Créer mon compte
             </a>
@@ -289,17 +268,13 @@ document.querySelectorAll(".yokaira-bottom-nav a").forEach(lien => {
             <p class="text">
                 <a href="index.html">Retour à l'accueil</a>
             </p>
-
         </div>
-
     </section>
 
 </main>
 
-
 <!-- PIED DE PAGE -->
 <footer>
-
     <div class="logo">
         <a href="index.html">YOKAIRA</a>
     </div>
@@ -320,9 +295,7 @@ document.querySelectorAll(".yokaira-bottom-nav a").forEach(lien => {
     <small>
         © 2026 YOKAIRA — Tous droits réservés.
     </small>
-
 </footer>
-
 
 <!-- ANIMATIONS -->
 <script src="script.js"></script>
@@ -335,13 +308,13 @@ document.querySelectorAll(".yokaira-bottom-nav a").forEach(lien => {
     import {
         getAuth,
         onAuthStateChanged
-    } from "https://www.gstatic.com/firebasejs/13.0.0/firebase-auth.js";
+    } from "https://www.gstatic.com/firebasejs/11.6.0/firebase-auth.js";
 
     import {
         initializeApp,
         getApps,
         getApp
-    } from "https://www.gstatic.com/firebasejs/13.0.0/firebase-app.js";
+    } from "https://www.gstatic.com/firebasejs/11.6.0/firebase-app.js";
 
     const firebaseConfig = {
         apiKey: "AIzaSyAGfNN8L3Nepdn8D9ocz9ylVB_6mKbIVcI",
@@ -366,4 +339,5 @@ document.querySelectorAll(".yokaira-bottom-nav a").forEach(lien => {
     });
 </script>
 
-</body></html>
+</body>
+</html>
