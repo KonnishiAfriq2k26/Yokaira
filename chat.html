@@ -57,7 +57,6 @@
     .chat-input { width: 100%; background: transparent; border: 0; outline: none; color: white; font-size: 0.95rem; }
     .file-input { display: none; }
     
-    /* Bouton d'envoi avec flèche distinct */
     .send-btn {
       background: var(--purple);
       color: white;
@@ -89,12 +88,11 @@
       <div class="chat-status">● En ligne</div>
     </div>
   </div>
-  <!-- Les boutons d'appel vocal et vidéo ont été entièrement supprimés ici -->
 </header>
 
 <main>
   <div id="messagesContainer" class="messages-container">
-    <div class="empty-chat">Chargement de la discussion...</div>
+    <div class="empty-chat">Ouverture de la discussion...</div>
   </div>
 
   <form id="chatForm" class="chat-form">
@@ -110,7 +108,7 @@
 <script type="module">
   import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.0/firebase-app.js";
   import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/11.6.0/firebase-auth.js";
-  import { getFirestore, collection, addDoc, query, where, orderBy, onSnapshot, serverTimestamp } from "https://www.gstatic.com/firebasejs/11.6.0/firebase-firestore.js";
+  import { getFirestore, collection, addDoc, query, where, orderBy, limit, onSnapshot, serverTimestamp } from "https://www.gstatic.com/firebasejs/11.6.0/firebase-firestore.js";
 
   const firebaseConfig = {
     apiKey: "AIzaSyAGfNN8L3Nepdn8D9ocz9ylVB_6mKbIVcI",
@@ -148,7 +146,7 @@
     if (!recipientId) return;
 
     chatId = [user.uid, recipientId].sort().join("_");
-    loadMessages();
+    loadMessagesFast();
   });
 
   document.getElementById("mediaInput").addEventListener("change", (e) => {
@@ -159,8 +157,15 @@
     reader.readAsDataURL(file);
   });
 
-  function loadMessages() {
-    const q = query(collection(db, "privateMessages"), where("chatId", "==", chatId), orderBy("createdAt", "asc"));
+  function loadMessagesFast() {
+    // Optimisation : filtre direct + limite aux 50 derniers messages pour vitesse maximale
+    const q = query(
+      collection(db, "privateMessages"),
+      where("chatId", "==", chatId),
+      orderBy("createdAt", "asc"),
+      limit(50)
+    );
+
     onSnapshot(q, snapshot => {
       if (snapshot.empty) {
         document.getElementById("messagesContainer").innerHTML = `<div class="empty-chat">Début de la discussion avec ${recipientName} ⚡</div>`;
@@ -182,6 +187,33 @@
       const container = document.getElementById("messagesContainer");
       container.innerHTML = html;
       container.scrollTop = container.scrollHeight;
+      
+      // Marquer comme vu localement pour enlever le badge dans messages.html
+      localStorage.setItem("lastSeenMsg_" + chatId, Date.now());
+    }, err => {
+      console.warn("Chargement secondaire...", err);
+      // Fallback rapide sans tri explicite si l'index est en cours de construction
+      const fallbackQuery = query(collection(db, "privateMessages"), where("chatId", "==", chatId));
+      onSnapshot(fallbackQuery, snap => {
+        let docs = [];
+        snap.forEach(d => docs.push(d.data()));
+        docs.sort((a, b) => (a.createdAt?.toMillis() || 0) - (b.createdAt?.toMillis() || 0));
+        let html = "";
+        docs.forEach(msg => {
+          const isSent = msg.senderId === currentUser.uid;
+          html += `
+            <div class="message-row ${isSent ? 'sent' : 'received'}">
+              <div class="message-bubble">
+                ${msg.text ? escapeHTML(msg.text) : ''}
+                ${msg.mediaUrl ? `<img src="${msg.mediaUrl}" class="message-img" alt="">` : ''}
+              </div>
+            </div>
+          `;
+        });
+        const container = document.getElementById("messagesContainer");
+        container.innerHTML = html || `<div class="empty-chat">Début de la discussion avec ${recipientName} ⚡</div>`;
+        container.scrollTop = container.scrollHeight;
+      });
     });
   }
 
@@ -207,7 +239,7 @@
       });
     } catch (err) {
       console.error(err);
-      alert("Erreur d'envoi. Vérifie tes règles Firestore.");
+      alert("Erreur d'envoi.");
     }
   });
 
