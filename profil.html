@@ -4,8 +4,9 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="theme-color" content="#080b20">
-    <title>Mon Profil — YOKAIRA</title>
+    <meta name="description" content="Ton espace personnel YOKAIRA.">
 
+    <title>Mon profil — YOKAIRA</title>
     <link rel="stylesheet" href="style.css">
 
     <style>
@@ -13,43 +14,117 @@
             padding-bottom: 95px !important;
         }
 
-        /* BOUTON FLOTTANT COMMUNAUTÉ (AU-DESSUS DE L'AVATAR) */
-        .floating-community-btn {
-            position: fixed;
-            bottom: 85px;
-            left: 62%;
-            transform: translateX(-50%);
-            z-index: 99998;
-            display: flex;
+        main {
+            padding-top: 90px;
+        }
+
+        .profile-section {
             align-items: center;
-            gap: 6px;
-            padding: 8px 14px;
-            background: linear-gradient(135deg, rgba(139, 92, 246, 0.95), rgba(76, 29, 149, 0.95));
-            border: 1px solid rgba(192, 132, 252, 0.6);
-            border-radius: 20px;
-            color: #ffffff;
-            font-size: 11px;
-            font-weight: bold;
-            text-decoration: none;
-            box-shadow: 0 4px 15px rgba(139, 92, 246, 0.4);
-            backdrop-filter: blur(8px);
-            animation: floatAnim 3s ease-in-out infinite;
+            text-align: center;
         }
 
-        @keyframes floatAnim {
-            0%, 100% { transform: translateX(-50%) translateY(0); }
-            50% { transform: translateX(-50%) translateY(-4px); }
+        .profile-card {
+            width: 100%;
+            max-width: 700px;
+            padding: 30px;
+            border: 1px solid rgba(160, 140, 255, .3);
+            border-radius: 22px;
+            background: rgba(18, 23, 55, .85);
         }
 
-        @media (min-width: 700px) {
-            .floating-community-btn {
-                left: calc(50% + 45px);
-                transform: none;
-            }
-            @keyframes floatAnim {
-                0%, 100% { transform: translateY(0); }
-                50% { transform: translateY(-4px); }
-            }
+        .profile-photo {
+            width: 130px;
+            height: 130px;
+            margin: 0 auto 20px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 3px solid #a78bfa;
+            box-shadow: 0 0 25px rgba(130, 80, 255, .35);
+        }
+
+        .profile-name {
+            overflow-wrap: anywhere;
+            font-size: clamp(1.8rem, 6vw, 2.8rem);
+            margin-bottom: 8px;
+        }
+
+        .profile-email {
+            overflow-wrap: anywhere;
+            color: #d7d8f4;
+            margin-bottom: 20px;
+        }
+
+        .profile-badges {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 10px;
+            margin: 20px 0;
+        }
+
+        .profile-badges span {
+            padding: 7px 15px;
+            border: 1px solid rgba(160, 140, 255, .4);
+            border-radius: 25px;
+            background: rgba(100, 80, 200, .2);
+        }
+
+        .profile-actions {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(min(100%, 220px), 1fr));
+            gap: 16px;
+            width: 100%;
+            max-width: 850px;
+            margin-top: 35px;
+        }
+
+        .profile-action {
+            padding: 25px;
+            border: 1px solid rgba(160, 140, 255, .3);
+            border-radius: 18px;
+            background: rgba(18, 23, 55, .75);
+            text-align: center;
+        }
+
+        .profile-action h3 {
+            margin-bottom: 10px;
+        }
+
+        .profile-action p {
+            margin-bottom: 20px;
+            color: #d7d8f4;
+        }
+
+        .profile-message {
+            margin-top: 20px;
+            color: #d7d8f4;
+        }
+
+        .profile-buttons {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 12px;
+            margin-top: 25px;
+        }
+
+        .button-secondary {
+            background: transparent;
+        }
+
+        #photoInput {
+            display: none;
+        }
+
+        .photo-label {
+            display: inline-block;
+            cursor: pointer;
+            margin-bottom: 20px;
+        }
+
+        footer nav {
+            flex-wrap: wrap;
+            justify-content: center;
         }
 
         /* BARRE DE NAVIGATION DU BAS UNIFIÉE */
@@ -87,84 +162,10 @@
             font-weight: bold;
         }
 
-        .profile-panel {
-            width: min(90%, 600px);
-            margin: 30px auto;
-            padding: 25px;
-            background: linear-gradient(145deg, #17172bdc, #0e0e1deF);
-            border: 1px solid rgba(155, 92, 255, .23);
-            border-radius: 21px;
-            box-shadow: 0 16px 45px #00000020;
-            color: #f5f3ff;
-        }
-
-        .profile-header {
-            display: flex;
-            align-items: center;
-            gap: 15px;
-            margin-bottom: 20px;
-        }
-
-        .profile-avatar {
-            width: 60px;
-            height: 60px;
-            display: grid;
-            place-items: center;
-            border-radius: 18px;
-            background: linear-gradient(135deg, #8b5cf6, #ec4899);
-            font-size: 24px;
-            font-weight: bold;
-            color: #fff;
-        }
-
-        .profile-info h2 {
-            margin: 0 0 5px 0;
-            font-size: 1.2rem;
-            color: #e0caff;
-        }
-
-        .profile-info p {
-            margin: 0;
-            color: #9b9ab8;
-            font-size: 0.9rem;
-        }
-
-        .profile-details {
-            margin-top: 20px;
-            display: grid;
-            gap: 12px;
-            font-size: 0.95rem;
-        }
-
-        .profile-details div {
-            padding: 10px 14px;
-            background: #090918;
-            border: 1px solid #343451;
-            border-radius: 12px;
-            display: flex;
-            justify-content: space-between;
-        }
-
-        .btn-danger {
-            margin-top: 20px;
-            width: 100%;
-            padding: 12px;
-            background: rgba(244, 63, 94, 0.15);
-            border: 1px solid rgba(244, 63, 94, 0.4);
-            color: #fca5a5;
-            border-radius: 12px;
-            font-weight: bold;
-            cursor: pointer;
-            transition: 0.2s;
-        }
-
-        .btn-danger:hover {
-            background: rgba(244, 63, 94, 0.25);
-        }
-
-        .not-logged {
-            text-align: center;
-            padding: 30px;
+        @media (max-width: 700px) {
+            .profile-card {
+                padding: 22px 16px;
+            }
         }
     </style>
 </head>
@@ -173,38 +174,115 @@
 
 <header>
     <div class="logo">
-        <a href="index.html" aria-label="Retour à l'accueil">
-            <img src="logo.png" alt="Logo YOKAIRA">
+        <a href="index.html" aria-label="Accueil YOKAIRA">
+            <img src="logo.png" alt="YOKAIRA">
         </a>
     </div>
+
     <nav aria-label="Navigation principale">
         <a href="index.html">Accueil</a>
-        <a href="univers.html">Univers</a>
-        <a href="communaute.html">Communauté</a>
-        <a href="profil.html" aria-current="page">Mon compte</a>
+        <a href="profil.html" aria-current="page">Mon profil</a>
+        <a href="login.html" id="logoutLink">Déconnexion</a>
     </nav>
 </header>
 
 <main>
-    <div id="profileContainer">
-        <div class="profile-panel not-logged">
-            <h2>Chargement du profil...</h2>
+    <section class="profile-section">
+
+        <p class="section-tag">TON ESPACE PERSONNEL</p>
+        <h1 class="profile-name" id="profileName">Chargement...</h1>
+
+        <div class="profile-card">
+
+            <img
+                id="profilePhoto"
+                class="profile-photo"
+                src="logo.png"
+                alt="Photo de profil"
+            >
+
+            <div>
+                <label for="photoInput" class="button photo-label">
+                    Changer ma photo
+                </label>
+
+                <input
+                    type="file"
+                    id="photoInput"
+                    accept="image/png,image/jpeg,image/webp"
+                >
+            </div>
+
+            <p class="profile-email" id="profileEmail"></p>
+
+            <p>
+                Passion :
+                <strong id="profilePassion">À compléter</strong>
+            </p>
+
+            <div class="profile-badges">
+                <span>Grade : Novice</span>
+                <span>Badge : Bronze</span>
+            </div>
+
+            <p class="profile-message" id="profileMessage" role="status">
+                Chargement de ton espace...
+            </p>
+
+            <div class="profile-buttons">
+                <button type="button" class="button" id="logoutButton">
+                    Se déconnecter
+                </button>
+            </div>
+
         </div>
-    </div>
+
+        <h2 style="margin-top: 65px;">Explore YOKAIRA</h2>
+
+        <p class="text">
+            Choisis une section pour poursuivre ton aventure.
+        </p>
+
+        <div class="profile-actions">
+
+            <article class="profile-action">
+                <h3>🌌 Univers</h3>
+                <p>Explore les mondes et les histoires de YOKAIRA.</p>
+                <a href="univers.html" class="button">Explorer</a>
+            </article>
+
+            <article class="profile-action">
+                <h3>📰 Actualités</h3>
+                <p>Découvre les sujets qui font vibrer la pop culture.</p>
+                <a href="actualites.html" class="button">Lire</a>
+            </article>
+
+            <article class="profile-action">
+                <h3>💬 Communauté</h3>
+                <p>Retrouve les espaces de discussion et les défis.</p>
+                <a href="communaute.html" class="button">Rejoindre</a>
+            </article>
+
+            <article class="profile-action">
+                <h3>🎨 Créateurs</h3>
+                <p>Explore les disciplines et les talents créatifs.</p>
+                <a href="createurs.html" class="button">Découvrir</a>
+            </article>
+
+        </div>
+
+    </section>
 </main>
 
 <footer>
     <div class="logo">
         <a href="index.html">YOKAIRA</a>
     </div>
+
     <p>La pop culture africaine du futur.</p>
+
     <small>© 2026 YOKAIRA — Tous droits réservés.</small>
 </footer>
-
-<!-- BOUTON FLOTTANT COMMUNAUTÉ -->
-<a href="communaute.html" class="floating-community-btn">
-    <span style="font-size: 14px;">👥</span> Communauté
-</a>
 
 <!-- BARRE DE NAVIGATION DU BAS UNIFIÉE -->
 <nav class="yokaira-bottom-nav">
@@ -214,78 +292,4 @@
     <a href="messages.html" data-page="messages.html">
         <span class="icon">💬</span>Discussions
     </a>
-    <a href="boutique.html" data-page="boutique.html">
-        <span class="icon">🛍️</span>Boutique
-    </a>
-    <a href="avatar.html" data-page="avatar.html">
-        <span class="icon">👤</span>Avatar
-    </a>
-    <a href="profil.html" data-page="profil.html" class="active">
-        <span class="icon">⚡</span>Profil
-    </a>
-</nav>
-
-<script type="module">
-    import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.0/firebase-app.js";
-    import { getAuth, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/11.6.0/firebase-auth.js";
-
-    const firebaseConfig = {
-        apiKey: "AIzaSyAGfNN8L3Nepdn8D9ocz9ylVB_6mKbIVcI",
-        authDomain: "yokaira-46d8f.firebaseapp.com",
-        projectId: "yokaira-46d8f",
-        storageBucket: "yokaira-46d8f.firebasestorage.app",
-        messagingSenderId: "1074371889355",
-        appId: "1:1074371889355:web:e358704dd8d7b1a2ceb34e"
-    };
-
-    const app = initializeApp(firebaseConfig);
-    const auth = getAuth(app);
-    const container = document.getElementById("profileContainer");
-
-    onAuthStateChanged(auth, (user) => {
-        if (user) {
-            const name = user.displayName || user.email.split("@")[0];
-            const initial = name.charAt(0).toUpperCase();
-
-            container.innerHTML = `
-                <div class="profile-panel">
-                    <div class="profile-header">
-                        <div class="profile-avatar">${initial}</div>
-                        <div class="profile-info">
-                            <h2>${name}</h2>
-                            <p>${user.email}</p>
-                        </div>
-                    </div>
-
-                    <div class="profile-details">
-                        <div><span>Statut :</span> <strong>Membre Actif</strong></div>
-                        <div><span>Expérience :</span> <strong>Niveau 1</strong></div>
-                        <div><span>ID Utilisateur :</span> <strong style="font-size: 0.8rem; color: #a56aff;">${user.uid}</strong></div>
-                    </div>
-
-                    <button id="logoutBtn" class="btn-danger">Se déconnecter</button>
-                </div>
-            `;
-
-            document.getElementById("logoutBtn").addEventListener("click", async () => {
-                try {
-                    await signOut(auth);
-                    window.location.href = "communaute.html";
-                } catch (error) {
-                    alert("Erreur lors de la déconnexion.");
-                }
-            });
-        } else {
-            container.innerHTML = `
-                <div class="profile-panel not-logged">
-                    <h2>🔐 Accède à ton profil</h2>
-                    <p style="color: #9b9ab8; margin: 15px 0 20px 0;">Tu dois être connecté pour voir tes informations personnelles.</p>
-                    <a href="communaute.html" class="button" style="display: inline-block; padding: 10px 20px; background: #a56aff; color: #080812; border-radius: 10px; font-weight: bold; text-decoration: none;">Se connecter via la communauté</a>
-                </div>
-            `;
-        }
-    });
-</script>
-
-</body>
-</html>
+    <a href
