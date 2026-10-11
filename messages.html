@@ -10,7 +10,6 @@
 :root {
     --bg: #08091e;
     --panel: rgba(17, 19, 55, .88);
-    --panel-light: rgba(32, 31, 80, .78);
     --border: rgba(139, 103, 255, .24);
     --purple: #a56aff;
     --purple-light: #c3a1ff;
@@ -19,21 +18,12 @@
     --green: #00e7a1;
 }
 
-* {
-    box-sizing: border-box;
-    margin: 0;
-    padding: 0;
-}
-
-html {
-    min-height: 100%;
-    background: var(--bg);
-}
-
+* { box-sizing: border-box; margin: 0; padding: 0; }
+html { min-height: 100%; background: var(--bg); }
 body {
     min-height: 100vh;
     color: var(--text);
-    font-family: Arial, Helvetica, sans-serif;
+    font-family: Arial, sans-serif;
     background:
         radial-gradient(ellipse at 80% 8%, rgba(112, 42, 210, .25), transparent 34%),
         radial-gradient(ellipse at 0% 48%, rgba(36, 37, 126, .25), transparent 40%),
@@ -44,337 +34,81 @@ body {
 header {
     position: relative;
     padding: 24px 20px 18px;
-    overflow: hidden;
-    background:
-        radial-gradient(ellipse at 80% 0%, rgba(119, 53, 214, .25), transparent 48%),
-        linear-gradient(135deg, rgba(10, 12, 39, .98), rgba(19, 13, 54, .78));
+    background: linear-gradient(135deg, rgba(10, 12, 39, .98), rgba(19, 13, 54, .78));
     border-bottom: 1px solid rgba(151, 106, 255, .15);
 }
 
-.brand {
-    font-size: clamp(28px, 7vw, 39px);
-    font-weight: 900;
-    letter-spacing: -2px;
-    white-space: nowrap;
-}
+.brand { font-size: 28px; font-weight: 900; letter-spacing: -2px; }
+.brand span { color: var(--purple); text-shadow: 0 0 20px rgba(165, 106, 255, .65); }
+.tagline { margin-top: 5px; font-size: 10px; letter-spacing: 1.5px; color: var(--purple-light); font-weight: bold; }
 
-.brand span {
-    color: var(--purple);
-    text-shadow: 0 0 20px rgba(165, 106, 255, .65);
-}
-
-.tagline {
-    margin-top: 5px;
-    font-size: 10px;
-    letter-spacing: 1.5px;
-    color: var(--purple-light);
-    font-weight: bold;
-}
-
-.header-row {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    gap: 12px;
-}
-
+.header-row { display: flex; justify-content: space-between; align-items: center; gap: 12px; }
 .new-chat {
-    width: 46px;
-    height: 46px;
-    flex-shrink: 0;
-    border-radius: 50%;
-    border: 1px solid rgba(169, 117, 255, .6);
-    color: white;
-    font-size: 26px;
-    background: rgba(87, 52, 157, .22);
-    box-shadow: 0 0 18px rgba(146, 86, 255, .17);
-    cursor: pointer;
+    width: 46px; height: 46px; border-radius: 50%;
+    border: 1px solid rgba(169, 117, 255, .6); color: white; font-size: 26px;
+    background: rgba(87, 52, 157, .22); cursor: pointer; display: grid; place-items: center;
 }
+h1 { margin-top: 20px; font-size: 32px; font-weight: 850; }
 
-h1 {
-    margin-top: 30px;
-    font-size: clamp(32px, 8vw, 44px);
-    letter-spacing: -1.4px;
-    font-weight: 850;
-}
-
-.search-wrap {
-    padding: 0 18px;
-    margin-top: 8px;
-}
-
+.search-wrap { padding: 0 18px; margin-top: 8px; }
 .search-box {
-    display: flex;
-    align-items: center;
-    gap: 12px;
-    padding: 0 16px;
-    height: 56px;
-    border: 1px solid var(--border);
-    border-radius: 30px;
-    background: rgba(30, 29, 75, .76);
-    box-shadow: inset 0 0 18px rgba(117, 81, 231, .06);
+    display: flex; align-items: center; gap: 12px; padding: 0 16px; height: 50px;
+    border: 1px solid var(--border); border-radius: 30px; background: rgba(30, 29, 75, .76);
+}
+.search-box input { width: 100%; background: transparent; border: 0; outline: none; color: white; font-size: 16px; }
+
+#conversationList { padding: 15px 18px; display: flex; flex-direction: column; gap: 10px; }
+.conversation-item {
+    display: flex; align-items: center; gap: 14px; padding: 12px; background: rgba(17, 19, 55, .7);
+    border: 1px solid var(--border); border-radius: 16px; cursor: pointer; text-decoration: none; color: white; transition: .2s;
+}
+.conversation-item:hover { border-color: var(--purple); background: rgba(32, 31, 80, .9); }
+
+.avatar {
+    width: 50px; height: 50px; border-radius: 50%; background: linear-gradient(135deg, #8b5cf6, #ec4899);
+    display: grid; place-items: center; font-weight: bold; font-size: 1.1rem; object-fit: cover; flex-shrink: 0;
 }
 
-.search-icon {
-    font-size: 25px;
-    color: var(--purple-light);
-}
+.conv-info { flex: 1; min-width: 0; }
+.conv-name { font-weight: bold; font-size: 1rem; margin-bottom: 4px; }
+.conv-last { color: var(--muted); font-size: .85rem; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
 
-.search-box input {
-    width: 100%;
-    background: transparent;
-    border: 0;
-    outline: none;
-    color: white;
-    font-size: 18px;
-    min-width: 0;
-}
+.empty-state { padding: 40px 15px; text-align: center; color: var(--muted); line-height: 1.6; }
 
-.search-box input::placeholder {
-    color: #8984c6;
-}
-
-.filters {
-    display: flex;
-    gap: 9px;
-    padding: 20px 18px 24px;
-    overflow-x: auto;
-    scrollbar-width: none;
-}
-
-.filters::-webkit-scrollbar {
-    display: none;
-}
-
-.filter {
-    flex: 0 0 auto;
-    padding: 12px 20px;
-    color: #b4afe7;
-    font-size: 14px;
-    font-weight: bold;
-    background: rgba(20, 20, 55, .72);
-    border: 1px solid rgba(140, 112, 225, .24);
-    border-radius: 28px;
-    cursor: pointer;
-}
-
-.filter.active {
-    color: white;
-    background: linear-gradient(135deg, #5d32a9, #29165c);
-    border-color: var(--purple);
-    box-shadow: 0 0 16px rgba(157, 94, 255, .32);
-}
-
-.archived {
-    width: calc(100% - 36px);
-    margin: 0 18px;
-    padding: 18px 8px;
-    display: flex;
-    align-items: center;
-    gap: 17px;
-    border: 0;
-    border-top: 1px solid rgba(132, 105, 231, .12);
-    border-bottom: 1px solid var(--border);
-    background: transparent;
-    color: white;
-    cursor: pointer;
-    text-align: left;
-}
-
-.archive-icon {
-    width: 48px;
-    font-size: 25px;
-    text-align: center;
-}
-
-.archive-label {
-    flex: 1;
-    font-size: 16px;
-    font-weight: bold;
-}
-
-.archive-count {
-    color: var(--purple);
-    font-size: 18px;
-    font-weight: bold;
-}
-
-#conversationList {
-    padding: 0 18px;
-}
-
-.empty-state {
-    padding: 40px 15px;
-    text-align: center;
-    color: var(--muted);
-    line-height: 1.6;
-}
-
-/* MODALE DE RECHERCHE DES MEMBRES */
+/* MODALE DE RECHERCHE */
 .modal-overlay {
-    position: fixed;
-    inset: 0;
-    background: rgba(5, 5, 25, 0.85);
-    backdrop-filter: blur(8px);
-    z-index: 100000;
-    display: none;
-    place-items: center;
-    padding: 20px;
+    position: fixed; inset: 0; background: rgba(5, 5, 25, 0.85); backdrop-filter: blur(8px);
+    z-index: 100000; display: none; place-items: center; padding: 20px;
 }
-.modal-overlay.active {
-    display: grid;
-}
-.modal-card {
-    width: 100%;
-    max-width: 450px;
-    background: linear-gradient(145deg, #17172bdc, #0e0e1deF);
-    border: 1px solid var(--border);
-    border-radius: 22px;
-    padding: 24px;
-    box-shadow: 0 20px 50px rgba(0,0,0,0.8);
-}
-.modal-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 18px;
-}
-.modal-header h3 {
-    margin: 0;
-    color: var(--purple-light);
-}
-.close-modal {
-    background: none;
-    border: none;
-    color: var(--muted);
-    font-size: 1.3rem;
-    cursor: pointer;
-}
-.modal-search-input {
-    width: 100%;
-    padding: 13px 15px;
-    background: #090918;
-    border: 1px solid var(--border);
-    border-radius: 14px;
-    color: white;
-    outline: none;
-    margin-bottom: 15px;
-    font-size: 16px;
-}
-.users-list {
-    max-height: 250px;
-    overflow-y: auto;
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
-}
-.user-item {
-    display: flex;
-    align-items: center;
-    gap: 12px;
-    padding: 10px 12px;
-    background: #19192e;
-    border: 1px solid var(--border);
-    border-radius: 14px;
-    cursor: pointer;
-    text-align: left;
-    transition: .2s;
-}
-.user-item:hover {
-    border-color: var(--purple);
-    background: rgba(165, 106, 255, 0.1);
-}
-.user-avatar {
-    width: 38px;
-    height: 38px;
-    border-radius: 50%;
-    background: linear-gradient(135deg, #8b5cf6, #ec4899);
-    display: grid;
-    place-items: center;
-    font-weight: 800;
-    color: white;
-    font-size: .85rem;
-    object-fit: cover;
-}
-.user-info div {
-    font-weight: 800;
-    font-size: .9rem;
-}
-.user-info small {
-    color: var(--muted);
-    font-size: .75rem;
-}
+.modal-overlay.active { display: grid; }
+.modal-card { width: 100%; max-width: 450px; background: #111337; border: 1px solid var(--border); border-radius: 22px; padding: 24px; }
+.modal-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px; }
+.modal-header h3 { color: var(--purple-light); }
+.close-modal { background: none; border: none; color: var(--muted); font-size: 1.3rem; cursor: pointer; }
+.modal-search-input { width: 100%; padding: 12px; background: #090918; border: 1px solid var(--border); border-radius: 12px; color: white; outline: none; margin-bottom: 12px; }
+.users-list { max-height: 220px; overflow-y: auto; display: flex; flex-direction: column; gap: 8px; }
+.user-item { display: flex; align-items: center; gap: 12px; padding: 10px; background: #19192e; border-radius: 12px; cursor: pointer; color: white; text-decoration: none; }
+.user-item:hover { border: 1px solid var(--purple); }
 
-/* VRAIE BARRE DE NAVIGATION OFFICIELLE AVEC BOUTON COMMUNAUTÉ FLOTTANT */
+/* VRAIE BARRE DE NAVIGATION OFFICIELLE */
 .yokaira-bottom-nav {
-    position: fixed;
-    z-index: 99999;
-    bottom: 0;
-    left: 0;
-    right: 0;
-    display: flex;
-    justify-content: space-around;
-    align-items: center;
-    padding: 12px 3px max(12px, env(safe-area-inset-bottom));
-    background: rgba(8, 9, 30, 0.97);
-    backdrop-filter: blur(15px);
-    border-top: 1px solid rgba(144, 111, 255, 0.4);
-    border-radius: 20px 20px 0 0;
+    position: fixed; z-index: 99999; bottom: 0; left: 0; right: 0;
+    display: flex; justify-content: space-around; align-items: center;
+    padding: 10px 4px max(10px, env(safe-area-inset-bottom));
+    background: rgba(8, 9, 30, .97); backdrop-filter: blur(18px);
+    border-top: 1px solid rgba(144, 111, 255, .35); border-radius: 22px 22px 0 0;
 }
-
-.yokaira-bottom-nav a {
-    flex: 1;
-    text-align: center;
-    text-decoration: none;
-    color: #9892d4;
-    font-size: 11px;
+.nav-item {
+    flex: 1; display: flex; flex-direction: column; align-items: center; gap: 5px;
+    text-decoration: none; color: #9892d4; font-size: 10px; white-space: nowrap;
 }
-
-.yokaira-bottom-nav .icon {
-    display: block;
-    font-size: 24px;
-    margin-bottom: 4px;
-}
-
-.yokaira-bottom-nav a.active {
-    color: #a56aff;
-    font-weight: bold;
-}
-
-/* Style spécifique pour détacher/flotter le bouton communauté */
-.yokaira-bottom-nav a[href="communaute.html"] {
-    position: relative;
-    top: -12px;
-}
-.yokaira-bottom-nav a[href="communaute.html"] .icon {
-    background: linear-gradient(135deg, #7c3aed, #a855f7);
-    width: 48px;
-    height: 48px;
-    margin: 0 auto 2px;
-    border-radius: 50%;
-    display: grid;
-    place-items: center;
-    color: white;
-    box-shadow: 0 4px 15px rgba(168, 85, 247, 0.4);
-    border: 2px solid rgba(255, 255, 255, 0.2);
-    font-size: 22px;
-}
+.nav-icon { font-size: 23px; line-height: 1.2; }
+.nav-item.active { color: var(--purple); font-weight: bold; }
+.nav-item.active .nav-icon { text-shadow: 0 0 16px var(--purple); }
 
 @media (min-width: 700px) {
-    body {
-        max-width: 760px;
-        margin: 0 auto;
-        border-left: 1px solid var(--border);
-        border-right: 1px solid var(--border);
-    }
-
-    .yokaira-bottom-nav {
-        left: 50%;
-        right: auto;
-        width: 100%;
-        max-width: 760px;
-        transform: translateX(-50%);
-    }
+    body { max-width: 760px; margin: 0 auto; border-left: 1px solid var(--border); border-right: 1px solid var(--border); }
+    .yokaira-bottom-nav { left: 50%; right: auto; width: 100%; max-width: 760px; transform: translateX(-50%); }
 }
 </style>
 </head>
@@ -387,89 +121,65 @@ h1 {
             <div class="brand">Y<span>◈</span>KAIRA</div>
             <div class="tagline">PLUS QU'UNE COMMUNAUTÉ, UNE FAMILLE.</div>
         </div>
-
-        <button class="new-chat" id="newChatButton" aria-label="Nouvelle discussion" title="Nouvelle discussion">＋</button>
+        <button class="new-chat" id="newChatButton" aria-label="Nouvelle discussion">＋</button>
     </div>
-
     <h1>Discussions</h1>
 </header>
 
 <div class="search-wrap">
-    <label class="search-box">
-        <span class="search-icon">⌕</span>
-        <input id="searchInput" type="search" placeholder="Rechercher" autocomplete="off" aria-label="Rechercher une discussion">
-    </label>
+    <div class="search-box">
+        <span style="color:var(--purple-light)">⌕</span>
+        <input id="searchInput" type="search" placeholder="Rechercher une discussion..." autocomplete="off">
+    </div>
 </div>
-
-<div class="filters" id="filters">
-    <button class="filter active" data-filter="all">Toutes</button>
-    <button class="filter" data-filter="unread">Non lues</button>
-    <button class="filter" data-filter="favorites">Favoris</button>
-    <button class="filter" data-filter="groups">Groupes</button>
-</div>
-
-<button class="archived" id="archivedButton">
-    <span class="archive-icon">▤</span>
-    <span class="archive-label">Archivées</span>
-    <span class="archive-count" id="archivedCount">0</span>
-    <span aria-hidden="true">›</span>
-</button>
 
 <main>
-    <div id="conversationList"></div>
-    <div class="empty-state" id="emptyState">
-        <div style="font-size:32px;margin-bottom:10px">💬</div>
-        Aucune discussion active pour le moment.<br>
-        Clique sur le bouton <strong>＋</strong> en haut pour rechercher un membre.
+    <div id="conversationList">
+        <div class="empty-state">Chargement de vos discussions...</div>
     </div>
 </main>
 
-<!-- MODALE DE RECHERCHE DES MEMBRES -->
+<!-- MODALE DE RECHERCHE -->
 <div id="searchModal" class="modal-overlay">
     <div class="modal-card">
         <div class="modal-header">
             <h3>💬 Nouvelle discussion</h3>
             <button id="closeModal" class="close-modal">✕</button>
         </div>
-        
-        <input type="text" id="memberSearchInput" class="modal-search-input" placeholder="Rechercher par nom..." autocomplete="off">
-        
+        <input type="text" id="memberSearchInput" class="modal-search-input" placeholder="Rechercher un membre..." autocomplete="off">
         <div id="searchResults" class="users-list">
-            <div style="text-align: center; color: var(--muted); font-size: .85rem; padding: 15px;">
-                Tape un nom pour lancer une recherche...
-            </div>
+            <div style="text-align: center; color: var(--muted); font-size: .85rem; padding: 10px;">Tape un nom...</div>
         </div>
     </div>
 </div>
 
-<!-- BARRE DE NAVIGATION OFFICIELLE AVEC BOUTON COMMUNAUTÉ FLOTTANT -->
+<!-- BARRE DE NAVIGATION OFFICIELLE -->
 <nav class="yokaira-bottom-nav">
-    <a href="univers.html" data-page="univers.html">
-        <span class="icon">◉</span>Univers
+    <a class="nav-item" href="univers.html">
+        <span class="nav-icon">🌌</span>
+        <span>Univers</span>
     </a>
-    <a href="messages.html" data-page="messages.html" class="active">
-        <span class="icon">●</span>Discussions
+    <a class="nav-item active" href="messages.html">
+        <span class="nav-icon">💬</span>
+        <span>Discussions</span>
     </a>
-    <a href="communaute.html" data-page="communaute.html">
-        <span class="icon">♧</span>Communauté
+    <a class="nav-item" href="boutique.html">
+        <span class="nav-icon">🛍️</span>
+        <span>Boutique</span>
     </a>
-    <a href="profil.html" data-page="profil.html">
-        <span class="icon">♙</span>Profil
+    <a class="nav-item" href="avatar.html">
+        <span class="nav-icon">👤</span>
+        <span>Avatar</span>
+    </a>
+    <a class="nav-item" href="profil.html">
+        <span class="nav-icon">⚡</span>
+        <span>Profil</span>
     </a>
 </nav>
 
-<script>
-    const pageActuelle = location.pathname.split("/").pop();
-    document.querySelectorAll(".yokaira-bottom-nav a").forEach(lien => {
-        if (lien.dataset.page === pageActuelle) {
-            lien.classList.add("active");
-        }
-    });
-</script>
-
 <script type="module">
     import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.0/firebase-app.js";
-    import { getAuth } from "https://www.gstatic.com/firebasejs/11.6.0/firebase-auth.js";
+    import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/11.6.0/firebase-auth.js";
     import { getFirestore, collection, getDocs, query, limit } from "https://www.gstatic.com/firebasejs/11.6.0/firebase-firestore.js";
 
     const firebaseConfig = {
@@ -490,88 +200,116 @@ h1 {
     const closeModal = document.getElementById("closeModal");
     const memberSearchInput = document.getElementById("memberSearchInput");
     const searchResults = document.getElementById("searchResults");
+    const conversationList = document.getElementById("conversationList");
 
     newChatButton.addEventListener("click", () => searchModal.classList.add("active"));
     closeModal.addEventListener("click", () => searchModal.classList.remove("active"));
-    searchModal.addEventListener("click", (e) => {
-        if (e.target === searchModal) searchModal.classList.remove("active");
+    searchModal.addEventListener("click", (e) => { if (e.target === searchModal) searchModal.classList.remove("active"); });
+
+    onAuthStateChanged(auth, async user => {
+        if (!user) {
+            window.location.replace("./connexion.html");
+            return;
+        }
+        loadUserConversations(user.uid);
     });
+
+    async function loadUserConversations(currentUid) {
+        try {
+            const snap = await getDocs(query(collection(db, "privateMessages"), limit(200)));
+            const chatsMap = new Map();
+
+            snap.forEach(docSnap => {
+                const data = docSnap.data();
+                if (data.chatId && data.chatId.includes(currentUid)) {
+                    const ids = data.chatId.split("_");
+                    const partnerId = ids[0] === currentUid ? ids[1] : ids[0];
+                    if (!chatsMap.has(partnerId) || (data.createdAt && chatsMap.get(partnerId).createdAt && data.createdAt > chatsMap.get(partnerId).createdAt)) {
+                        chatsMap.set(partnerId, {
+                            partnerId,
+                            lastText: data.text || "[Image]",
+                            createdAt: data.createdAt
+                        });
+                    }
+                }
+            });
+
+            if (chatsMap.size === 0) {
+                conversationList.innerHTML = `<div class="empty-state">Aucune discussion active.<br>Clique sur le bouton <strong>＋</strong> en haut pour démarrer une conversation.</div>`;
+                return;
+            }
+
+            const postsSnap = await getDocs(query(collection(db, "posts"), limit(100)));
+            const namesMap = new Map();
+            postsSnap.forEach(p => {
+                const d = p.data();
+                if (d.authorId && d.authorName) namesMap.set(d.authorId, d.authorName);
+            });
+
+            let html = "";
+            for (let [partnerId, info] of chatsMap.entries()) {
+                const name = namesMap.get(partnerId) || "Membre YOKAIRA";
+                const initial = name.charAt(0).toUpperCase();
+                const savedPhoto = localStorage.getItem("yokairaProfilePhoto_" + partnerId);
+                const avatarHTML = savedPhoto ? `<img src="${savedPhoto}" class="avatar" alt="">` : `<div class="avatar">${initial}</div>`;
+
+                html += `
+                    <a href="chat.html?id=${partnerId}&name=${encodeURIComponent(name)}" class="conversation-item">
+                        ${avatarHTML}
+                        <div class="conv-info">
+                            <div class="conv-name">${name}</div>
+                            <div class="conv-last">${escapeHTML(info.lastText)}</div>
+                        </div>
+                    </a>
+                `;
+            }
+            conversationList.innerHTML = html;
+
+        } catch (err) {
+            console.error(err);
+            conversationList.innerHTML = `<div class="empty-state">Erreur de chargement des discussions.</div>`;
+        }
+    }
 
     memberSearchInput.addEventListener("input", async (e) => {
         const term = e.target.value.trim().toLowerCase();
         if (term.length < 2) {
-            searchResults.innerHTML = `<div style="text-align: center; color: var(--muted); font-size: .85rem; padding: 15px;">Tape au moins 2 caractères...</div>`;
+            searchResults.innerHTML = `<div style="text-align: center; color: var(--muted); font-size: .85rem; padding: 10px;">Tape au moins 2 caractères...</div>`;
             return;
         }
-
         try {
-            searchResults.innerHTML = `<div style="text-align: center; color: var(--muted); font-size: .85rem; padding: 15px;">Recherche...</div>`;
-            
             const snap = await getDocs(query(collection(db, "posts"), limit(50)));
             const usersMap = new Map();
-
             snap.forEach(doc => {
                 const d = doc.data();
                 if (d.authorId && d.authorName && d.authorId !== auth.currentUser?.uid) {
                     usersMap.set(d.authorId, d.authorName);
                 }
             });
-
-            const matched = Array.from(usersMap.entries())
-                .map(([id, name]) => ({ id, name }))
-                .filter(u => u.name.toLowerCase().includes(term));
-
+            const matched = Array.from(usersMap.entries()).map(([id, name]) => ({ id, name })).filter(u => u.name.toLowerCase().includes(term));
+            
             if (matched.length === 0) {
-                searchResults.innerHTML = `<div style="text-align: center; color: var(--muted); font-size: .85rem; padding: 15px;">Aucun membre trouvé.</div>`;
+                searchResults.innerHTML = `<div style="text-align: center; color: var(--muted); padding: 10px;">Aucun membre trouvé.</div>`;
                 return;
             }
 
             let html = "";
             matched.forEach(user => {
                 const initial = user.name.charAt(0).toUpperCase();
-                const savedPhoto = localStorage.getItem("yokairaProfilePhoto_" + user.id);
-                const avatarHTML = savedPhoto 
-                    ? `<img src="${savedPhoto}" class="user-avatar" alt="Avatar">` 
-                    : `<div class="user-avatar">${initial}</div>`;
-
                 html += `
-                    <div class="user-item" onclick="window.location.href='chat.html?id=${user.id}&name=${encodeURIComponent(user.name)}'">
-                        ${avatarHTML}
-                        <div class="user-info">
-                            <div>${user.name}</div>
-                            <small>Membre YOKAIRA</small>
-                        </div>
-                    </div>
+                    <a href="chat.html?id=${user.id}&name=${encodeURIComponent(user.name)}" class="user-item">
+                        <div class="avatar" style="width:36px;height:36px;font-size:0.8rem;">${initial}</div>
+                        <div><strong>${user.name}</strong><br><small style="color:var(--muted)">Membre YOKAIRA</small></div>
+                    </a>
                 `;
             });
             searchResults.innerHTML = html;
-
-        } catch (err) {
-            console.error(err);
-            searchResults.innerHTML = `<div style="text-align: center; color: #fca5a5; font-size: .85rem; padding: 15px;">Erreur de recherche.</div>`;
-        }
+        } catch (err) { console.error(err); }
     });
 
-    const searchInput = document.getElementById("searchInput");
-    const emptyState = document.getElementById("emptyState");
-    const filterButtons = document.querySelectorAll(".filter");
-    let activeFilter = "all";
-    let showingArchived = false;
-
-    searchInput.addEventListener("input", () => {});
-
-    filterButtons.forEach((button) => {
-        button.addEventListener("click", () => {
-            filterButtons.forEach((item) => item.classList.remove("active"));
-            button.classList.add("active");
-            activeFilter = button.dataset.filter;
-        });
-    });
-
-    document.getElementById("archivedButton").addEventListener("click", () => {
-        showingArchived = !showingArchived;
-        document.querySelector(".archive-label").textContent = showingArchived ? "Retour aux discussions" : "Archivées";
-    });
+    function escapeHTML(str) {
+        return String(str ?? "").replace(/[&<>"']/g, char => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#039;" })[char]);
+    }
 </script>
 
 </body>
