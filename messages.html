@@ -210,7 +210,7 @@ h1 {
     line-height: 1.6;
 }
 
-/* MODALE DE RECHERCHE PERSONNALISÉE */
+/* MODALE DE RECHERCHE DES MEMBRES */
 .modal-overlay {
     position: fixed;
     inset: 0;
@@ -305,6 +305,7 @@ h1 {
     font-size: .75rem;
 }
 
+/* VRAIE BARRE DE NAVIGATION OFFICIELLE (AVEC COMMUNAUTÉ FLOTTANTE) */
 .bottom-nav {
     position: fixed;
     z-index: 10;
@@ -342,6 +343,10 @@ h1 {
 .nav-item.active {
     color: var(--purple);
     font-weight: bold;
+}
+
+.nav-item.active .nav-icon {
+    text-shadow: 0 0 16px var(--purple);
 }
 
 @media (min-width: 700px) {
@@ -426,6 +431,7 @@ h1 {
     </div>
 </div>
 
+<!-- BARRE DE NAVIGATION OFFICIELLE -->
 <nav class="bottom-nav">
     <a class="nav-item" href="index.html">
         <span class="nav-icon">⌂</span>
@@ -538,16 +544,13 @@ h1 {
         }
     });
 
-    // Gestion des filtres et recherche locale d'interface
     const searchInput = document.getElementById("searchInput");
     const emptyState = document.getElementById("emptyState");
     const filterButtons = document.querySelectorAll(".filter");
     let activeFilter = "all";
     let showingArchived = false;
 
-    searchInput.addEventListener("input", () => {
-        // Logique de filtrage visuel local si besoin
-    });
+    searchInput.addEventListener("input", () => {});
 
     filterButtons.forEach((button) => {
         button.addEventListener("click", () => {
