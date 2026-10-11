@@ -11,11 +11,11 @@
 
     <style>
         body {
-            padding-bottom: 120px !important; /* Espace suffisant pour la barre du bas */
+            padding-bottom: 120px !important;
         }
 
         main {
-            padding-top: 30px;
+            padding-top: 50px;
             display: flex;
             justify-content: center;
         }
@@ -38,7 +38,7 @@
             border-radius: 22px;
             background: rgba(18, 23, 55, .9);
             box-shadow: 0 10px 30px rgba(0,0,0,0.5);
-            margin-top: 15px;
+            margin-top: 25px; /* Espace augmenté pour éviter le chevauchement */
         }
 
         .profile-photo {
@@ -54,6 +54,7 @@
         .profile-name {
             overflow-wrap: anywhere;
             font-size: clamp(1.8rem, 6vw, 2.8rem);
+            margin-top: 15px;
             margin-bottom: 8px;
             color: #fff;
         }
@@ -197,7 +198,7 @@
 <main>
     <section class="profile-section">
 
-        <p class="section-tag">TON ESPACE PERSONNEL</p>
+        <p class="section-tag" style="margin-top: 10px;">TON ESPACE PERSONNEL</p>
         <h1 class="profile-name" id="profileName">Chargement...</h1>
 
         <div class="profile-card">
