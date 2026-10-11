@@ -3,17 +3,144 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="theme-color" content="#080b20">
-    <meta name="description" content="Personnalise ton avatar YOKAIRA et exprime ton style unique.">
-    <title>Avatar — YOKAIRA</title>
+    <title>Mon Avatar | YOKAIRA</title>
 
-    <link rel="stylesheet" href="style.css">
     <style>
+        * {
+            box-sizing: border-box;
+        }
+
         body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            color: #fff;
+            background: #0b0915;
             padding-bottom: 95px !important;
         }
 
-        .bottom-nav {
+        header {
+            padding: 20px;
+            text-align: center;
+            background: #151026;
+            border-bottom: 1px solid #35245a;
+        }
+
+        header h1 {
+            margin: 0;
+            color: #bd91ff;
+        }
+
+        header p {
+            color: #c6bfd8;
+            font-size: 14px;
+        }
+
+        main {
+            width: min(100% - 28px, 900px);
+            margin: 25px auto;
+        }
+
+        .avatar-card {
+            padding: 20px;
+            text-align: center;
+            border: 1px solid #49316e;
+            border-radius: 20px;
+            background: linear-gradient(160deg, #211535, #100d1c);
+            box-shadow: 0 0 30px #6d32a522;
+        }
+
+        .avatar-stage {
+            width: 100%;
+            max-width: 340px;
+            height: 390px;
+            margin: 20px auto;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+            border-radius: 18px;
+            background: radial-gradient(
+                ellipse at center,
+                #56358b 0%,
+                #201630 48%,
+                #100d1b 78%
+            );
+        }
+
+        .avatar-stage img {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+        }
+
+        .avatar-stage .placeholder {
+            padding: 25px;
+            color: #c6bfd8;
+            line-height: 1.7;
+        }
+
+        h2 {
+            color: #e0caff;
+        }
+
+        .choices {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+            gap: 12px;
+            margin-top: 22px;
+        }
+
+        .choice {
+            padding: 15px 10px;
+            color: white;
+            background: #211832;
+            border: 1px solid #49316e;
+            border-radius: 12px;
+            cursor: pointer;
+        }
+
+        .choice.active {
+            border: 2px solid #c49aff;
+            background: #382351;
+        }
+
+        .choice strong {
+            display: block;
+            margin-bottom: 7px;
+        }
+
+        .choice span {
+            color: #c6bfd8;
+            font-size: 12px;
+        }
+
+        .save-button {
+            width: 100%;
+            margin-top: 20px;
+            padding: 15px;
+            border: none;
+            border-radius: 12px;
+            background: #a56aff;
+            color: #170c25;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        #message {
+            min-height: 22px;
+            color: #c8ffdb;
+            font-size: 14px;
+        }
+
+        .note {
+            color: #b8aecb;
+            font-size: 13px;
+            line-height: 1.6;
+        }
+
+        /* BARRE DE NAVIGATION DU BAS UNIFIÉE */
+        .yokaira-bottom-nav {
             position: fixed;
             z-index: 99999;
             bottom: 0;
@@ -28,30 +155,22 @@
             border-radius: 20px 20px 0 0;
         }
 
-        .nav-item {
+        .yokaira-bottom-nav a {
             flex: 1;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            gap: 4px;
+            text-align: center;
             text-decoration: none;
             color: #9892d4;
             font-size: 11px;
-            text-align: center;
         }
 
-        .nav-icon {
+        .yokaira-bottom-nav .icon {
+            display: block;
             font-size: 24px;
-            line-height: 1.2;
+            margin-bottom: 4px;
         }
 
-        .nav-item.active {
+        .yokaira-bottom-nav a.active {
             color: #a56aff;
-            font-weight: bold;
-        }
-
-        .nav-item.active .nav-icon {
-            text-shadow: 0 0 16px #a56aff;
         }
 
         @media (min-width: 700px) {
@@ -62,7 +181,7 @@
                 border-right: 1px solid rgba(139, 103, 255, .24);
             }
 
-            .bottom-nav {
+            .yokaira-bottom-nav {
                 left: 50%;
                 right: auto;
                 width: 100%;
@@ -75,125 +194,155 @@
 
 <body>
 
-<!-- EN-TÊTE -->
 <header>
-    <div class="logo">
-        <a href="index.html" aria-label="Retour à l'accueil">
-            <img src="logo.png" alt="Logo YOKAIRA">
-        </a>
-    </div>
-
-    <nav aria-label="Navigation principale">
-        <a href="index.html">Accueil</a>
-        <a href="univers.html">Univers</a>
-        <a href="communaute.html">Communauté</a>
-        <a href="avatar.html" aria-current="page">Avatar</a>
-        <a href="profil.html">Mon compte</a>
-    </nav>
+    <h1>YOKAIRA</h1>
+    <p>Mon avatar · Mon identité · Mon univers</p>
 </header>
 
 <main>
-    <section class="hero" id="avatar-hero">
-        <div class="hero-content">
-            <p class="section-tag">
-                ESPACE AVATAR
-            </p>
+    <section class="avatar-card">
+        <h2>Mon personnage</h2>
 
-            <h1>
-                Ton Avatar YOKAIRA
-            </h1>
+        <p class="note">
+            Choisis l'apparence qui te représente dans l'univers YOKAIRA.
+        </p>
 
-            <p class="subtitle">
-                Personnalise ton apparence, choisis tes accessoires et incarne ton personnage dans l'univers.
-            </p>
+        <div class="avatar-stage" id="avatarStage">
+            <div class="placeholder">
+                <strong>Ton avatar arrive !</strong><br>
+                Sélectionne une apparence ci-dessous.
+            </div>
         </div>
-    </section>
 
-    <section id="avatar-section">
-        <h2>Studio de personnalisation</h2>
-        <p class="text">
-            Les outils de personnalisation de l'avatar seront bientôt activés ici.
+        <h2 id="avatarName">Ninja de l'Ombre</h2>
+
+        <div class="choices">
+            <button class="choice active" data-avatar="ninja">
+                <strong>Ninja de l'Ombre</strong>
+                <span>Apparence de départ</span>
+            </button>
+
+            <button class="choice" data-avatar="samourai">
+                <strong>Samouraï Astral</strong>
+                <span>Guerrier fantasy</span>
+            </button>
+
+            <button class="choice" data-avatar="mage">
+                <strong>Mage Stellaire</strong>
+                <span>Magie et cosmos</span>
+            </button>
+        </div>
+
+        <button class="save-button" id="saveAvatar">
+            Enregistrer mon apparence
+        </button>
+
+        <p id="message" role="status"></p>
+
+        <p class="note">
+            Version de démonstration : les illustrations définitives,
+            les objets équipables et la sauvegarde du compte seront
+            ajoutés aux prochaines étapes.
         </p>
     </section>
 </main>
 
-<!-- PIED DE PAGE -->
-<footer>
-    <div class="logo">
-        <a href="index.html">YOKAIRA</a>
-    </div>
-
-    <p>
-        La pop culture africaine du futur.
-    </p>
-
-    <small>
-        © 2026 YOKAIRA — Tous droits réservés.
-    </small>
-</footer>
-
 <!-- BARRE DE NAVIGATION DU BAS UNIFIÉE -->
-<nav class="bottom-nav">
-    <a class="nav-item" href="univers.html">
-        <span class="nav-icon">🌌</span>
-        <span>Univers</span>
+<nav class="yokaira-bottom-nav">
+    <a href="univers.html" data-page="univers.html">
+        <span class="icon">🌌</span>Univers
     </a>
-
-    <a class="nav-item" href="messages.html">
-        <span class="nav-icon">💬</span>
-        <span>Discussions</span>
+    <a href="messages.html" data-page="messages.html">
+        <span class="icon">💬</span>Discussions
     </a>
-
-    <a class="nav-item" href="boutique.html">
-        <span class="nav-icon">🛍️</span>
-        <span>Boutique</span>
+    <a href="boutique.html" data-page="boutique.html">
+        <span class="icon">🛍️</span>Boutique
     </a>
-
-    <a class="nav-item active" href="avatar.html">
-        <span class="nav-icon">👤</span>
-        <span>Avatar</span>
+    <a href="avatar.html" data-page="avatar.html" class="active">
+        <span class="icon">👤</span>Avatar
     </a>
-
-    <a class="nav-item" href="profil.html">
-        <span class="nav-icon">⚡</span>
-        <span>Profil</span>
+    <a href="profil.html" data-page="profil.html">
+        <span class="icon">⚡</span>Profil
     </a>
 </nav>
 
-<!-- SCRIPTS FIREBASE -->
-<script type="module">
-    import {
-        initializeApp,
-        getApps,
-        getApp
-    } from "https://www.gstatic.com/firebasejs/11.6.0/firebase-app.js";
-
-    import {
-        getAuth,
-        onAuthStateChanged
-    } from "https://www.gstatic.com/firebasejs/11.6.0/firebase-auth.js";
-
-    const firebaseConfig = {
-        apiKey: "AIzaSyAGfNN8L3Nepdn8D9ocz9ylVB_6mKbIVcI",
-        authDomain: "yokaira-46d8f.firebaseapp.com",
-        projectId: "yokaira-46d8f",
-        storageBucket: "yokaira-46d8f.firebasestorage.app",
-        messagingSenderId: "1074371889355",
-        appId: "1:1074371889355:web:e358704dd8d7b1a2ceb34e"
+<script>
+    const avatars = {
+        ninja: {
+            nom: "Ninja de l'Ombre",
+            image: ""
+        },
+        samourai: {
+            nom: "Samouraï Astral",
+            image: ""
+        },
+        mage: {
+            nom: "Mage Stellaire",
+            image: ""
+        }
     };
 
-    const app = getApps().length
-        ? getApp()
-        : initializeApp(firebaseConfig);
+    const stage = document.getElementById("avatarStage");
+    const nameElement = document.getElementById("avatarName");
+    const message = document.getElementById("message");
 
-    const auth = getAuth(app);
+    let avatarChoisi = "ninja";
 
-    onAuthStateChanged(auth, (user) => {
-        // Logique optionnelle liée à l'avatar
+    function afficherAvatar(id) {
+        avatarChoisi = id;
+
+        const avatar = avatars[id];
+
+        nameElement.textContent = avatar.nom;
+
+        if (avatar.image) {
+            stage.innerHTML = "";
+
+            const image = document.createElement("img");
+            image.src = avatar.image;
+            image.alt = avatar.nom;
+
+            stage.appendChild(image);
+        } else {
+            stage.innerHTML = `
+                <div class="placeholder">
+                    <strong>${avatar.nom}</strong><br><br>
+                    Illustration à intégrer.
+                </div>
+            `;
+        }
+
+        document.querySelectorAll(".choice").forEach(button => {
+            button.classList.toggle(
+                "active",
+                button.dataset.avatar === id
+            );
+        });
+
+        message.textContent = "";
+    }
+
+    document.querySelectorAll(".choice").forEach(button => {
+        button.addEventListener("click", () => {
+            afficherAvatar(button.dataset.avatar);
+        });
     });
-</script>
 
-<script src="script.js"></script>
+    document.getElementById("saveAvatar").addEventListener("click", () => {
+        try {
+            localStorage.setItem("yokairaAvatarDemo", avatarChoisi);
+            message.textContent = "Apparence enregistrée sur cet appareil.";
+        } catch (error) {
+            message.textContent = "Impossible d'enregistrer ce choix.";
+        }
+    });
+
+    const avatarSauvegarde = localStorage.getItem("yokairaAvatarDemo");
+
+    if (avatarSauvegarde && avatars[avatarSauvegarde]) {
+        afficherAvatar(avatarSauvegarde);
+    }
+</script>
 
 </body>
 </html>
