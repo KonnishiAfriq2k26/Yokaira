@@ -1,599 +1,387 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="theme-color" content="#08091e">
-<title>Discussions — YOKAIRA</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="theme-color" content="#080b20">
+    <title>Discussions — YOKAIRA</title>
+    
+    <link rel="stylesheet" href="style.css">
 
-<style>
-:root {
-    --bg: #08091e;
-    --panel: rgba(17, 19, 55, .88);
-    --panel-light: rgba(32, 31, 80, .78);
-    --border: rgba(139, 103, 255, .24);
-    --purple: #a56aff;
-    --purple-light: #c3a1ff;
-    --text: #f7f5ff;
-    --muted: #a5a0d6;
-    --green: #00e7a1;
-}
+    <style>
+        body {
+            padding-bottom: 120px !important;
+            background: #080812;
+            color: #f5f3ff;
+            font-family: Inter, system-ui, Arial, sans-serif;
+            margin: 0;
+        }
 
-* {
-    box-sizing: border-box;
-    margin: 0;
-    padding: 0;
-}
+        header {
+            position: sticky;
+            top: 0;
+            z-index: 20;
+            padding: 15px 5%;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 16px;
+            background: rgba(8, 8, 18, .88);
+            backdrop-filter: blur(18px);
+            border-bottom: 1px solid rgba(155, 92, 255, .23);
+        }
 
-html {
-    min-height: 100%;
-    background: var(--bg);
-}
+        .logo {
+            font-size: 1.55rem;
+            font-weight: 950;
+            letter-spacing: 2px;
+            color: #22d3ee;
+            text-shadow: 0 0 22px #22d3ee45;
+            text-decoration: none;
+        }
 
-body {
-    min-height: 100vh;
-    color: var(--text);
-    font-family: Arial, Helvetica, sans-serif;
-    background:
-        radial-gradient(ellipse at 80% 8%, rgba(112, 42, 210, .25), transparent 34%),
-        radial-gradient(ellipse at 0% 48%, rgba(36, 37, 126, .25), transparent 40%),
-        linear-gradient(180deg, #07091e 0%, #090b23 55%, #060817 100%);
-    padding-bottom: 110px;
-}
+        .header-actions {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
 
-/* En-tête */
-header {
-    position: relative;
-    padding: 24px 20px 18px;
-    overflow: hidden;
-    background:
-        radial-gradient(ellipse at 80% 0%, rgba(119, 53, 214, .25), transparent 48%),
-        linear-gradient(135deg, rgba(10, 12, 39, .98), rgba(19, 13, 54, .78));
-    border-bottom: 1px solid rgba(151, 106, 255, .15);
-}
+        .add-chat-btn {
+            background: rgba(168, 85, 247, 0.2);
+            border: 1px solid rgba(168, 85, 247, 0.4);
+            color: #c4b5fd;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: grid;
+            place-items: center;
+            font-size: 1.2rem;
+            cursor: pointer;
+            transition: 0.2s;
+        }
+        .add-chat-btn:hover {
+            background: rgba(168, 85, 247, 0.4);
+            color: #fff;
+        }
 
-.brand {
-    font-size: clamp(28px, 7vw, 39px);
-    font-weight: 900;
-    letter-spacing: -2px;
-    white-space: nowrap;
-}
+        main {
+            width: min(760px, 94%);
+            margin: 0 auto;
+            padding: 30px 0;
+        }
 
-.brand span {
-    color: var(--purple);
-    text-shadow: 0 0 20px rgba(165, 106, 255, .65);
-}
+        h1 {
+            font-size: 1.8rem;
+            margin-bottom: 20px;
+        }
 
-.tagline {
-    margin-top: 5px;
-    font-size: 10px;
-    letter-spacing: 1.5px;
-    color: var(--purple-light);
-    font-weight: bold;
-}
+        .empty-state {
+            text-align: center;
+            padding: 50px 20px;
+            color: #9b9ab8;
+            border: 1px dashed rgba(168, 85, 247, 0.3);
+            border-radius: 20px;
+            background: rgba(17, 17, 34, 0.5);
+        }
 
-.header-row {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    gap: 12px;
-}
+        /* MODAL DE RECHERCHE DES MEMBRES */
+        .modal-overlay {
+            position: fixed;
+            inset: 0;
+            background: rgba(5, 5, 15, 0.8);
+            backdrop-filter: blur(6px);
+            z-index: 100000;
+            display: none;
+            place-items: center;
+            padding: 20px;
+        }
+        .modal-overlay.active {
+            display: grid;
+        }
 
-.new-chat {
-    width: 46px;
-    height: 46px;
-    flex-shrink: 0;
-    border-radius: 50%;
-    border: 1px solid rgba(169, 117, 255, .6);
-    color: white;
-    font-size: 26px;
-    background: rgba(87, 52, 157, .22);
-    box-shadow: 0 0 18px rgba(146, 86, 255, .17);
-    cursor: pointer;
-}
+        .modal-card {
+            width: 100%;
+            max-width: 450px;
+            background: linear-gradient(145deg, #17172bdc, #0e0e1deF);
+            border: 1px solid rgba(168, 85, 247, 0.4);
+            border-radius: 20px;
+            padding: 24px;
+            box-shadow: 0 20px 50px rgba(0,0,0,0.6);
+        }
 
-h1 {
-    margin-top: 30px;
-    font-size: clamp(32px, 8vw, 44px);
-    letter-spacing: -1.4px;
-    font-weight: 850;
-}
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
 
-/* Recherche */
-.search-wrap {
-    padding: 0 18px;
-    margin-top: 8px;
-}
+        .modal-header h3 {
+            margin: 0;
+            color: #22d3ee;
+        }
 
-.search-box {
-    display: flex;
-    align-items: center;
-    gap: 12px;
-    padding: 0 16px;
-    height: 56px;
-    border: 1px solid var(--border);
-    border-radius: 30px;
-    background: rgba(30, 29, 75, .76);
-    box-shadow: inset 0 0 18px rgba(117, 81, 231, .06);
-}
+        .close-modal {
+            background: none;
+            border: none;
+            color: #9b9ab8;
+            font-size: 1.2rem;
+            cursor: pointer;
+        }
 
-.search-icon {
-    font-size: 25px;
-    color: var(--purple-light);
-}
+        .search-input {
+            width: 100%;
+            padding: 12px 15px;
+            background: #090918;
+            border: 1px solid rgba(168, 85, 247, 0.3);
+            border-radius: 12px;
+            color: #fff;
+            outline: none;
+            margin-bottom: 15px;
+        }
+        .search-input:focus {
+            border-color: #22d3ee;
+        }
 
-.search-box input {
-    width: 100%;
-    background: transparent;
-    border: 0;
-    outline: none;
-    color: white;
-    font-size: 18px;
-    min-width: 0;
-}
+        .users-list {
+            max-height: 250px;
+            overflow-y: auto;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
 
-.search-box input::placeholder {
-    color: #8984c6;
-}
+        .user-item {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 10px 12px;
+            background: rgba(25, 25, 46, 0.6);
+            border: 1px solid rgba(155, 92, 255, 0.2);
+            border-radius: 12px;
+            cursor: pointer;
+            transition: 0.2s;
+        }
+        .user-item:hover {
+            border-color: #22d3ee;
+            background: rgba(34, 211, 238, 0.05);
+        }
 
-/* Filtres */
-.filters {
-    display: flex;
-    gap: 9px;
-    padding: 20px 18px 24px;
-    overflow-x: auto;
-    scrollbar-width: none;
-}
+        .user-avatar-mini {
+            width: 35px;
+            height: 35px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #8b5cf6, #ec4899);
+            display: grid;
+            place-items: center;
+            font-weight: bold;
+            color: #fff;
+            font-size: 0.9rem;
+        }
 
-.filters::-webkit-scrollbar {
-    display: none;
-}
+        .user-info-mini div {
+            font-weight: bold;
+            font-size: 0.9rem;
+        }
+        .user-info-mini small {
+            color: #9b9ab8;
+            font-size: 0.75rem;
+        }
 
-.filter {
-    flex: 0 0 auto;
-    padding: 12px 20px;
-    color: #b4afe7;
-    font-size: 14px;
-    font-weight: bold;
-    background: rgba(20, 20, 55, .72);
-    border: 1px solid rgba(140, 112, 225, .24);
-    border-radius: 28px;
-    cursor: pointer;
-}
+        /* BARRE DE NAVIGATION DU BAS UNIFIÉE */
+        .yokaira-bottom-nav {
+            position: fixed;
+            z-index: 99999;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+            padding: 12px 3px max(12px, env(safe-area-inset-bottom));
+            background: rgba(8, 9, 30, 0.98);
+            border-top: 1px solid rgba(144, 111, 255, 0.4);
+            border-radius: 20px 20px 0 0;
+            backdrop-filter: blur(10px);
+        }
 
-.filter.active {
-    color: white;
-    background: linear-gradient(135deg, #5d32a9, #29165c);
-    border-color: var(--purple);
-    box-shadow: 0 0 16px rgba(157, 94, 255, .32);
-}
+        .yokaira-bottom-nav a {
+            flex: 1;
+            text-align: center;
+            text-decoration: none;
+            color: #9892d4;
+            font-size: 11px;
+        }
 
-/* Archivées */
-.archived {
-    width: calc(100% - 36px);
-    margin: 0 18px;
-    padding: 18px 8px;
-    display: flex;
-    align-items: center;
-    gap: 17px;
-    border: 0;
-    border-top: 1px solid rgba(132, 105, 231, .12);
-    border-bottom: 1px solid var(--border);
-    background: transparent;
-    color: white;
-    cursor: pointer;
-    text-align: left;
-}
+        .yokaira-bottom-nav .icon {
+            display: block;
+            font-size: 24px;
+            margin-bottom: 4px;
+        }
 
-.archive-icon {
-    width: 48px;
-    font-size: 25px;
-    text-align: center;
-}
-
-.archive-label {
-    flex: 1;
-    font-size: 16px;
-    font-weight: bold;
-}
-
-.archive-count {
-    color: var(--purple);
-    font-size: 18px;
-    font-weight: bold;
-}
-
-/* Liste des discussions */
-#conversationList {
-    padding: 0 18px;
-}
-
-.conversation {
-    display: flex;
-    align-items: center;
-    gap: 14px;
-    width: 100%;
-    min-height: 101px;
-    padding: 13px 0;
-    color: var(--text);
-    border: 0;
-    border-bottom: 1px solid rgba(136, 115, 226, .20);
-    background: transparent;
-    text-align: left;
-    cursor: pointer;
-}
-
-.avatar-wrap {
-    position: relative;
-    flex: 0 0 70px;
-    width: 70px;
-    height: 70px;
-}
-
-.avatar {
-    width: 70px;
-    height: 70px;
-    border-radius: 50%;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    overflow: hidden;
-    background: linear-gradient(145deg, #4b235d, #17254c);
-    border: 3px solid var(--green);
-    box-shadow: 0 0 10px rgba(0, 231, 161, .12);
-    font-size: 29px;
-}
-
-.avatar img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-}
-
-.online-dot {
-    position: absolute;
-    width: 15px;
-    height: 15px;
-    right: 0;
-    bottom: 3px;
-    background: var(--green);
-    border: 3px solid var(--bg);
-    border-radius: 50%;
-}
-
-.conversation-info {
-    flex: 1;
-    min-width: 0;
-}
-
-.conversation-name {
-    font-size: 15px;
-    font-weight: 800;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    margin-bottom: 7px;
-}
-
-.last-message {
-    color: #a9a5dc;
-    font-size: 14px;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-}
-
-.conversation-meta {
-    align-self: center;
-    min-width: 42px;
-    display: flex;
-    flex-direction: column;
-    align-items: flex-end;
-    gap: 9px;
-}
-
-.time {
-    color: var(--green);
-    font-size: 12px;
-    white-space: nowrap;
-}
-
-.unread {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    min-width: 23px;
-    height: 23px;
-    padding: 0 6px;
-    border-radius: 50px;
-    color: #06291e;
-    background: var(--green);
-    font-size: 12px;
-    font-weight: 900;
-}
-
-.empty-state {
-    display: none;
-    padding: 40px 15px;
-    text-align: center;
-    color: var(--muted);
-    line-height: 1.6;
-}
-
-/* BOUTON FLOTTANT COMMUNAUTÉ */
-.floating-community-btn {
-    position: fixed;
-    bottom: 85px;
-    left: 62%;
-    transform: translateX(-50%);
-    z-index: 99998;
-    display: flex;
-    align-items: center;
-    gap: 6px;
-    padding: 8px 14px;
-    background: linear-gradient(135deg, rgba(139, 92, 246, 0.95), rgba(76, 29, 149, 0.95));
-    border: 1px solid rgba(192, 132, 252, 0.6);
-    border-radius: 20px;
-    color: #ffffff;
-    font-size: 11px;
-    font-weight: bold;
-    text-decoration: none;
-    box-shadow: 0 4px 15px rgba(139, 92, 246, 0.4);
-    backdrop-filter: blur(8px);
-    animation: floatAnim 3s ease-in-out infinite;
-}
-
-@keyframes floatAnim {
-    0%, 100% { transform: translateX(-50%) translateY(0); }
-    50% { transform: translateX(-50%) translateY(-4px); }
-}
-
-@media (min-width: 700px) {
-    .floating-community-btn {
-        left: calc(50% + 45px);
-        transform: none;
-    }
-    @keyframes floatAnim {
-        0%, 100% { transform: translateY(0); }
-        50% { transform: translateY(-4px); }
-    }
-}
-
-/* BARRE DE NAVIGATION DU BAS UNIFIÉE */
-.bottom-nav {
-    position: fixed;
-    z-index: 99999;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    min-height: 75px;
-    padding: 10px 4px max(10px, env(safe-area-inset-bottom));
-    display: flex;
-    justify-content: space-around;
-    align-items: center;
-    background: rgba(8, 9, 30, .97);
-    backdrop-filter: blur(18px);
-    border-top: 1px solid rgba(144, 111, 255, .35);
-    border-radius: 22px 22px 0 0;
-}
-
-.nav-item {
-    flex: 1;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 5px;
-    text-decoration: none;
-    color: #9892d4;
-    font-size: 10px;
-    white-space: nowrap;
-}
-
-.nav-icon {
-    font-size: 23px;
-    line-height: 1.2;
-}
-
-.nav-item.active {
-    color: var(--purple);
-    font-weight: bold;
-}
-
-.nav-item.active .nav-icon {
-    text-shadow: 0 0 16px var(--purple);
-}
-
-@media (min-width: 700px) {
-    body {
-        max-width: 760px;
-        margin: 0 auto;
-        border-left: 1px solid var(--border);
-        border-right: 1px solid var(--border);
-    }
-
-    .bottom-nav {
-        left: 50%;
-        right: auto;
-        width: 100%;
-        max-width: 760px;
-        transform: translateX(-50%);
-    }
-}
-</style>
+        .yokaira-bottom-nav a.active {
+            color: #a56aff;
+            font-weight: bold;
+        }
+    </style>
 </head>
 
 <body>
 
 <header>
-    <div class="header-row">
-        <div>
-            <div class="brand">Y<span>◈</span>KAIRA</div>
-            <div class="tagline">PLUS QU'UNE COMMUNAUTÉ, UNE FAMILLE.</div>
-        </div>
-
-        <button class="new-chat" id="newChatButton"
-                aria-label="Ajouter un ami"
-                title="Ajouter un ami">＋</button>
+    <a href="index.html" class="logo">YOKAIRA</a>
+    <div class="header-actions">
+        <button id="openSearchModal" class="add-chat-btn" title="Nouvelle discussion">+</button>
     </div>
-
-    <h1>Discussions</h1>
 </header>
 
-<div class="search-wrap">
-    <label class="search-box">
-        <span class="search-icon">⌕</span>
-        <input id="searchInput"
-               type="search"
-               placeholder="Rechercher"
-               autocomplete="off"
-               aria-label="Rechercher une discussion">
-    </label>
-</div>
-
-<div class="filters" id="filters">
-    <button class="filter active" data-filter="all">Toutes</button>
-    <button class="filter" data-filter="unread">Non lues</button>
-    <button class="filter" data-filter="favorites">Favoris</button>
-    <button class="filter" data-filter="groups">Groupes</button>
-</div>
-
-<button class="archived" id="archivedButton">
-    <span class="archive-icon">▤</span>
-    <span class="archive-label">Archivées</span>
-    <span class="archive-count" id="archivedCount">0</span>
-    <span aria-hidden="true">›</span>
-</button>
-
 <main>
-    <div id="conversationList"></div>
-    <div class="empty-state" id="emptyState">
-        <div style="font-size:32px;margin-bottom:10px">💬</div>
-        Aucune discussion à afficher.<br>
-        Ajoute des amis pour commencer à discuter !
+    <h1>Discussions</h1>
+    
+    <div class="empty-state">
+        <p>Aucune discussion active pour le moment.</p>
+        <small>Clique sur le bouton <strong>+</strong> en haut pour rechercher un membre et commencer à discuter.</small>
     </div>
 </main>
 
-<!-- BOUTON FLOTTANT COMMUNAUTÉ -->
-<a href="communaute.html" class="floating-community-btn">
-    <span style="font-size: 14px;">👥</span> Communauté
-</a>
+<!-- FENÊTRE MODALE DE RECHERCHE DE MEMBRES -->
+<div id="searchModal" class="modal-overlay">
+    <div class="modal-card">
+        <div class="modal-header">
+            <h3>💬 Nouvelle discussion</h3>
+            <button id="closeSearchModal" class="close-modal">✕</button>
+        </div>
+        
+        <input type="text" id="memberSearchInput" class="search-input" placeholder="Rechercher par nom ou email...">
+        
+        <div id="searchResults" class="users-list">
+            <div style="text-align: center; color: #9b9ab8; font-size: 0.85rem; padding: 15px;">
+                Tape un nom pour rechercher un membre...
+            </div>
+        </div>
+    </div>
+</div>
+
+<footer>
+    <div class="logo"><a href="index.html">YOKAIRA</a></div>
+    <p>La pop culture africaine du futur.</p>
+    <small>© 2026 YOKAIRA — Tous droits réservés.</small>
+</footer>
 
 <!-- BARRE DE NAVIGATION DU BAS UNIFIÉE -->
-<nav class="bottom-nav">
-    <a class="nav-item" href="univers.html">
-        <span class="nav-icon">🌌</span>
-        <span>Univers</span>
+<nav class="yokaira-bottom-nav">
+    <a href="univers.html" data-page="univers.html">
+        <span class="icon">🌌</span>Univers
     </a>
-
-    <a class="nav-item active" href="messages.html">
-        <span class="nav-icon">💬</span>
-        <span>Discussions</span>
+    <a href="messages.html" data-page="messages.html" class="active">
+        <span class="icon">💬</span>Discussions
     </a>
-
-    <a class="nav-item" href="boutique.html">
-        <span class="nav-icon">🛍️</span>
-        <span>Boutique</span>
+    <a href="boutique.html" data-page="boutique.html">
+        <span class="icon">🛍️</span>Boutique
     </a>
-
-    <a class="nav-item" href="avatar.html">
-        <span class="nav-icon">👤</span>
-        <span>Avatar</span>
+    <a href="avatar.html" data-page="avatar.html">
+        <span class="icon">👤</span>Avatar
     </a>
-
-    <a class="nav-item" href="profil.html">
-        <span class="nav-icon">⚡</span>
-        <span>Profil</span>
+    <a href="profil.html" data-page="profil.html">
+        <span class="icon">⚡</span>Profil
     </a>
 </nav>
 
 <script>
-const demoConversations = [];
+    const pageActuelle = location.pathname.split("/").pop();
+    document.querySelectorAll(".yokaira-bottom-nav a").forEach(lien => {
+        if (lien.dataset.page === pageActuelle) {
+            lien.classList.add("active");
+        }
+    });
+</script>
 
-const conversationList = document.getElementById("conversationList");
-const searchInput = document.getElementById("searchInput");
-const emptyState = document.getElementById("emptyState");
-const filterButtons = document.querySelectorAll(".filter");
+<script type="module">
+    import { initializeApp, getApps, getApp } from "https://www.gstatic.com/firebasejs/13.0.0/firebase-app.js";
+    import { getAuth } from "https://www.gstatic.com/firebasejs/13.0.0/firebase-auth.js";
+    import { getFirestore, collection, getDocs, query, limit } from "https://www.gstatic.com/firebasejs/13.0.0/firebase-firestore.js";
 
-let activeFilter = "all";
-let showingArchived = false;
+    const firebaseConfig = {
+        apiKey: "AIzaSyAGfNN8L3Nepdn8D9ocz9ylVB_6mKbIVcI",
+        authDomain: "yokaira-46d8f.firebaseapp.com",
+        projectId: "yokaira-46d8f",
+        storageBucket: "yokaira-46d8f.firebasestorage.app",
+        messagingSenderId: "1074371889355",
+        appId: "1:1074371889355:web:e358704dd8d7b1a2ceb34e"
+    };
 
-document.getElementById("newChatButton").addEventListener("click", () => {
-    alert("La recherche des membres sera activée prochainement.");
-});
+    const app = getApps().length ? getApp() : initializeApp(firebaseConfig);
+    const auth = getAuth(app);
+    const db = getFirestore(app);
 
-function renderConversations() {
-    const search = searchInput.value.trim().toLowerCase();
+    const openBtn = document.getElementById("openSearchModal");
+    const closeBtn = document.getElementById("closeSearchModal");
+    const modal = document.getElementById("searchModal");
+    const searchInput = document.getElementById("memberSearchInput");
+    const searchResults = document.getElementById("searchResults");
 
-    const filtered = demoConversations.filter((conversation) => {
-        const matchesSearch =
-            conversation.name.toLowerCase().includes(search) ||
-            (conversation.lastMessage || "").toLowerCase().includes(search);
-
-        const matchesFilter =
-            activeFilter === "all" ||
-            (activeFilter === "unread" && conversation.unread > 0) ||
-            (activeFilter === "favorites" && conversation.favorite) ||
-            (activeFilter === "groups" && conversation.group);
-
-        const matchesArchive =
-            Boolean(conversation.archived) === showingArchived;
-
-        return matchesSearch && matchesFilter && matchesArchive;
+    // Ouverture / Fermeture de la modale
+    openBtn.addEventListener("click", () => modal.classList.add("active"));
+    closeBtn.addEventListener("click", () => modal.classList.remove("active"));
+    modal.addEventListener("click", (e) => {
+        if (e.target === modal) modal.classList.remove("active");
     });
 
-    conversationList.innerHTML = "";
+    // Recherche de membres en temps réel
+    searchInput.addEventListener("input", async (e) => {
+        const searchTerm = e.target.value.trim().toLowerCase();
+        
+        if (searchTerm.length < 2) {
+            searchResults.innerHTML = `<div style="text-align: center; color: #9b9ab8; font-size: 0.85rem; padding: 15px;">Tape au moins 2 caractères...</div>`;
+            return;
+        }
 
-    filtered.forEach((conversation) => {
-        const row = document.createElement("button");
-        row.className = "conversation";
-        row.type = "button";
+        try {
+            searchResults.innerHTML = `<div style="text-align: center; color: #9b9ab8; font-size: 0.85rem; padding: 15px;">Recherche en cours...</div>`;
+            
+            // Récupération des utilisateurs enregistrés dans Firestore (collection 'posts' ou collection dédiée 'users' si elle existe)
+            // Note: On interroge les posts récents pour extraire les membres actifs de la communauté
+            const querySnapshot = await getDocs(query(collection(db, "posts"), limit(50)));
+            const usersMap = new Map();
 
-        const avatar = document.createElement("div");
-        avatar.className = "avatar";
-        avatar.textContent = conversation.emoji || "👤";
+            querySnapshot.forEach((doc) => {
+                const data = doc.data();
+                if (data.authorId && data.authorName) {
+                    if (data.authorId !== auth.currentUser?.uid) {
+                        usersMap.set(data.authorId, data.authorName);
+                    }
+                }
+            });
 
-        const avatarWrap = document.createElement("div");
-        avatarWrap.className = "avatar-wrap";
-        avatarWrap.appendChild(avatar);
+            const matchedUsers = Array.from(usersMap.entries())
+                .map(([id, name]) => ({ id, name }))
+                .filter(user => user.name.toLowerCase().includes(searchTerm));
 
-        const info = document.createElement("div");
-        info.className = "conversation-info";
+            if (matchedUsers.length === 0) {
+                searchResults.innerHTML = `<div style="text-align: center; color: #9b9ab8; font-size: 0.85rem; padding: 15px;">Aucun membre trouvé.</div>`;
+                return;
+            }
 
-        const name = document.createElement("div");
-        name.className = "conversation-name";
-        name.textContent = conversation.name;
+            let html = "";
+            matchedUsers.forEach(user => {
+                const initial = user.name.charAt(0).toUpperCase();
+                html += `
+                    <div class="user-item" onclick="alert('Ouverture de la discussion avec ${user.name}')">
+                        <div class="user-avatar-mini">${initial}</div>
+                        <div class="user-info-mini">
+                            <div>${user.name}</div>
+                            <small>Membre de la communauté</small>
+                        </div>
+                    </div>
+                `;
+            });
+            searchResults.innerHTML = html;
 
-        const preview = document.createElement("div");
-        preview.className = "last-message";
-        preview.textContent = conversation.lastMessage || "Commencez à discuter";
-
-        info.append(name, preview);
-        row.append(avatarWrap, info);
-        conversationList.appendChild(row);
+        } catch (error) {
+            console.error(error);
+            searchResults.innerHTML = `<div style="text-align: center; color: #fca5a5; font-size: 0.85rem; padding: 15px;">Erreur lors de la recherche.</div>`;
+        }
     });
-
-    emptyState.style.display = filtered.length ? "none" : "block";
-}
-
-searchInput.addEventListener("input", renderConversations);
-
-filterButtons.forEach((button) => {
-    button.addEventListener("click", () => {
-        filterButtons.forEach((item) => item.classList.remove("active"));
-        button.classList.add("active");
-        activeFilter = button.dataset.filter;
-        renderConversations();
-    });
-});
-
-document.getElementById("archivedButton").addEventListener("click", () => {
-    showingArchived = !showingArchived;
-    document.querySelector(".archive-label").textContent =
-        showingArchived ? "Retour aux discussions" : "Archivées";
-    renderConversations();
-});
-
-renderConversations();
 </script>
 
 </body>
