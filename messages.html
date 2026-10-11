@@ -1,271 +1,320 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="theme-color" content="#080b20">
-    <title>Discussions — YOKAIRA</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#090914">
+
+  <title>Discussions | YOKAIRA</title>
+
+  <style>
+    :root {
+      --bg: #080812;
+      --surface: #111122;
+      --surface2: #19192e;
+      --border: rgba(155, 92, 255, .23);
+      --purple: #a855f7;
+      --cyan: #22d3ee;
+      --pink: #f472b6;
+      --text: #f5f3ff;
+      --muted: #9b9ab8;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
     
-    <link rel="stylesheet" href="style.css">
+    body {
+      margin: 0;
+      min-height: 100vh;
+      color: var(--text);
+      background:
+        radial-gradient(ellipse at 10% 0%, #25123f 0%, transparent 38%),
+        radial-gradient(ellipse at 100% 30%, #101c3a 0%, transparent 35%),
+        var(--bg);
+      font-family: Inter, system-ui, Arial, sans-serif;
+      padding-bottom: 95px;
+    }
 
-    <style>
-        body {
-            padding-bottom: 120px !important;
-            background: #080812;
-            color: #f5f3ff;
-            font-family: Inter, system-ui, Arial, sans-serif;
-            margin: 0;
-        }
+    button, input {
+      font: inherit;
+    }
 
-        header {
-            position: sticky;
-            top: 0;
-            z-index: 20;
-            padding: 15px 5%;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            gap: 16px;
-            background: rgba(8, 8, 18, .88);
-            backdrop-filter: blur(18px);
-            border-bottom: 1px solid rgba(155, 92, 255, .23);
-        }
+    button {
+      cursor: pointer;
+    }
 
-        .logo {
-            font-size: 1.55rem;
-            font-weight: 950;
-            letter-spacing: 2px;
-            color: #22d3ee;
-            text-shadow: 0 0 22px #22d3ee45;
-            text-decoration: none;
-        }
+    a {
+      color: inherit;
+      text-decoration: none;
+    }
 
-        .header-actions {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-        }
+    header {
+      position: sticky;
+      top: 0;
+      z-index: 20;
+      padding: 15px 5%;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+      flex-wrap: wrap;
+      background: rgba(8, 8, 18, .88);
+      backdrop-filter: blur(18px);
+      border-bottom: 1px solid var(--border);
+    }
 
-        .add-chat-btn {
-            background: rgba(168, 85, 247, 0.2);
-            border: 1px solid rgba(168, 85, 247, 0.4);
-            color: #c4b5fd;
-            width: 40px;
-            height: 40px;
-            border-radius: 50%;
-            display: grid;
-            place-items: center;
-            font-size: 1.2rem;
-            cursor: pointer;
-            transition: 0.2s;
-        }
-        .add-chat-btn:hover {
-            background: rgba(168, 85, 247, 0.4);
-            color: #fff;
-        }
+    .logo {
+      font-size: 1.55rem;
+      font-weight: 950;
+      letter-spacing: 2px;
+      color: var(--cyan);
+      text-shadow: 0 0 22px #22d3ee45;
+    }
 
-        main {
-            width: min(760px, 94%);
-            margin: 0 auto;
-            padding: 30px 0;
-        }
+    .add-btn {
+      width: 44px;
+      height: 44px;
+      border-radius: 50%;
+      background: #a855f725;
+      border: 1px solid var(--border);
+      color: var(--text);
+      display: grid;
+      place-items: center;
+      font-size: 1.3rem;
+      transition: .2s;
+    }
 
-        h1 {
-            font-size: 1.8rem;
-            margin-bottom: 20px;
-        }
+    .add-btn:hover {
+      background: #a855f740;
+      border-color: var(--cyan);
+    }
 
-        .empty-state {
-            text-align: center;
-            padding: 50px 20px;
-            color: #9b9ab8;
-            border: 1px dashed rgba(168, 85, 247, 0.3);
-            border-radius: 20px;
-            background: rgba(17, 17, 34, 0.5);
-        }
+    main {
+      width: min(760px, 94%);
+      margin: 0 auto;
+      padding: 30px 0 65px;
+    }
 
-        /* MODAL DE RECHERCHE DES MEMBRES */
-        .modal-overlay {
-            position: fixed;
-            inset: 0;
-            background: rgba(5, 5, 15, 0.8);
-            backdrop-filter: blur(6px);
-            z-index: 100000;
-            display: none;
-            place-items: center;
-            padding: 20px;
-        }
-        .modal-overlay.active {
-            display: grid;
-        }
+    h1 {
+      margin: 25px 0 20px;
+      font-size: clamp(1.8rem, 5vw, 2.5rem);
+      font-weight: 950;
+    }
 
-        .modal-card {
-            width: 100%;
-            max-width: 450px;
-            background: linear-gradient(145deg, #17172bdc, #0e0e1deF);
-            border: 1px solid rgba(168, 85, 247, 0.4);
-            border-radius: 20px;
-            padding: 24px;
-            box-shadow: 0 20px 50px rgba(0,0,0,0.6);
-        }
+    .panel {
+      padding: 24px;
+      margin-bottom: 22px;
+      background: linear-gradient(145deg, #17172bdc, #0e0e1deF);
+      border: 1px solid var(--border);
+      border-radius: 21px;
+      box-shadow: 0 16px 45px #00000020;
+      text-align: center;
+      color: var(--muted);
+      line-height: 1.7;
+    }
 
-        .modal-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 20px;
-        }
+    /* MODALE DE RECHERCHE */
+    .modal-overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(5, 5, 15, 0.85);
+      backdrop-filter: blur(8px);
+      z-index: 100000;
+      display: none;
+      place-items: center;
+      padding: 20px;
+    }
+    .modal-overlay.active {
+      display: grid;
+    }
 
-        .modal-header h3 {
-            margin: 0;
-            color: #22d3ee;
-        }
+    .modal-card {
+      width: 100%;
+      max-width: 450px;
+      background: linear-gradient(145deg, #17172bdc, #0e0e1deF);
+      border: 1px solid var(--border);
+      border-radius: 22px;
+      padding: 24px;
+      box-shadow: 0 20px 50px #00000080;
+    }
 
-        .close-modal {
-            background: none;
-            border: none;
-            color: #9b9ab8;
-            font-size: 1.2rem;
-            cursor: pointer;
-        }
+    .modal-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 18px;
+    }
 
-        .search-input {
-            width: 100%;
-            padding: 12px 15px;
-            background: #090918;
-            border: 1px solid rgba(168, 85, 247, 0.3);
-            border-radius: 12px;
-            color: #fff;
-            outline: none;
-            margin-bottom: 15px;
-        }
-        .search-input:focus {
-            border-color: #22d3ee;
-        }
+    .modal-header h3 {
+      margin: 0;
+      color: var(--cyan);
+    }
 
-        .users-list {
-            max-height: 250px;
-            overflow-y: auto;
-            display: flex;
-            flex-direction: column;
-            gap: 10px;
-        }
+    .close-modal {
+      background: none;
+      border: none;
+      color: var(--muted);
+      font-size: 1.3rem;
+    }
 
-        .user-item {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-            padding: 10px 12px;
-            background: rgba(25, 25, 46, 0.6);
-            border: 1px solid rgba(155, 92, 255, 0.2);
-            border-radius: 12px;
-            cursor: pointer;
-            transition: 0.2s;
-        }
-        .user-item:hover {
-            border-color: #22d3ee;
-            background: rgba(34, 211, 238, 0.05);
-        }
+    .search-input {
+      width: 100%;
+      padding: 13px 15px;
+      background: #090918;
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      color: var(--text);
+      outline: none;
+      margin-bottom: 15px;
+    }
 
-        .user-avatar-mini {
-            width: 35px;
-            height: 35px;
-            border-radius: 50%;
-            background: linear-gradient(135deg, #8b5cf6, #ec4899);
-            display: grid;
-            place-items: center;
-            font-weight: bold;
-            color: #fff;
-            font-size: 0.9rem;
-        }
+    .users-list {
+      max-height: 250px;
+      overflow-y: auto;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
 
-        .user-info-mini div {
-            font-weight: bold;
-            font-size: 0.9rem;
-        }
-        .user-info-mini small {
-            color: #9b9ab8;
-            font-size: 0.75rem;
-        }
+    .user-item {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 10px 12px;
+      background: #19192e;
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      cursor: pointer;
+      text-align: left;
+      transition: .2s;
+    }
+    .user-item:hover {
+      border-color: var(--cyan);
+      background: #22d3ee0d;
+    }
 
-        /* BARRE DE NAVIGATION DU BAS UNIFIÉE */
-        .yokaira-bottom-nav {
-            position: fixed;
-            z-index: 99999;
-            bottom: 0;
-            left: 0;
-            right: 0;
-            display: flex;
-            justify-content: space-around;
-            align-items: center;
-            padding: 12px 3px max(12px, env(safe-area-inset-bottom));
-            background: rgba(8, 9, 30, 0.98);
-            border-top: 1px solid rgba(144, 111, 255, 0.4);
-            border-radius: 20px 20px 0 0;
-            backdrop-filter: blur(10px);
-        }
+    .user-avatar {
+      width: 38px;
+      height: 38px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, #8b5cf6, #ec4899);
+      display: grid;
+      place-items: center;
+      font-weight: 800;
+      color: white;
+      font-size: .85rem;
+      object-fit: cover;
+    }
 
-        .yokaira-bottom-nav a {
-            flex: 1;
-            text-align: center;
-            text-decoration: none;
-            color: #9892d4;
-            font-size: 11px;
-        }
+    .user-info div {
+      font-weight: 800;
+      font-size: .9rem;
+    }
+    .user-info small {
+      color: var(--muted);
+      font-size: .75rem;
+    }
 
-        .yokaira-bottom-nav .icon {
-            display: block;
-            font-size: 24px;
-            margin-bottom: 4px;
-        }
+    footer {
+      text-align: center;
+      padding: 25px 15px;
+      border-top: 1px solid var(--border);
+      color: var(--muted);
+      font-size: .8rem;
+    }
 
-        .yokaira-bottom-nav a.active {
-            color: #a56aff;
-            font-weight: bold;
-        }
-    </style>
+    /* Barre de navigation unifiée */
+    .yokaira-bottom-nav {
+      position: fixed;
+      z-index: 99999;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      display: flex;
+      justify-content: space-around;
+      align-items: center;
+      padding: 12px 3px max(12px, env(safe-area-inset-bottom));
+      background: rgba(8, 9, 30, 0.97);
+      backdrop-filter: blur(15px);
+      border-top: 1px solid rgba(144, 111, 255, 0.4);
+      border-radius: 20px 20px 0 0;
+    }
+
+    .yokaira-bottom-nav a {
+      flex: 1;
+      text-align: center;
+      text-decoration: none;
+      color: #9892d4;
+      font-size: 11px;
+    }
+
+    .yokaira-bottom-nav .icon {
+      display: block;
+      font-size: 24px;
+      margin-bottom: 4px;
+    }
+
+    .yokaira-bottom-nav a.active {
+      color: #a56aff;
+      font-weight: bold;
+    }
+
+    @media (min-width: 700px) {
+      body {
+        max-width: 760px;
+        margin: 0 auto;
+        border-left: 1px solid var(--border);
+        border-right: 1px solid var(--border);
+      }
+
+      .yokaira-bottom-nav {
+        left: 50%;
+        right: auto;
+        width: 100%;
+        max-width: 760px;
+        transform: translateX(-50%);
+      }
+    }
+  </style>
 </head>
 
 <body>
 
 <header>
-    <a href="index.html" class="logo">YOKAIRA</a>
-    <div class="header-actions">
-        <button id="openSearchModal" class="add-chat-btn" title="Nouvelle discussion">+</button>
-    </div>
+  <a href="index.html" class="logo">YOKAIRA</a>
+  <button id="openModal" class="add-btn" aria-label="Nouvelle discussion">+</button>
 </header>
 
 <main>
-    <h1>Discussions</h1>
-    
-    <div class="empty-state">
-        <p>Aucune discussion active pour le moment.</p>
-        <small>Clique sur le bouton <strong>+</strong> en haut pour rechercher un membre et commencer à discuter.</small>
-    </div>
+  <h1>Discussions</h1>
+
+  <div class="panel">
+    <p>Aucune discussion active pour le moment.<br>
+    Ajoute des amis pour commencer à discuter !</p>
+  </div>
 </main>
 
-<!-- FENÊTRE MODALE DE RECHERCHE DE MEMBRES -->
+<!-- MODALE DE RECHERCHE -->
 <div id="searchModal" class="modal-overlay">
-    <div class="modal-card">
-        <div class="modal-header">
-            <h3>💬 Nouvelle discussion</h3>
-            <button id="closeSearchModal" class="close-modal">✕</button>
-        </div>
-        
-        <input type="text" id="memberSearchInput" class="search-input" placeholder="Rechercher par nom ou email...">
-        
-        <div id="searchResults" class="users-list">
-            <div style="text-align: center; color: #9b9ab8; font-size: 0.85rem; padding: 15px;">
-                Tape un nom pour rechercher un membre...
-            </div>
-        </div>
+  <div class="modal-card">
+    <div class="modal-header">
+      <h3>💬 Nouvelle discussion</h3>
+      <button id="closeModal" class="close-modal">✕</button>
     </div>
+    
+    <input type="text" id="searchInput" class="search-input" placeholder="Rechercher un membre...">
+    
+    <div id="searchResults" class="users-list">
+      <div style="text-align: center; color: var(--muted); font-size: .85rem; padding: 15px;">
+        Tape un nom pour lancer une recherche...
+      </div>
+    </div>
+  </div>
 </div>
 
 <footer>
-    <div class="logo"><a href="index.html">YOKAIRA</a></div>
-    <p>La pop culture africaine du futur.</p>
-    <small>© 2026 YOKAIRA — Tous droits réservés.</small>
+  © YOKAIRA — La pop culture africaine du futur.
 </footer>
 
 <!-- BARRE DE NAVIGATION DU BAS UNIFIÉE -->
@@ -273,7 +322,7 @@
     <a href="univers.html" data-page="univers.html">
         <span class="icon">🌌</span>Univers
     </a>
-    <a href="messages.html" data-page="messages.html" class="active">
+    <a href="messages.html" data-page="messages.html">
         <span class="icon">💬</span>Discussions
     </a>
     <a href="boutique.html" data-page="boutique.html">
@@ -297,91 +346,89 @@
 </script>
 
 <script type="module">
-    import { initializeApp, getApps, getApp } from "https://www.gstatic.com/firebasejs/13.0.0/firebase-app.js";
-    import { getAuth } from "https://www.gstatic.com/firebasejs/13.0.0/firebase-auth.js";
-    import { getFirestore, collection, getDocs, query, limit } from "https://www.gstatic.com/firebasejs/13.0.0/firebase-firestore.js";
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.0/firebase-app.js";
+  import { getAuth } from "https://www.gstatic.com/firebasejs/11.6.0/firebase-auth.js";
+  import { getFirestore, collection, getDocs, query, limit } from "https://www.gstatic.com/firebasejs/11.6.0/firebase-firestore.js";
 
-    const firebaseConfig = {
-        apiKey: "AIzaSyAGfNN8L3Nepdn8D9ocz9ylVB_6mKbIVcI",
-        authDomain: "yokaira-46d8f.firebaseapp.com",
-        projectId: "yokaira-46d8f",
-        storageBucket: "yokaira-46d8f.firebasestorage.app",
-        messagingSenderId: "1074371889355",
-        appId: "1:1074371889355:web:e358704dd8d7b1a2ceb34e"
-    };
+  const firebaseConfig = {
+    apiKey: "AIzaSyAGfNN8L3Nepdn8D9ocz9ylVB_6mKbIVcI",
+    authDomain: "yokaira-46d8f.firebaseapp.com",
+    projectId: "yokaira-46d8f",
+    storageBucket: "yokaira-46d8f.firebasestorage.app",
+    messagingSenderId: "1074371889355",
+    appId: "1:1074371889355:web:e358704dd8d7b1a2ceb34e"
+  };
 
-    const app = getApps().length ? getApp() : initializeApp(firebaseConfig);
-    const auth = getAuth(app);
-    const db = getFirestore(app);
+  const app = initializeApp(firebaseConfig);
+  const auth = getAuth(app);
+  const db = getFirestore(app);
 
-    const openBtn = document.getElementById("openSearchModal");
-    const closeBtn = document.getElementById("closeSearchModal");
-    const modal = document.getElementById("searchModal");
-    const searchInput = document.getElementById("memberSearchInput");
-    const searchResults = document.getElementById("searchResults");
+  const openModal = document.getElementById("openModal");
+  const closeModal = document.getElementById("closeModal");
+  const searchModal = document.getElementById("searchModal");
+  const searchInput = document.getElementById("searchInput");
+  const searchResults = document.getElementById("searchResults");
 
-    // Ouverture / Fermeture de la modale
-    openBtn.addEventListener("click", () => modal.classList.add("active"));
-    closeBtn.addEventListener("click", () => modal.classList.remove("active"));
-    modal.addEventListener("click", (e) => {
-        if (e.target === modal) modal.classList.remove("active");
-    });
+  openModal.addEventListener("click", () => searchModal.classList.add("active"));
+  closeModal.addEventListener("click", () => searchModal.classList.remove("active"));
+  searchModal.addEventListener("click", (e) => {
+    if (e.target === searchModal) searchModal.classList.remove("active");
+  });
 
-    // Recherche de membres en temps réel
-    searchInput.addEventListener("input", async (e) => {
-        const searchTerm = e.target.value.trim().toLowerCase();
-        
-        if (searchTerm.length < 2) {
-            searchResults.innerHTML = `<div style="text-align: center; color: #9b9ab8; font-size: 0.85rem; padding: 15px;">Tape au moins 2 caractères...</div>`;
-            return;
+  searchInput.addEventListener("input", async (e) => {
+    const term = e.target.value.trim().toLowerCase();
+    if (term.length < 2) {
+      searchResults.innerHTML = `<div style="text-align: center; color: var(--muted); font-size: .85rem; padding: 15px;">Tape au moins 2 caractères...</div>`;
+      return;
+    }
+
+    try {
+      searchResults.innerHTML = `<div style="text-align: center; color: var(--muted); font-size: .85rem; padding: 15px;">Recherche...</div>`;
+      
+      const snap = await getDocs(query(collection(db, "posts"), limit(50)));
+      const usersMap = new Map();
+
+      snap.forEach(doc => {
+        const d = doc.data();
+        if (d.authorId && d.authorName && d.authorId !== auth.currentUser?.uid) {
+          usersMap.set(d.authorId, d.authorName);
         }
+      });
 
-        try {
-            searchResults.innerHTML = `<div style="text-align: center; color: #9b9ab8; font-size: 0.85rem; padding: 15px;">Recherche en cours...</div>`;
-            
-            // Récupération des utilisateurs enregistrés dans Firestore (collection 'posts' ou collection dédiée 'users' si elle existe)
-            // Note: On interroge les posts récents pour extraire les membres actifs de la communauté
-            const querySnapshot = await getDocs(query(collection(db, "posts"), limit(50)));
-            const usersMap = new Map();
+      const matched = Array.from(usersMap.entries())
+        .map(([id, name]) => ({ id, name }))
+        .filter(u => u.name.toLowerCase().includes(term));
 
-            querySnapshot.forEach((doc) => {
-                const data = doc.data();
-                if (data.authorId && data.authorName) {
-                    if (data.authorId !== auth.currentUser?.uid) {
-                        usersMap.set(data.authorId, data.authorName);
-                    }
-                }
-            });
+      if (matched.length === 0) {
+        searchResults.innerHTML = `<div style="text-align: center; color: var(--muted); font-size: .85rem; padding: 15px;">Aucun membre trouvé.</div>`;
+        return;
+      }
 
-            const matchedUsers = Array.from(usersMap.entries())
-                .map(([id, name]) => ({ id, name }))
-                .filter(user => user.name.toLowerCase().includes(searchTerm));
+      let html = "";
+      matched.forEach(user => {
+        const initial = user.name.charAt(0).toUpperCase();
+        const savedPhoto = localStorage.getItem("yokairaProfilePhoto_" + user.id);
+        const avatarHTML = savedPhoto 
+          ? `<img src="${savedPhoto}" class="user-avatar" alt="Avatar">` 
+          : `<div class="user-avatar">${initial}</div>`;
 
-            if (matchedUsers.length === 0) {
-                searchResults.innerHTML = `<div style="text-align: center; color: #9b9ab8; font-size: 0.85rem; padding: 15px;">Aucun membre trouvé.</div>`;
-                return;
-            }
+        html += `
+          <div class="user-item" onclick="window.location.href='chat.html?id=${user.id}&name=${encodeURIComponent(user.name)}'">
+            ${avatarHTML}
+            <div class="user-info">
+              <div>${user.name}</div>
+              <small>Membre YOKAIRA</small>
+            </div>
+          </div>
+        `;
+      });
+      searchResults.innerHTML = html;
 
-            let html = "";
-            matchedUsers.forEach(user => {
-                const initial = user.name.charAt(0).toUpperCase();
-                html += `
-                    <div class="user-item" onclick="alert('Ouverture de la discussion avec ${user.name}')">
-                        <div class="user-avatar-mini">${initial}</div>
-                        <div class="user-info-mini">
-                            <div>${user.name}</div>
-                            <small>Membre de la communauté</small>
-                        </div>
-                    </div>
-                `;
-            });
-            searchResults.innerHTML = html;
-
-        } catch (error) {
-            console.error(error);
-            searchResults.innerHTML = `<div style="text-align: center; color: #fca5a5; font-size: 0.85rem; padding: 15px;">Erreur lors de la recherche.</div>`;
-        }
-    });
+    } catch (err) {
+      console.error(err);
+      searchResults.innerHTML = `<div style="text-align: center; color: #fca5a5; font-size: .85rem; padding: 15px;">Erreur de recherche.</div>`;
+    }
+  });
 </script>
 
 </body>
