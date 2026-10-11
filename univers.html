@@ -3,345 +3,243 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="theme-color" content="#080b20">
-    <meta name="description" content="Explore l'univers YOKAIRA, un monde de pop culture, d'anime, de manga et d'imaginaire africain.">
+    <meta name="theme-color" content="#08091e">
     <title>Univers — YOKAIRA</title>
 
-<link rel="stylesheet" href="style.css">
-<style>
-body {
-    padding-bottom: 95px !important;
-}
+    <style>
+        :root {
+            --bg: #08091e;
+            --purple: #a56aff;
+            --purple-light: #c3a1ff;
+            --text: #f7f5ff;
+            --muted: #a5a0d6;
+            --border: rgba(139, 103, 255, .24);
+        }
 
-.yokaira-bottom-nav {
-    position: fixed;
-    z-index: 99999;
-    bottom: 0;
-    left: 0;
-    right: 0;
-    display: flex;
-    justify-content: space-around;
-    align-items: center;
-    padding: 12px 3px max(12px, env(safe-area-inset-bottom));
-    background: rgba(8, 9, 30, 0.97);
-    border-top: 1px solid rgba(144, 111, 255, 0.4);
-    border-radius: 20px 20px 0 0;
-}
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
 
-.yokaira-bottom-nav a {
-    flex: 1;
-    text-align: center;
-    text-decoration: none;
-    color: #9892d4;
-    font-size: 11px;
-}
+        body {
+            min-height: 100vh;
+            color: var(--text);
+            font-family: Arial, Helvetica, sans-serif;
+            background:
+                radial-gradient(ellipse at 80% 8%, rgba(112, 42, 210, .25), transparent 34%),
+                radial-gradient(ellipse at 0% 48%, rgba(36, 37, 126, .25), transparent 40%),
+                linear-gradient(180deg, #07091e 0%, #090b23 55%, #060817 100%);
+            padding-bottom: 110px;
+        }
 
-.yokaira-bottom-nav .icon {
-    display: block;
-    font-size: 24px;
-    margin-bottom: 4px;
-}
+        header {
+            padding: 24px 20px 18px;
+            background: rgba(10, 12, 39, .98);
+            border-bottom: 1px solid var(--border);
+            text-align: center;
+        }
 
-.yokaira-bottom-nav a.active {
-    color: #a56aff;
-}
-</style>
+        .brand {
+            font-size: clamp(28px, 7vw, 36px);
+            font-weight: 900;
+            letter-spacing: -2px;
+        }
 
-<!-- BARRE DE NAVIGATION DU BAS UNIFIÉE -->
-<nav class="yokaira-bottom-nav">
-    <a href="univers.html" data-page="univers.html">
-        <span class="icon">🌌</span>Univers
-    </a>
-    <a href="messages.html" data-page="messages.html">
-        <span class="icon">💬</span>Discussions
-    </a>
-    <a href="boutique.html" data-page="boutique.html">
-        <span class="icon">🛍️</span>Boutique
-    </a>
-    <a href="avatar.html" data-page="avatar.html">
-        <span class="icon">👤</span>Avatar
-    </a>
-    <a href="profil.html" data-page="profil.html">
-        <span class="icon">⚡</span>Profil
-    </a>
-</nav>
+        .brand span {
+            color: var(--purple);
+            text-shadow: 0 0 20px rgba(165, 106, 255, .65);
+        }
 
-<script>
-const pageActuelle = location.pathname.split("/").pop();
+        .tagline {
+            margin-top: 5px;
+            font-size: 10px;
+            letter-spacing: 1.5px;
+            color: var(--purple-light);
+            font-weight: bold;
+        }
 
-document.querySelectorAll(".yokaira-bottom-nav a").forEach(lien => {
-    if (lien.dataset.page === pageActuelle) {
-        lien.classList.add("active");
-    }
-});
-</script>
+        main {
+            width: min(100% - 28px, 800px);
+            margin: 25px auto;
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        .card {
+            padding: 24px;
+            border: 1px solid var(--border);
+            border-radius: 20px;
+            background: rgba(17, 19, 55, 0.88);
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.4);
+        }
+
+        .card h2 {
+            font-size: 20px;
+            margin-bottom: 10px;
+            color: var(--purple-light);
+        }
+
+        .card p {
+            color: var(--muted);
+            font-size: 14px;
+            line-height: 1.6;
+        }
+
+        /* BOUTON FLOTTANT COMMUNAUTÉ */
+        .floating-community-btn {
+            position: fixed;
+            bottom: 85px;
+            left: 62%;
+            transform: translateX(-50%);
+            z-index: 99998;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            padding: 8px 14px;
+            background: linear-gradient(135deg, rgba(139, 92, 246, 0.95), rgba(76, 29, 149, 0.95));
+            border: 1px solid rgba(192, 132, 252, 0.6);
+            border-radius: 20px;
+            color: #ffffff;
+            font-size: 11px;
+            font-weight: bold;
+            text-decoration: none;
+            box-shadow: 0 4px 15px rgba(139, 92, 246, 0.4);
+            backdrop-filter: blur(8px);
+            animation: floatAnim 3s ease-in-out infinite;
+        }
+
+        @keyframes floatAnim {
+            0%, 100% { transform: translateX(-50%) translateY(0); }
+            50% { transform: translateX(-50%) translateY(-4px); }
+        }
+
+        @media (min-width: 700px) {
+            .floating-community-btn {
+                left: calc(50% + 45px);
+                transform: none;
+            }
+            @keyframes floatAnim {
+                0%, 100% { transform: translateY(0); }
+                50% { transform: translateY(-4px); }
+            }
+        }
+
+        /* BARRE DE NAVIGATION DU BAS UNIFIÉE */
+        .bottom-nav {
+            position: fixed;
+            z-index: 99999;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            min-height: 75px;
+            padding: 10px 4px max(10px, env(safe-area-inset-bottom));
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+            background: rgba(8, 9, 30, .97);
+            backdrop-filter: blur(18px);
+            border-top: 1px solid rgba(144, 111, 255, .35);
+            border-radius: 22px 22px 0 0;
+        }
+
+        .nav-item {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 5px;
+            text-decoration: none;
+            color: #9892d4;
+            font-size: 10px;
+            white-space: nowrap;
+        }
+
+        .nav-icon {
+            font-size: 23px;
+            line-height: 1.2;
+        }
+
+        .nav-item.active {
+            color: var(--purple);
+            font-weight: bold;
+        }
+
+        .nav-item.active .nav-icon {
+            text-shadow: 0 0 16px var(--purple);
+        }
+
+        @media (min-width: 700px) {
+            body {
+                max-width: 760px;
+                margin: 0 auto;
+                border-left: 1px solid var(--border);
+                border-right: 1px solid var(--border);
+            }
+
+            .bottom-nav {
+                left: 50%;
+                right: auto;
+                width: 100%;
+                max-width: 760px;
+                transform: translateX(-50%);
+            }
+        }
+    </style>
 </head>
+
 <body>
 
-<!-- EN-TÊTE -->
 <header>
-    <div class="logo">
-        <a href="index.html" aria-label="Retour à l'accueil">
-            <img src="logo.png" alt="Logo YOKAIRA">
-        </a>
-    </div>
-
-    <nav aria-label="Navigation principale">
-        <a href="index.html">Accueil</a>
-        <a href="univers.html" aria-current="page">Univers</a>
-        <a href="actualites.html">Actualités</a>
-        <a href="communaute.html">Communauté</a>
-        <a href="createurs.html">Créateurs</a>
-        <a href="profil.html">Mon compte</a>
-    </nav>
+    <div class="brand">Y<span>◈</span>KAIRA</div>
+    <div class="tagline">PLUS QU'UNE COMMUNAUTÉ, UNE FAMILLE.</div>
 </header>
 
 <main>
-
-    <!-- HERO -->
-    <section class="hero" id="accueil">
-        <div class="hero-content">
-            <div class="hero-logo">
-                <img src="logo.png" alt="Logo YOKAIRA">
-            </div>
-
-            <p class="subtitle">
-                BIENVENUE AU-DELÀ DES FRONTIÈRES
-            </p>
-
-            <h1>
-                L'UNIVERS YOKAIRA
-            </h1>
-
-            <p class="hero-slogan">
-                Deux mondes. Une connexion.
-            </p>
-
-            <a href="#histoire" class="button">
-                Découvrir notre univers
-            </a>
-        </div>
+    <section class="card">
+        <h2>🌌 L'Univers YOKAIRA</h2>
+        <p>Explore les mystères, les histoires originales et l'ensemble des contenus de notre écosystème cyber et fantastique.</p>
     </section>
 
-    <!-- L'HISTOIRE -->
-    <section id="histoire">
-        <p class="section-tag">
-            01 — LE COMMENCEMENT
-        </p>
-
-        <h2>
-            Tout commence<br>
-            par une passion.
-        </h2>
-
-        <p class="text">
-            YOKAIRA est né d'une idée : créer un univers où
-            l'imagination, la culture et la créativité se rencontrent.
-
-            <br><br>
-
-            De l'anime au manga, du gaming au cosplay, chaque passion
-            ouvre une porte vers de nouvelles aventures.
-
-            <br><br>
-
-            Notre ambition est de faire émerger un espace où la
-            pop culture africaine peut raconter ses propres histoires
-            et imaginer ses propres mondes.
-        </p>
+    <section class="card">
+        <h2>⚡ Actualités & Événements</h2>
+        <p>Tiens-toi informé des dernières nouveautés, des sorties de chapitres et des rassemblements exclusifs de la communauté.</p>
     </section>
-
-    <!-- LE PORTAIL -->
-    <section id="portail" class="universe-section">
-        <div class="universe-content">
-            <p class="section-tag">
-                02 — LE PORTAIL
-            </p>
-
-            <h2>
-                Un passage<br>
-                vers l'inconnu.
-            </h2>
-
-            <p class="text">
-                Il existe des frontières que l'on ne peut pas voir.
-
-                <br><br>
-
-                Derrière l'une d'elles se trouve peut-être un monde
-                où les légendes prennent vie, où les héros naissent
-                des rêves et où chaque création peut changer le destin.
-            </p>
-
-            <div
-                class="portal"
-                role="img"
-                aria-label="Portail mystérieux représentant l'univers YOKAIRA"
-            >
-                <div class="portal-ring"></div>
-                <div class="portal-core">◈</div>
-            </div>
-
-            <p class="mystery-text">
-                <span>LE PORTAIL S'EST OUVERT.</span>
-                <br>
-                L'aventure ne fait que commencer.
-            </p>
-        </div>
-    </section>
-
-    <!-- NOS PASSIONS -->
-    <section id="passions">
-        <p class="section-tag">
-            03 — NOS MONDES
-        </p>
-
-        <h2>
-            Plusieurs passions.<br>
-            Un seul univers.
-        </h2>
-
-        <p class="text">
-            Chaque passion apporte sa propre énergie à YOKAIRA.
-            Ensemble, elles forment un univers vivant, ouvert à
-            l'imagination et à la créativité.
-        </p>
-
-        <div class="cards-container">
-            <article class="card">
-                <h3>Anime & Manga</h3>
-                <p>
-                    Des histoires puissantes, des personnages
-                    inoubliables et des mondes extraordinaires.
-                </p>
-            </article>
-
-            <article class="card">
-                <h3>Gaming</h3>
-                <p>
-                    Des aventures interactives, des défis et
-                    des univers à explorer.
-                </p>
-            </article>
-
-            <article class="card">
-                <h3>Cosplay</h3>
-                <p>
-                    Donner vie à ses personnages favoris grâce
-                    à l'imagination et au savoir-faire.
-                </p>
-            </article>
-
-            <article class="card">
-                <h3>Création africaine</h3>
-                <p>
-                    Des idées originales inspirées par nos cultures,
-                    nos imaginaires et notre avenir.
-                </p>
-            </article>
-        </div>
-    </section>
-
-    <!-- REJOINDRE YOKAIRA -->
-    <section id="rejoindre" class="join-section">
-        <p class="section-tag">
-            04 — TON AVENTURE
-        </p>
-
-        <h2>
-            Le prochain chapitre<br>
-            s'écrit avec toi.
-        </h2>
-
-        <p class="text">
-            Rejoins celles et ceux qui veulent partager leurs passions,
-            découvrir de nouveaux univers et contribuer à la création
-            de la pop culture africaine de demain.
-        </p>
-
-        <div class="join-box" id="join-box">
-            <a href="register.html" class="button">
-                Créer mon compte
-            </a>
-
-            <p class="text">
-                Tu es déjà membre ?
-                <a href="login.html">Connecte-toi ici.</a>
-            </p>
-
-            <p class="text">
-                <a href="index.html">Retour à l'accueil</a>
-            </p>
-        </div>
-    </section>
-
 </main>
 
-<!-- PIED DE PAGE -->
-<footer>
-    <div class="logo">
-        <a href="index.html">YOKAIRA</a>
-    </div>
+<!-- BOUTON FLOTTANT COMMUNAUTÉ -->
+<a href="communaute.html" class="floating-community-btn">
+    <span style="font-size: 14px;">👥</span> Communauté
+</a>
 
-    <p>
-        La pop culture africaine du futur.
-    </p>
+<!-- BARRE DE NAVIGATION DU BAS UNIFIÉE -->
+<nav class="bottom-nav">
+    <a class="nav-item active" href="univers.html">
+        <span class="nav-icon">🌌</span>
+        <span>Univers</span>
+    </a>
 
-    <nav aria-label="Navigation de pied de page">
-        <a href="index.html">Accueil</a>
-        <a href="univers.html">Univers</a>
-        <a href="actualites.html">Actualités</a>
-        <a href="communaute.html">Communauté</a>
-        <a href="createurs.html">Créateurs</a>
-        <a href="profil.html">Mon compte</a>
-    </nav>
+    <a class="nav-item" href="messages.html">
+        <span class="nav-icon">💬</span>
+        <span>Discussions</span>
+    </a>
 
-    <small>
-        © 2026 YOKAIRA — Tous droits réservés.
-    </small>
-</footer>
+    <a class="nav-item" href="boutique.html">
+        <span class="nav-icon">🛍️</span>
+        <span>Boutique</span>
+    </a>
 
-<!-- ANIMATIONS -->
-<script src="script.js"></script>
+    <a class="nav-item" href="avatar.html">
+        <span class="nav-icon">👤</span>
+        <span>Avatar</span>
+    </a>
 
-<!-- CONTRÔLE DE CONNEXION -->
-<script type="module" src="member-guard.js"></script>
-
-<!-- AFFICHAGE DU BLOC D'INSCRIPTION -->
-<script type="module">
-    import {
-        getAuth,
-        onAuthStateChanged
-    } from "https://www.gstatic.com/firebasejs/11.6.0/firebase-auth.js";
-
-    import {
-        initializeApp,
-        getApps,
-        getApp
-    } from "https://www.gstatic.com/firebasejs/11.6.0/firebase-app.js";
-
-    const firebaseConfig = {
-        apiKey: "AIzaSyAGfNN8L3Nepdn8D9ocz9ylVB_6mKbIVcI",
-        authDomain: "yokaira-46d8f.firebaseapp.com",
-        projectId: "yokaira-46d8f",
-        storageBucket: "yokaira-46d8f.firebasestorage.app",
-        messagingSenderId: "1074371889355",
-        appId: "1:1074371889355:web:e358704dd8d7b1a2ceb34e"
-    };
-
-    const app = getApps().length
-        ? getApp()
-        : initializeApp(firebaseConfig);
-
-    const auth = getAuth(app);
-    const joinBox = document.getElementById("join-box");
-
-    onAuthStateChanged(auth, (user) => {
-        if (joinBox) {
-            joinBox.style.display = user ? "none" : "";
-        }
-    });
-</script>
+    <a class="nav-item" href="profil.html">
+        <span class="nav-icon">⚡</span>
+        <span>Profil</span>
+    </a>
+</nav>
 
 </body>
 </html>
