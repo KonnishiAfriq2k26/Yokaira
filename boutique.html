@@ -191,7 +191,7 @@ a:focus-visible {
     box-shadow: none;
 }
 
-/* CATEGORIES (ONGLATS) */
+/* CATEGORIES (ONGLETS) */
 
 .shop-tabs {
     display: flex;
@@ -257,7 +257,7 @@ a:focus-visible {
     gap: 20px;
 }
 
-/* SHOP CARD DESIGN AMÉLIORÉ */
+/* SHOP CARD DESIGN */
 
 .shop-card {
     min-width: 0;
@@ -300,8 +300,6 @@ a:focus-visible {
     font-size: 14px;
     font-weight: bold;
 }
-
-/* BADGES DE RARETÉ STYLÉS */
 
 .rarity {
     display: inline-block;
@@ -428,7 +426,46 @@ a:focus-visible {
     font-size: 13px;
 }
 
-/* MODALE DE CONFIRMATION STYLÉE */
+/* BOUTON FLOTTANT COMMUNAUTÉ (POSITIONNÉ AU-DESSUS DE L'AVATAR) */
+.floating-community-btn {
+    position: fixed;
+    bottom: 85px; /* Environ 5cm / 55-60px au-dessus de la barre de navigation */
+    left: 62%;
+    transform: translateX(-50%);
+    z-index: 99998;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    padding: 8px 14px;
+    background: linear-gradient(135deg, rgba(139, 92, 246, 0.95), rgba(76, 29, 149, 0.95));
+    border: 1px solid rgba(192, 132, 252, 0.6);
+    border-radius: 20px;
+    color: #ffffff;
+    font-size: 11px;
+    font-weight: bold;
+    text-decoration: none;
+    box-shadow: 0 4px 15px rgba(139, 92, 246, 0.4);
+    backdrop-filter: blur(8px);
+    animation: floatAnim 3s ease-in-out infinite;
+}
+
+@keyframes floatAnim {
+    0%, 100% { transform: translateX(-50%) translateY(0); }
+    50% { transform: translateX(-50%) translateY(-4px); }
+}
+
+@media (min-width: 700px) {
+    .floating-community-btn {
+        left: calc(50% + 45px);
+        transform: none;
+    }
+    @keyframes floatAnim {
+        0%, 100% { transform: translateY(0); }
+        50% { transform: translateY(-4px); }
+    }
+}
+
+/* MODALE DE CONFIRMATION */
 
 .purchase-overlay {
     position: fixed;
@@ -555,7 +592,7 @@ a:focus-visible {
     font-size: 12px;
 }
 
-/* ANIMATION DE CHARGEMENT FUTURISTE */
+/* ANIMATION DE CHARGEMENT */
 
 .purchase-loading {
     padding: 20px 0;
@@ -688,17 +725,13 @@ a:focus-visible {
     }
 }
 
-/* RESPONSIVE */
-
 @media (max-width: 900px) {
     .shop-grid {
         grid-template-columns: repeat(2, minmax(0, 1fr));
     }
-
     .shop-hero {
         padding: 24px;
     }
-
     .shop-lower {
         grid-template-columns: 1fr;
     }
@@ -708,24 +741,19 @@ a:focus-visible {
     .shop-layout {
         padding: 14px;
     }
-
     .hero-illustration {
         display: none;
     }
-
     .shop-hero h1 {
         font-size: 26px;
     }
-
     .shop-grid {
         gap: 12px;
     }
-
     .item-bottom {
         align-items: stretch;
         flex-direction: column;
     }
-
     .item-bottom .shop-button {
         width: 100%;
     }
@@ -836,6 +864,11 @@ a:focus-visible {
 <footer class="shop-footer">
     YOKAIRA — Ensemble, construisons une légende.
 </footer>
+
+<!-- BOUTON FLOTTANT COMMUNAUTÉ (AU DESSUS DE L'AVATAR) -->
+<a href="communaute.html" class="floating-community-btn">
+    <span style="font-size: 14px;">👥</span> Communauté
+</a>
 
 <!-- BARRE DE NAVIGATION DU BAS UNIFIÉE -->
 <nav class="yokaira-bottom-nav">
