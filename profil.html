@@ -104,10 +104,6 @@
             margin-top: 25px;
         }
 
-        .button-secondary {
-            background: transparent;
-        }
-
         #photoInput {
             display: none;
         }
@@ -130,7 +126,8 @@
         }
     </style>
 </head>
-  <style>
+
+<style>
 body {
     padding-bottom: 95px !important;
 }
@@ -170,19 +167,15 @@ body {
 </style>
 
 <nav class="yokaira-bottom-nav">
-
     <a href="univers.html" data-page="univers.html">
         <span class="icon">◉</span>Univers
     </a>
-
     <a href="messages.html" data-page="messages.html">
         <span class="icon">●</span>Discussions
     </a>
-
     <a href="communaute.html" data-page="communaute.html">
         <span class="icon">♧</span>Communauté
     </a>
-
     <a href="profil.html" data-page="profil.html">
         <span class="icon">♙</span>Profil
     </a>
@@ -319,13 +312,13 @@ document.querySelectorAll(".yokaira-bottom-nav a").forEach(lien => {
         initializeApp,
         getApps,
         getApp
-    } from "https://www.gstatic.com/firebasejs/13.0.0/firebase-app.js";
+    } from "https://www.gstatic.com/firebasejs/11.6.0/firebase-app.js";
 
     import {
         getAuth,
         onAuthStateChanged,
         signOut
-    } from "https://www.gstatic.com/firebasejs/13.0.0/firebase-auth.js";
+    } from "https://www.gstatic.com/firebasejs/11.6.0/firebase-auth.js";
 
     const firebaseConfig = {
         apiKey: "AIzaSyAGfNN8L3Nepdn8D9ocz9ylVB_6mKbIVcI",
