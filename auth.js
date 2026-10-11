@@ -6,27 +6,27 @@ import {
     initializeApp,
     getApps,
     getApp
-} from "https://www.gstatic.com/firebasejs/13.0.0/firebase-app.js";
+} from "https://www.gstatic.com/firebasejs/11.6.0/firebase-app.js";
 
 import {
     getAuth,
     createUserWithEmailAndPassword,
     updateProfile
-} from "https://www.gstatic.com/firebasejs/13.0.0/firebase-auth.js";
+} from "https://www.gstatic.com/firebasejs/11.6.0/firebase-auth.js";
 
 import {
     getFirestore,
     doc,
     setDoc,
     serverTimestamp
-} from "https://www.gstatic.com/firebasejs/13.0.0/firebase-firestore.js";
+} from "https://www.gstatic.com/firebasejs/11.6.0/firebase-firestore.js";
 
 // ========================================
 // CONFIGURATION FIREBASE
 // ========================================
 
 const firebaseConfig = {
-    apiKey: "AIzaSyAGfNN8L3Nepdn8D9ocz9ylVB_6mKbIV_6mKbIV_6mKbIV_6mKbIV_6mKbIV",
+    apiKey: "AIzaSyAGfNN8L3Nepdn8D9ocz9ylVB_6mKbIVcI",
     authDomain: "yokaira-46d8f.firebaseapp.com",
     projectId: "yokaira-46d8f",
     storageBucket: "yokaira-46d8f.firebasestorage.app",
@@ -190,7 +190,6 @@ if (registerForm) {
             );
 
             // 5. Envoyer les informations à Google Sheets
-            // L'échec de Google Sheets ne bloque pas l'inscription.
             try {
                 await fetch(SHEETS_URL, {
                     method: "POST",
