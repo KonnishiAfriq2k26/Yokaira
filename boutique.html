@@ -1,1313 +1,199 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="theme-color" content="#080b20">
-
-<title>Boutique — YOKAIRA</title>
-<link rel="stylesheet" href="style.css">
-
-<style>
-:root {
-    --bg: #060b1b;
-    --panel: #0b1530;
-    --purple: #7046ff;
-    --blue: #168bff;
-    --gold: #ffc75e;
-    --text: #f4f3ff;
-    --muted: #a5afd0;
-}
-
-* {
-    box-sizing: border-box;
-}
-
-body {
-    margin: 0;
-    background: var(--bg);
-    color: var(--text);
-    font-family: Arial, sans-serif;
-}
-
-a {
-    color: inherit;
-    text-decoration: none;
-}
-
-button {
-    font: inherit;
-}
-
-button:focus-visible,
-a:focus-visible {
-    outline: 2px solid #b9a0ff;
-    outline-offset: 3px;
-}
-
-/* HEADER */
-
-.shop-header {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    gap: 12px;
-    padding: 15px 5%;
-    background: #05091a;
-    border-bottom: 1px solid #292958;
-}
-
-.shop-logo {
-    font-size: 25px;
-    font-weight: 900;
-    font-style: italic;
-    letter-spacing: 1px;
-}
-
-.shop-logo span {
-    color: #a88aff;
-}
-
-.shop-balance {
-    border: 1px solid #8060ff;
-    border-radius: 12px;
-    padding: 10px 14px;
-    color: var(--gold);
-    background: #10132c;
-    font-weight: bold;
-    white-space: nowrap;
-}
-
-/* PAGE */
-
-.shop-layout {
-    width: min(1450px, 100%);
-    margin: auto;
-    padding: 18px;
-}
-
-/* HERO */
-
-.shop-hero {
-    min-height: 260px;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    gap: 20px;
-    padding: 30px;
-    overflow: hidden;
-    border: 1px solid #5542a0;
-    border-radius: 20px;
-    background:
-        radial-gradient(ellipse at 85% 20%, #543a9d 0, transparent 45%),
-        linear-gradient(120deg, #151536, #10152c 60%, #211548);
-}
-
-.hero-copy {
-    max-width: 590px;
-}
-
-.hero-tag {
-    display: inline-block;
-    border: 1px solid #866aff;
-    color: #c7b6ff;
-    padding: 7px 12px;
-    border-radius: 20px;
-    font-size: 11px;
-    font-weight: bold;
-    letter-spacing: 1px;
-}
-
-.shop-hero h1 {
-    font-size: clamp(27px, 5vw, 43px);
-    line-height: 1.1;
-    margin: 17px 0 12px;
-    font-weight: 900;
-    text-transform: uppercase;
-}
-
-.shop-hero p {
-    color: #c4c8e5;
-    line-height: 1.7;
-}
-
-.hero-illustration {
-    width: 36%;
-    min-width: 180px;
-    max-width: 360px;
-    aspect-ratio: 1 / 1;
-    object-fit: cover;
-    border-radius: 18px;
-    border: 1px solid #6c56c7;
-    background: #11152d;
-    box-shadow: 0 0 35px #593d9c55;
-}
-
-/* BUTTONS */
-
-.shop-button {
-    display: inline-block;
-    border: 0;
-    border-radius: 10px;
-    padding: 12px 18px;
-    background: linear-gradient(100deg, #7445ff, #4730df);
-    color: white;
-    font-weight: bold;
-    cursor: pointer;
-    text-align: center;
-}
-
-.shop-button:disabled {
-    opacity: .55;
-    cursor: not-allowed;
-}
-
-/* CATEGORIES */
-
-.shop-tabs {
-    display: flex;
-    gap: 9px;
-    overflow-x: auto;
-    padding: 20px 0;
-}
-
-.shop-tab {
-    flex-shrink: 0;
-    padding: 12px 17px;
-    border: 1px solid #29365c;
-    border-radius: 10px;
-    background: #0b1329;
-    color: #c7c9e8;
-    cursor: pointer;
-}
-
-.shop-tab.active {
-    border-color: #9270ff;
-    background: #33216c;
-    color: white;
-}
-
-/* PRODUCT GRID */
-
-.section-heading {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    flex-wrap: wrap;
-    gap: 10px;
-    margin: 15px 0;
-}
-
-.section-heading h2 {
-    font-size: 22px;
-    margin: 0;
-}
-
-.muted {
-    color: var(--muted);
-    font-size: 13px;
-}
-
-.shop-grid {
-    display: grid;
-    grid-template-columns: repeat(4, minmax(0, 1fr));
-    gap: 14px;
-}
-
-.shop-card {
-    min-width: 0;
-    overflow: hidden;
-    border: 1px solid #30446c;
-    border-radius: 14px;
-    background: linear-gradient(160deg, #101b37, #080f23);
-    transition: border-color .2s, transform .2s;
-}
-
-@media (hover: hover) and (pointer: fine) {
-    .shop-card:hover {
-        border-color: #9875ff;
-        transform: translateY(-3px);
-    }
-}
-
-.item-image {
-    display: block;
-    width: 100%;
-    aspect-ratio: 1 / .83;
-    object-fit: cover;
-    background: #131a38;
-}
-
-.item-image-placeholder {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    width: 100%;
-    aspect-ratio: 1 / .83;
-    padding: 12px;
-    text-align: center;
-    color: #c4b4ff;
-    background:
-        radial-gradient(circle at 50% 40%, #37316a, #10162e 65%);
-    font-size: 13px;
-}
-
-.rarity {
-    display: inline-block;
-    margin: 10px 10px 0;
-    padding: 5px 8px;
-    border-radius: 5px;
-    background: #263957;
-    color: #b9d7ff;
-    font-size: 10px;
-    font-weight: 900;
-}
-
-.rarity.epic {
-    background: #49257e;
-    color: #e0baff;
-}
-
-.rarity.legendary {
-    background: #69491a;
-    color: #ffe0a0;
-}
-
-.rarity.rare {
-    background: #164b75;
-    color: #a9e4ff;
-}
-
-.item-info {
-    padding: 12px;
-}
-
-.item-info h3 {
-    margin: 5px 0 8px;
-    font-size: 15px;
-}
-
-.item-info p {
-    min-height: 49px;
-    margin: 0 0 12px;
-    color: #aeb8d7;
-    font-size: 12px;
-    line-height: 1.5;
-}
-
-.item-bottom {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    flex-wrap: wrap;
-    gap: 9px;
-}
-
-.item-price {
-    color: var(--gold);
-    font-size: 13px;
-    font-weight: 900;
-}
-
-.item-bottom .shop-button {
-    padding: 9px 12px;
-    font-size: 12px;
-}
-
-/* LOWER PANELS */
-
-.shop-lower {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 16px;
-    margin-top: 24px;
-}
-
-.shop-panel {
-    padding: 20px;
-    border: 1px solid #2b3a60;
-    border-radius: 15px;
-    background: #0b1328;
-}
-
-.shop-panel h2 {
-    margin-top: 0;
-}
-
-.inventory-list {
-    min-height: 70px;
-    padding: 15px;
-    border-radius: 10px;
-    background: #080e20;
-    color: #c7cbe7;
-    line-height: 1.8;
-    font-size: 13px;
-    overflow-wrap: anywhere;
-}
-
-.shop-message {
-    min-height: 22px;
-    margin-top: 15px;
-    color: #b9a8ff;
-    font-size: 13px;
-    line-height: 1.5;
-}
-
-.shop-footer {
-    margin-top: 30px;
-    padding: 25px 15px;
-    text-align: center;
-    border-top: 1px solid #202b4c;
-    color: #8995b9;
-    font-size: 12px;
-}
-
-/* PURCHASE CONFIRMATION */
-
-.purchase-overlay {
-    position: fixed;
-    inset: 0;
-    z-index: 99999;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    padding: 18px;
-    background: rgba(2, 4, 18, 0.88);
-    backdrop-filter: blur(8px);
-    overflow-y: auto;
-}
-
-.purchase-overlay[hidden],
-.purchase-loading[hidden] {
-    display: none;
-}
-
-.purchase-modal {
-    width: 100%;
-    max-width: 390px;
-    max-height: 94%;
-    overflow-y: auto;
-    padding: 24px;
-    border: 1px solid #8b65ff;
-    border-radius: 20px;
-    background: linear-gradient(145deg, #151b3d, #080d21);
-    box-shadow: 0 0 35px rgba(112, 70, 255, 0.3);
-    text-align: center;
-    animation: modalAppear .22s ease-out;
-}
-
-@keyframes modalAppear {
-    from {
-        opacity: 0;
-        transform: translateY(15px) scale(.96);
-    }
-    to {
-        opacity: 1;
-        transform: translateY(0) scale(1);
-    }
-}
-
-.purchase-label {
-    color: #b9a0ff;
-    font-size: 11px;
-    font-weight: bold;
-    letter-spacing: 2px;
-}
-
-.purchase-modal h2 {
-    margin: 12px 0;
-    font-size: 24px;
-}
-
-.purchase-image {
-    width: 145px;
-    height: 125px;
-    margin: 18px auto;
-    object-fit: cover;
-    border: 1px solid #54448d;
-    border-radius: 13px;
-    background: #10152e;
-}
-
-.purchase-name {
-    font-size: 18px;
-    font-weight: bold;
-    overflow-wrap: anywhere;
-}
-
-.purchase-price {
-    margin: 12px 0;
-    color: #ffd36b;
-    font-size: 19px;
-    font-weight: 900;
-}
-
-.purchase-balance {
-    display: flex;
-    justify-content: space-between;
-    gap: 12px;
-    padding: 12px;
-    border-radius: 10px;
-    background: #090e21;
-    color: #c4cbe8;
-    font-size: 13px;
-}
-
-.purchase-actions {
-    display: grid;
-    gap: 10px;
-    margin-top: 20px;
-}
-
-.purchase-actions button {
-    min-height: 46px;
-    border: 0;
-    border-radius: 10px;
-    font-weight: bold;
-    cursor: pointer;
-}
-
-.purchase-confirm {
-    background: linear-gradient(100deg, #784bff, #4c32dd);
-    color: white;
-}
-
-.purchase-cancel {
-    border: 1px solid #41476b !important;
-    background: #151b35;
-    color: #d5d9f2;
-}
-
-.purchase-actions button:disabled {
-    opacity: .55;
-    cursor: wait;
-}
-
-.purchase-note {
-    min-height: 18px;
-    margin-top: 12px;
-    color: #ffbdab;
-    font-size: 12px;
-    line-height: 1.5;
-}
-
-/* LOADING ANIMATION */
-
-.purchase-loading {
-    padding: 20px 0;
-    text-align: center;
-}
-
-.loading-crystal {
-    width: 65px;
-    height: 65px;
-    margin: 10px auto 20px;
-    border: 3px solid #30245f;
-    border-top-color: #a98aff;
-    border-right-color: #5b9dff;
-    border-radius: 50%;
-    animation: crystalSpin 1s linear infinite;
-    box-shadow: 0 0 20px #784cff55;
-}
-
-@keyframes crystalSpin {
-    to {
-        transform: rotate(360deg);
-    }
-}
-
-.loading-title {
-    color: #d3c4ff;
-    font-weight: bold;
-    margin-bottom: 8px;
-}
-
-.loading-subtitle {
-    color: #a8b1d2;
-    font-size: 12px;
-    line-height: 1.5;
-}
-
-.loading-track {
-    height: 7px;
-    background: #252348;
-    border-radius: 10px;
-    overflow: hidden;
-    margin-top: 18px;
-}
-
-.loading-progress {
-    height: 100%;
-    width: 0;
-    border-radius: inherit;
-    background: linear-gradient(90deg, #7548ff, #4bbdff);
-}
-
-.loading-progress.running {
-    animation: loadingFill 1.8s ease-in-out forwards;
-}
-
-@keyframes loadingFill {
-    from { width: 0; }
-    to { width: 100%; }
-}
-
-.purchase-success {
-    color: #8fffc4 !important;
-    font-size: 18px;
-    animation: successPop .35s ease-out;
-}
-
-@keyframes successPop {
-    from {
-        opacity: 0;
-        transform: scale(.8);
-    }
-    to {
-        opacity: 1;
-        transform: scale(1);
-    }
-}
-
-/* RESPONSIVE */
-
-@media (max-width: 900px) {
-    .shop-grid {
-        grid-template-columns: repeat(2, minmax(0, 1fr));
-    }
-
-    .shop-hero {
-        padding: 22px;
-    }
-
-    .shop-lower {
-        grid-template-columns: 1fr;
-    }
-}
-
-@media (max-width: 480px) {
-    .shop-layout {
-        padding: 12px;
-    }
-
-    .shop-hero {
-        padding: 18px;
-    }
-
-    .hero-illustration {
-        display: none;
-    }
-
-    .shop-hero h1 {
-        font-size: 29px;
-    }
-
-    .shop-grid {
-        gap: 10px;
-    }
-
-    .item-info {
-        padding: 9px;
-    }
-
-    .item-info h3 {
-        font-size: 13px;
-    }
-
-    .item-info p {
-        font-size: 11px;
-    }
-
-    .item-bottom {
-        align-items: stretch;
-        flex-direction: column;
-    }
-
-    .item-bottom .shop-button {
-        width: 100%;
-    }
-
-    .purchase-modal {
-        padding: 19px;
-    }
-}
-
-@media (prefers-reduced-motion: reduce) {
-    .purchase-modal,
-    .loading-crystal,
-    .loading-progress.running,
-    .purchase-success {
-        animation: none !important;
-    }
-
-    .loading-progress.running {
-        width: 100%;
-    }
-
-    .shop-card {
-        transition: none;
-    }
-}
-</style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="theme-color" content="#080b20">
+    <meta name="description" content="Découvre la boutique YOKAIRA, ses objets exclusifs et ses avantages.">
+    <title>Boutique — YOKAIRA</title>
+
+    <link rel="stylesheet" href="style.css">
+    <style>
+        body {
+            padding-bottom: 95px !important;
+        }
+
+        .bottom-nav {
+            position: fixed;
+            z-index: 99999;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+            padding: 12px 3px max(12px, env(safe-area-inset-bottom));
+            background: rgba(8, 9, 30, 0.97);
+            border-top: 1px solid rgba(144, 111, 255, 0.4);
+            border-radius: 20px 20px 0 0;
+        }
+
+        .nav-item {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 4px;
+            text-decoration: none;
+            color: #9892d4;
+            font-size: 11px;
+            text-align: center;
+        }
+
+        .nav-icon {
+            font-size: 24px;
+            line-height: 1.2;
+        }
+
+        .nav-item.active {
+            color: #a56aff;
+            font-weight: bold;
+        }
+
+        .nav-item.active .nav-icon {
+            text-shadow: 0 0 16px #a56aff;
+        }
+
+        @media (min-width: 700px) {
+            body {
+                max-width: 760px;
+                margin: 0 auto;
+                border-left: 1px solid rgba(139, 103, 255, .24);
+                border-right: 1px solid rgba(139, 103, 255, .24);
+            }
+
+            .bottom-nav {
+                left: 50%;
+                right: auto;
+                width: 100%;
+                max-width: 760px;
+                transform: translateX(-50%);
+            }
+        }
+    </style>
 </head>
 
 <body>
 
-<header class="shop-header">
-    <a class="shop-logo" href="index.html">
-        YOKAIRA<span>®</span>
-    </a>
-
-    <div class="shop-balance">
-        <span id="yokaisBalance">1 250</span> YOKAÏS
+<!-- EN-TÊTE -->
+<header>
+    <div class="logo">
+        <a href="index.html" aria-label="Retour à l'accueil">
+            <img src="logo.png" alt="Logo YOKAIRA">
+        </a>
     </div>
+
+    <nav aria-label="Navigation principale">
+        <a href="index.html">Accueil</a>
+        <a href="univers.html">Univers</a>
+        <a href="communaute.html">Communauté</a>
+        <a href="boutique.html" aria-current="page">Boutique</a>
+        <a href="profil.html">Mon compte</a>
+    </nav>
 </header>
 
-<main class="shop-layout">
-
-    <section class="shop-hero">
-        <div class="hero-copy">
-            <span class="hero-tag">BOUTIQUE OFFICIELLE</span>
+<main>
+    <section class="hero" id="boutique-hero">
+        <div class="hero-content">
+            <p class="section-tag">
+                ESPACE BOUTIQUE
+            </p>
 
             <h1>
-                Équipe-toi.<br>
-                Collectionne.<br>
-                Fais ta légende.
+                La Boutique YOKAIRA
             </h1>
 
-            <p>
-                Découvre des objets exclusifs, des cosmétiques
-                uniques et des récompenses pour ton aventure.
+            <p class="subtitle">
+                Procure-toi des articles exclusifs, des badges et des équipements rares pour ton profil.
             </p>
-
-            <a href="#objets" class="shop-button">
-                Découvrir les objets
-            </a>
         </div>
-
-        <img
-            class="hero-illustration"
-            src="images/boutique-hero.jpg"
-            alt="Illustration de l'univers YOKAIRA"
-            onerror="this.style.display='none'"
-        >
     </section>
 
-    <nav class="shop-tabs" aria-label="Catégories">
-        <button class="shop-tab active" data-category="all" type="button">
-            À la une
-        </button>
-
-        <button class="shop-tab" data-category="cosmetique" type="button">
-            Cosmétiques
-        </button>
-
-        <button class="shop-tab" data-category="avantage" type="button">
-            Avantages
-        </button>
-
-        <button class="shop-tab" data-category="temporaire" type="button">
-            Objets temporaires
-        </button>
-
-        <button class="shop-tab" data-category="inventaire" type="button">
-            Mon inventaire
-        </button>
-    </nav>
-
-    <section id="objets">
-        <div class="section-heading">
-            <h2 id="sectionTitle">À la une</h2>
-            <span class="muted">Les objets de l'univers YOKAIRA</span>
-        </div>
-
-        <div class="shop-grid" id="shopGrid"></div>
-
-        <p class="shop-message" id="shopMessage" aria-live="polite">
-            Démonstration : les achats ne sont pas encore enregistrés dans Firebase.
+    <section id="shop-section">
+        <h2>Articles disponibles</h2>
+        <p class="text">
+            Les nouveautés de la boutique seront bientôt en ligne ici.
         </p>
     </section>
-
-    <section class="shop-lower">
-        <div class="shop-panel">
-            <h2>Objets temporaires</h2>
-            <p class="muted">
-                Des objets spéciaux disponibles pendant les événements.
-            </p>
-            <p class="muted">
-                La gestion des événements sera ajoutée ultérieurement.
-            </p>
-        </div>
-
-        <div class="shop-panel" id="inventaire">
-            <h2>Mon inventaire</h2>
-
-            <p class="muted">
-                Retrouve ici les objets que tu as obtenus.
-            </p>
-
-            <div class="inventory-list" id="inventoryList">
-                Aucun objet pour le moment.
-            </div>
-        </div>
-    </section>
-
 </main>
 
-<footer class="shop-footer">
-    YOKAIRA — Ensemble, construisons une légende.
+<!-- PIED DE PAGE -->
+<footer>
+    <div class="logo">
+        <a href="index.html">YOKAIRA</a>
+    </div>
+
+    <p>
+        La pop culture africaine du futur.
+    </p>
+
+    <small>
+        © 2026 YOKAIRA — Tous droits réservés.
+    </small>
 </footer>
 
-<!-- FENÊTRE DE CONFIRMATION -->
-
-<div
-    class="purchase-overlay"
-    id="purchaseOverlay"
-    hidden
->
-    <section
-        class="purchase-modal"
-        role="dialog"
-        aria-modal="true"
-        aria-labelledby="purchaseTitle"
-    >
-        <div class="purchase-label">BOUTIQUE YOKAIRA</div>
-
-        <h2 id="purchaseTitle">Confirmer l'achat ?</h2>
-
-        <img
-            id="purchaseImage"
-            class="purchase-image"
-            src=""
-            alt=""
-        >
-
-        <div class="purchase-name" id="purchaseName"></div>
-
-        <div class="purchase-price" id="purchasePrice"></div>
-
-        <div class="purchase-balance">
-            <span>Solde après achat</span>
-            <strong id="purchaseRemaining"></strong>
-        </div>
-
-        <p class="muted">
-            Vérifie ton achat avant de continuer.
-        </p>
-
-        <!-- ANIMATION DE CHARGEMENT -->
-
-        <div
-            class="purchase-loading"
-            id="purchaseLoading"
-            hidden
-        >
-            <div class="loading-crystal" aria-hidden="true"></div>
-
-            <div class="loading-title" id="loadingTitle" aria-live="polite">
-                Acquisition de l'objet en cours...
-            </div>
-
-            <p class="loading-subtitle" id="loadingSubtitle">
-                Préparation de ta récompense.
-            </p>
-
-            <div
-                class="loading-track"
-                role="progressbar"
-                aria-label="Progression de l'acquisition"
-                aria-valuemin="0"
-                aria-valuemax="100"
-            >
-                <div class="loading-progress" id="loadingProgress"></div>
-            </div>
-        </div>
-
-        <div class="purchase-actions">
-            <button
-                type="button"
-                class="purchase-confirm"
-                id="confirmPurchase"
-            >
-                Confirmer l'achat
-            </button>
-
-            <button
-                type="button"
-                class="purchase-cancel"
-                id="cancelPurchase"
-            >
-                Annuler
-            </button>
-        </div>
-
-        <p
-            class="purchase-note"
-            id="purchaseNote"
-            aria-live="polite"
-        ></p>
-    </section>
-</div>
-
-<script>
-"use strict";
-
-/*
- * BOUTIQUE YOKAIRA
- * Cette version est une démonstration locale.
- * Les soldes et achats ne sont pas sauvegardés dans Firebase.
- */
-
-const objets = [
-    {
-        id: "renard",
-        nom: "Esprit du Renard Sacré",
-        categorie: "cosmetique",
-        rarete: "LÉGENDAIRE",
-        prix: 1500,
-        description: "Une aura légendaire pour ton avatar.",
-        image: "images/renard-sacre.jpg"
-    },
-    {
-        id: "katana",
-        nom: "Katana de l'Ombre",
-        categorie: "cosmetique",
-        rarete: "ÉPIQUE",
-        prix: 1000,
-        description: "Un effet visuel unique pour ton profil.",
-        image: "images/katana-ombre.jpg"
-    },
-    {
-        id: "sakura",
-        nom: "Cadre Sakura",
-        categorie: "cosmetique",
-        rarete: "RARE",
-        prix: 600,
-        description: "Un cadre illustré pour ton avatar.",
-        image: "images/cadre-sakura.jpg"
-    },
-    {
-        id: "veste",
-        nom: "Veste YOKAIRA",
-        categorie: "cosmetique",
-        rarete: "COMMUN",
-        prix: 300,
-        description: "Une tenue inspirée de l'univers YOKAIRA.",
-        image: "images/veste-yokaira.jpg"
-    },
-    {
-        id: "ticket",
-        nom: "Ticket de mission",
-        categorie: "avantage",
-        rarete: "ÉPIQUE",
-        prix: 400,
-        description: "Un objet prévu pour de futures missions.",
-        image: "images/ticket-mission.jpg"
-    },
-    {
-        id: "festival",
-        nom: "Accès événement",
-        categorie: "temporaire",
-        rarete: "LÉGENDAIRE",
-        prix: 1000,
-        description: "Un objet spécial pour un événement.",
-        image: "images/acces-evenement.jpg"
-    }
-];
-
-let soldeDemo = 1250;
-const possedes = new Set();
-
-let categorieActuelle = "all";
-let objetEnConfirmation = null;
-let achatEnCours = false;
-let minuterieFermeture = null;
-
-const grille = document.getElementById("shopGrid");
-const message = document.getElementById("shopMessage");
-const titreSection = document.getElementById("sectionTitle");
-
-const purchaseOverlay = document.getElementById("purchaseOverlay");
-const purchaseImage = document.getElementById("purchaseImage");
-const purchaseName = document.getElementById("purchaseName");
-const purchasePrice = document.getElementById("purchasePrice");
-const purchaseRemaining = document.getElementById("purchaseRemaining");
-const purchaseNote = document.getElementById("purchaseNote");
-
-const purchaseLoading = document.getElementById("purchaseLoading");
-const loadingTitle = document.getElementById("loadingTitle");
-const loadingSubtitle = document.getElementById("loadingSubtitle");
-const loadingProgress = document.getElementById("loadingProgress");
-
-const confirmPurchase = document.getElementById("confirmPurchase");
-const cancelPurchase = document.getElementById("cancelPurchase");
-
-const nombres = nombre =>
-    nombre.toLocaleString("fr-FR") + " YOKAÏS";
-
-/* AFFICHAGE DES OBJETS */
-
-function afficherObjets() {
-    grille.replaceChildren();
-
-    if (categorieActuelle === "inventaire") {
-        afficherInventaire();
-        return;
-    }
-
-    const liste = objets.filter(objet =>
-        categorieActuelle === "all" ||
-        objet.categorie === categorieActuelle
-    );
-
-    if (liste.length === 0) {
-        const vide = document.createElement("p");
-        vide.className = "muted";
-        vide.textContent = "Aucun objet dans cette catégorie.";
-        grille.appendChild(vide);
-        return;
-    }
-
-    liste.forEach(objet => {
-        const carte = document.createElement("article");
-        carte.className = "shop-card";
-
-        const image = document.createElement("img");
-        image.className = "item-image";
-        image.src = objet.image;
-        image.alt = objet.nom;
-        image.loading = "lazy";
-
-        image.addEventListener("error", function() {
-            if (this.dataset.fallback) return;
-
-            this.dataset.fallback = "true";
-
-            const remplacement = document.createElement("div");
-            remplacement.className = "item-image-placeholder";
-            remplacement.textContent = objet.nom;
-
-            this.replaceWith(remplacement);
-        });
-
-        const rarete = document.createElement("span");
-        rarete.className = "rarity";
-
-        if (objet.rarete === "LÉGENDAIRE") {
-            rarete.classList.add("legendary");
-        } else if (objet.rarete === "ÉPIQUE") {
-            rarete.classList.add("epic");
-        } else if (objet.rarete === "RARE") {
-            rarete.classList.add("rare");
-        }
-
-        rarete.textContent = objet.rarete;
-
-        const infos = document.createElement("div");
-        infos.className = "item-info";
-
-        const nom = document.createElement("h3");
-        nom.textContent = objet.nom;
-
-        const description = document.createElement("p");
-        description.textContent = objet.description;
-
-        const bas = document.createElement("div");
-        bas.className = "item-bottom";
-
-        const prix = document.createElement("span");
-        prix.className = "item-price";
-        prix.textContent = nombres(objet.prix);
-
-        const bouton = document.createElement("button");
-        bouton.type = "button";
-        bouton.className = "shop-button";
-
-        const possede = possedes.has(objet.id);
-
-        bouton.textContent = possede ? "Possédé" : "Ajouter";
-        bouton.disabled = possede;
-
-        bouton.addEventListener("click", () => {
-            ouvrirConfirmation(objet);
-        });
-
-        bas.append(prix, bouton);
-        infos.append(nom, description, bas);
-        carte.append(image, rarete, infos);
-
-        grille.appendChild(carte);
-    });
-}
-
-/* INVENTAIRE */
-
-function afficherInventaire() {
-    grille.replaceChildren();
-
-    const contenu = document.createElement("div");
-    contenu.className = "shop-panel";
-    contenu.style.gridColumn = "1 / -1";
-
-    const titre = document.createElement("h3");
-    titre.textContent = "Objets possédés";
-
-    const liste = objets.filter(objet => possedes.has(objet.id));
-
-    const texte = document.createElement("p");
-    texte.className = "muted";
-
-    texte.textContent = liste.length
-        ? liste.map(objet => objet.nom).join(" · ")
-        : "Aucun objet pour le moment.";
-
-    contenu.append(titre, texte);
-    grille.appendChild(contenu);
-
-    document.getElementById("inventoryList").textContent =
-        liste.length
-            ? liste.map(objet => objet.nom).join(" · ")
-            : "Aucun objet pour le moment.";
-}
-
-/* OUVERTURE DE LA CONFIRMATION */
-
-function ouvrirConfirmation(objet) {
-    if (achatEnCours) return;
-
-    if (possedes.has(objet.id)) {
-        message.textContent = "Tu possèdes déjà cet objet.";
-        return;
-    }
-
-    if (soldeDemo < objet.prix) {
-        message.textContent = "Tu n'as pas assez de YOKAÏS.";
-        return;
-    }
-
-    objetEnConfirmation = objet;
-
-    purchaseImage.onerror = () => {
-        purchaseImage.style.visibility = "hidden";
+<!-- BARRE DE NAVIGATION DU BAS UNIFIÉE -->
+<nav class="bottom-nav">
+    <a class="nav-item" href="univers.html">
+        <span class="nav-icon">🌌</span>
+        <span>Univers</span>
+    </a>
+
+    <a class="nav-item" href="messages.html">
+        <span class="nav-icon">💬</span>
+        <span>Discussions</span>
+    </a>
+
+    <a class="nav-item active" href="boutique.html">
+        <span class="nav-icon">🛍️</span>
+        <span>Boutique</span>
+    </a>
+
+    <a class="nav-item" href="avatar.html">
+        <span class="nav-icon">👤</span>
+        <span>Avatar</span>
+    </a>
+
+    <a class="nav-item" href="profil.html">
+        <span class="nav-icon">⚡</span>
+        <span>Profil</span>
+    </a>
+</nav>
+
+<!-- SCRIPTS FIREBASE -->
+<script type="module">
+    import {
+        initializeApp,
+        getApps,
+        getApp
+    } from "https://www.gstatic.com/firebasejs/11.6.0/firebase-app.js";
+
+    import {
+        getAuth,
+        onAuthStateChanged
+    } from "https://www.gstatic.com/firebasejs/11.6.0/firebase-auth.js";
+
+    const firebaseConfig = {
+        apiKey: "AIzaSyAGfNN8L3Nepdn8D9ocz9ylVB_6mKbIVcI",
+        authDomain: "yokaira-46d8f.firebaseapp.com",
+        projectId: "yokaira-46d8f",
+        storageBucket: "yokaira-46d8f.firebasestorage.app",
+        messagingSenderId: "1074371889355",
+        appId: "1:1074371889355:web:e358704dd8d7b1a2ceb34e"
     };
 
-    purchaseImage.onload = () => {
-        purchaseImage.style.visibility = "visible";
-    };
+    const app = getApps().length
+        ? getApp()
+        : initializeApp(firebaseConfig);
 
-    purchaseImage.style.visibility = "visible";
-    purchaseImage.src = objet.image;
-    purchaseImage.alt = objet.nom;
+    const auth = getAuth(app);
 
-    purchaseName.textContent = objet.nom;
-    purchasePrice.textContent = nombres(objet.prix);
-    purchaseRemaining.textContent = nombres(soldeDemo - objet.prix);
-
-    purchaseNote.textContent = "";
-
-    purchaseLoading.hidden = true;
-    loadingTitle.classList.remove("purchase-success");
-    loadingProgress.classList.remove("running");
-
-    confirmPurchase.hidden = false;
-    confirmPurchase.disabled = false;
-    confirmPurchase.textContent = "Confirmer l'achat";
-
-    cancelPurchase.hidden = false;
-    cancelPurchase.disabled = false;
-
-    purchaseOverlay.hidden = false;
-    confirmPurchase.focus();
-}
-
-/* FERMETURE */
-
-function fermerConfirmation() {
-    if (achatEnCours) return;
-
-    if (minuterieFermeture) {
-        clearTimeout(minuterieFermeture);
-        minuterieFermeture = null;
-    }
-
-    purchaseOverlay.hidden = true;
-    purchaseLoading.hidden = true;
-
-    confirmPurchase.hidden = false;
-    confirmPurchase.disabled = false;
-
-    cancelPurchase.hidden = false;
-    cancelPurchase.disabled = false;
-
-    loadingTitle.classList.remove("purchase-success");
-    loadingProgress.classList.remove("running");
-
-    objetEnConfirmation = null;
-}
-
-cancelPurchase.addEventListener("click", fermerConfirmation);
-
-purchaseOverlay.addEventListener("click", event => {
-    if (event.target === purchaseOverlay) {
-        fermerConfirmation();
-    }
-});
-
-document.addEventListener("keydown", event => {
-    if (event.key === "Escape" && !purchaseOverlay.hidden) {
-        fermerConfirmation();
-    }
-});
-
-/* CONFIRMATION ET ANIMATION D'ACHAT */
-
-confirmPurchase.addEventListener("click", async () => {
-    const objet = objetEnConfirmation;
-
-    if (!objet || achatEnCours) return;
-
-    if (possedes.has(objet.id)) {
-        purchaseNote.textContent = "Tu possèdes déjà cet objet.";
-        return;
-    }
-
-    if (soldeDemo < objet.prix) {
-        purchaseNote.textContent = "Solde insuffisant.";
-        return;
-    }
-
-    achatEnCours = true;
-
-    confirmPurchase.disabled = true;
-    cancelPurchase.disabled = true;
-
-    purchaseLoading.hidden = false;
-    purchaseNote.textContent = "";
-
-    loadingTitle.textContent = "Acquisition de l'objet en cours...";
-    loadingTitle.classList.remove("purchase-success");
-
-    loadingSubtitle.textContent = "Préparation de ta récompense.";
-
-    loadingProgress.classList.remove("running");
-    void loadingProgress.offsetWidth;
-    loadingProgress.classList.add("running");
-
-    confirmPurchase.hidden = true;
-
-    try {
-        /*
-         * Attente purement visuelle.
-         * Ce n'est pas encore une transaction Firebase.
-         */
-        await new Promise(resolve => setTimeout(resolve, 1800));
-
-        /*
-         * Vérification avant le débit local.
-         */
-        if (possedes.has(objet.id) || soldeDemo < objet.prix) {
-            loadingTitle.textContent = "Achat impossible";
-            loadingSubtitle.textContent =
-                "Vérifie ton solde et ton inventaire.";
-
-            return;
-        }
-
-        /*
-         * Débit simulé et ajout à l'inventaire local.
-         */
-        soldeDemo -= objet.prix;
-        possedes.add(objet.id);
-
-        document.getElementById("yokaisBalance").textContent =
-            soldeDemo.toLocaleString("fr-FR");
-
-        purchaseRemaining.textContent = nombres(soldeDemo);
-
-        afficherObjets();
-        afficherInventaire();
-
-        loadingTitle.textContent = "Objet acquis !";
-        loadingTitle.classList.add("purchase-success");
-
-        loadingSubtitle.textContent =
-            objet.nom + " a rejoint ton inventaire.";
-
-        loadingProgress.classList.remove("running");
-
-        message.textContent = "Acquisition réussie : " + objet.nom;
-
-        minuterieFermeture = setTimeout(() => {
-            minuterieFermeture = null;
-            fermerApresSucces();
-        }, 1400);
-
-    } catch (erreur) {
-        loadingTitle.textContent = "Une erreur est survenue";
-        loadingSubtitle.textContent =
-            "Réessaie dans un instant.";
-
-        purchaseNote.textContent = "L'achat n'a pas pu être terminé.";
-
-    } finally {
-        achatEnCours = false;
-
-        confirmPurchase.disabled = false;
-        cancelPurchase.disabled = false;
-    }
-});
-
-/*
- * Fermeture après réussite.
- * La fermeture automatique est autorisée seulement après la fin
- * du traitement, jamais pendant le chargement.
- */
-function fermerApresSucces() {
-    purchaseOverlay.hidden = true;
-    purchaseLoading.hidden = true;
-
-    confirmPurchase.hidden = false;
-    confirmPurchase.disabled = false;
-
-    cancelPurchase.hidden = false;
-    cancelPurchase.disabled = false;
-
-    loadingTitle.classList.remove("purchase-success");
-    loadingProgress.classList.remove("running");
-
-    objetEnConfirmation = null;
-}
-
-/* FILTRES */
-
-document.querySelectorAll(".shop-tab").forEach(bouton => {
-    bouton.addEventListener("click", () => {
-        document.querySelectorAll(".shop-tab").forEach(tab => {
-            tab.classList.remove("active");
-        });
-
-        bouton.classList.add("active");
-
-        categorieActuelle = bouton.dataset.category;
-
-        titreSection.textContent = bouton.textContent.trim();
-
-        afficherObjets();
-
-        if (categorieActuelle === "inventaire") {
-            document.getElementById("inventaire").scrollIntoView({
-                behavior: "smooth",
-                block: "start"
-            });
-        }
+    onAuthStateChanged(auth, (user) => {
+        // Logique optionnelle liée à la boutique
     });
-});
-
-/* PREMIER AFFICHAGE */
-
-afficherObjets();
-afficherInventaire();
 </script>
+
+<script src="script.js"></script>
 
 </body>
 </html>
