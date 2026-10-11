@@ -1,0 +1,781 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Actualités | YOKAIRA</title>
+
+    <meta name="description"
+          content="Découvre les actualités de l'anime, du manga, du gaming et de la pop culture africaine sur YOKAIRA.">
+
+    <style>
+        :root {
+            --bg: #080b1a;
+            --card: #11162b;
+            --purple: #9b5cff;
+            --cyan: #00e5ff;
+            --white: #f5f5ff;
+            --muted: #b5bbd6;
+            --border: rgba(155, 92, 255, 0.3);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: Arial, Helvetica, sans-serif;
+            background: var(--bg);
+            color: var(--white);
+            line-height: 1.6;
+        }
+
+        a {
+            color: inherit;
+            text-decoration: none;
+        }
+
+        header {
+            background: rgba(8, 11, 26, 0.97);
+            border-bottom: 1px solid var(--border);
+            padding: 18px 6%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 20px;
+            flex-wrap: wrap;
+        }
+
+        .logo {
+            font-size: 1.8rem;
+            font-weight: 900;
+            letter-spacing: 2px;
+            color: var(--cyan);
+        }
+
+        .logo span {
+            color: var(--purple);
+        }
+
+        nav {
+            display: flex;
+            align-items: center;
+            gap: 18px;
+            flex-wrap: wrap;
+        }
+
+        nav a {
+            font-size: 0.9rem;
+            color: var(--muted);
+            transition: color 0.2s;
+        }
+
+        nav a:hover,
+        nav a.active {
+            color: var(--cyan);
+        }
+
+        .hero {
+            text-align: center;
+            padding: 85px 7% 65px;
+            background:
+                radial-gradient(
+                    ellipse at top,
+                    rgba(155, 92, 255, 0.2),
+                    transparent 65%
+                );
+        }
+
+        .eyebrow {
+            display: inline-block;
+            color: var(--cyan);
+            border: 1px solid rgba(0, 229, 255, 0.35);
+            border-radius: 30px;
+            padding: 7px 15px;
+            font-size: 0.78rem;
+            letter-spacing: 2px;
+            margin-bottom: 22px;
+        }
+
+        h1 {
+            font-size: clamp(2.4rem, 7vw, 4.5rem);
+            line-height: 1.1;
+            margin-bottom: 22px;
+        }
+
+        h1 span {
+            color: var(--purple);
+        }
+
+        .hero p {
+            max-width: 720px;
+            margin: auto;
+            color: var(--muted);
+            font-size: 1.05rem;
+        }
+
+        main {
+            padding: 25px 6% 80px;
+            max-width: 1400px;
+            margin: auto;
+        }
+
+        .section-heading {
+            text-align: center;
+            margin: 20px 0 35px;
+        }
+
+        .section-heading h2 {
+            font-size: clamp(1.7rem, 4vw, 2.5rem);
+            margin-bottom: 10px;
+        }
+
+        .section-heading p {
+            color: var(--muted);
+        }
+
+        .filters {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 12px;
+            margin-bottom: 40px;
+        }
+
+        .filter-btn {
+            background: #11162b;
+            color: var(--muted);
+            border: 1px solid var(--border);
+            padding: 11px 18px;
+            border-radius: 30px;
+            cursor: pointer;
+            font-size: 0.9rem;
+            transition: 0.25s;
+        }
+
+        .filter-btn:hover,
+        .filter-btn.active {
+            background: var(--purple);
+            color: white;
+            border-color: var(--purple);
+            box-shadow: 0 0 18px rgba(155, 92, 255, 0.25);
+        }
+
+        .news-grid {
+            display: grid;
+            grid-template-columns: repeat(3, minmax(0, 1fr));
+            gap: 25px;
+        }
+
+        .news-card {
+            background: var(--card);
+            border: 1px solid var(--border);
+            border-radius: 20px;
+            padding: 28px 23px;
+            display: flex;
+            flex-direction: column;
+            min-width: 0;
+            transition:
+                transform 0.3s ease,
+                border-color 0.3s ease,
+                box-shadow 0.3s ease;
+        }
+
+        .news-card:hover {
+            transform: translateY(-7px);
+            border-color: var(--cyan);
+            box-shadow: 0 12px 35px rgba(0, 229, 255, 0.08);
+        }
+
+        /* EMOJIS : intégrés directement dans le HTML */
+
+        .news-icon {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 100%;
+            min-height: 115px;
+            margin-bottom: 22px;
+            border-radius: 15px;
+            background:
+                radial-gradient(
+                    circle,
+                    rgba(155, 92, 255, 0.19),
+                    rgba(0, 229, 255, 0.04) 70%
+                );
+            font-size: 4.2rem;
+            line-height: 1.2;
+            text-align: center;
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .category {
+            color: var(--cyan);
+            font-size: 0.75rem;
+            font-weight: bold;
+            letter-spacing: 1.5px;
+            margin-bottom: 12px;
+        }
+
+        .news-card h3 {
+            font-size: 1.25rem;
+            line-height: 1.35;
+            margin-bottom: 14px;
+        }
+
+        .news-card p.description {
+            color: var(--muted);
+            font-size: 0.95rem;
+            margin-bottom: 22px;
+            flex-grow: 1;
+        }
+
+        .news-link {
+            display: inline-block;
+            align-self: flex-start;
+            padding: 10px 15px;
+            border: 1px solid var(--purple);
+            border-radius: 9px;
+            color: white;
+            transition: 0.2s;
+        }
+
+        .news-link:hover {
+            background: var(--purple);
+        }
+
+        .news-card[hidden] {
+            display: none !important;
+        }
+
+        .empty-message {
+            display: none;
+            color: var(--muted);
+            text-align: center;
+            padding: 30px 10px;
+        }
+
+        .community-cta {
+            text-align: center;
+            margin-top: 75px;
+            padding: 45px 25px;
+            border: 1px solid var(--border);
+            border-radius: 22px;
+            background:
+                linear-gradient(
+                    135deg,
+                    rgba(155, 92, 255, 0.13),
+                    rgba(0, 229, 255, 0.06)
+                );
+        }
+
+        .community-cta h2 {
+            font-size: clamp(1.6rem, 4vw, 2.3rem);
+            margin-bottom: 15px;
+        }
+
+        .community-cta p {
+            max-width: 650px;
+            margin: 0 auto 25px;
+            color: var(--muted);
+        }
+
+        .button {
+            display: inline-block;
+            background: var(--purple);
+            color: white;
+            padding: 13px 22px;
+            border-radius: 10px;
+            font-weight: bold;
+            transition: 0.2s;
+        }
+
+        .button:hover {
+            background: #8040ec;
+            transform: translateY(-2px);
+        }
+
+        footer {
+            padding: 35px 6%;
+            text-align: center;
+            border-top: 1px solid var(--border);
+            color: var(--muted);
+        }
+
+        .footer-links {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 20px;
+            margin-bottom: 18px;
+        }
+
+        .footer-links a:hover {
+            color: var(--cyan);
+        }
+
+        footer .copyright {
+            font-size: 0.85rem;
+        }
+
+        @media (max-width: 950px) {
+            .news-grid {
+                grid-template-columns: repeat(2, minmax(0, 1fr));
+            }
+
+            header {
+                justify-content: center;
+            }
+
+            nav {
+                justify-content: center;
+            }
+        }
+
+        @media (max-width: 600px) {
+            header {
+                padding: 18px 4%;
+            }
+
+            .logo {
+                font-size: 1.6rem;
+            }
+
+            nav {
+                gap: 12px;
+            }
+
+            nav a {
+                font-size: 0.82rem;
+            }
+
+            .hero {
+                padding: 60px 6% 45px;
+            }
+
+            main {
+                padding: 20px 5% 55px;
+            }
+
+            .news-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .news-card {
+                padding: 23px 20px;
+            }
+
+            .news-icon {
+                min-height: 105px;
+                font-size: 3.8rem;
+            }
+
+            .filters {
+                gap: 9px;
+            }
+
+            .filter-btn {
+                padding: 9px 13px;
+                font-size: 0.82rem;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- EN-TÊTE -->
+
+    <header>
+        <a class="logo" href="index.html" aria-label="Accueil YOKAIRA">
+            YOKAIRA<span>.</span>
+        </a>
+
+        <nav aria-label="Navigation principale">
+            <a href="index.html">Accueil</a>
+            <a href="login.html">Univers</a>
+            <a href="actualites.html" class="active">Actualités</a>
+            <a href="login.html">Communauté</a>
+            <a href="login.html">Créateurs</a>
+            <a href="login.html">Connexion</a>
+        </nav>
+    </header>
+
+
+    <!-- BANNIÈRE -->
+
+    <section class="hero">
+        <span class="eyebrow">LE FUTUR DE LA POP CULTURE</span>
+
+        <h1>
+            Les actualités<br>
+            <span>YOKAIRA</span>
+        </h1>
+
+        <p>
+            Anime, manga, gaming, culture africaine et créativité :
+            explore les univers qui nous inspirent et découvrons ensemble
+            la pop culture de demain.
+        </p>
+    </section>
+
+
+    <!-- CONTENU PRINCIPAL -->
+
+    <main>
+
+        <div class="section-heading">
+            <h2>Explore les univers</h2>
+            <p>Choisis une catégorie pour découvrir les thèmes qui te passionnent.</p>
+        </div>
+
+
+        <!-- FILTRES -->
+
+        <div class="filters" aria-label="Filtres des actualités">
+
+            <button class="filter-btn active"
+                    type="button"
+                    data-filter="all"
+                    aria-pressed="true">
+                ✨ Tout
+            </button>
+
+            <button class="filter-btn"
+                    type="button"
+                    data-filter="anime"
+                    aria-pressed="false">
+                🍥 Anime & Manga
+            </button>
+
+            <button class="filter-btn"
+                    type="button"
+                    data-filter="gaming"
+                    aria-pressed="false">
+                🎮 Gaming
+            </button>
+
+            <button class="filter-btn"
+                    type="button"
+                    data-filter="afrique"
+                    aria-pressed="false">
+                🌍 Culture africaine
+            </button>
+
+            <button class="filter-btn"
+                    type="button"
+                    data-filter="creation"
+                    aria-pressed="false">
+                🎨 Création
+            </button>
+
+        </div>
+
+
+        <!-- CARTES D'ACTUALITÉS -->
+
+        <div class="news-grid" id="newsGrid">
+
+            <!-- ANIME -->
+
+            <article class="news-card" data-category="anime">
+
+                <div class="news-icon" aria-hidden="true">🍥</div>
+
+                <div class="category">ANIME & MANGA</div>
+
+                <h3>Les univers anime qui nous inspirent</h3>
+
+                <p class="description">
+                    Des aventures épiques, des personnages mémorables
+                    et des mondes extraordinaires à explorer.
+                </p>
+
+                <a href="login.html" class="news-link">
+                    Explorer l'univers →
+                </a>
+
+            </article>
+
+
+            <article class="news-card" data-category="anime">
+
+                <div class="news-icon" aria-hidden="true">📚</div>
+
+                <div class="category">MANGA</div>
+
+                <h3>Du papier à l'imaginaire</h3>
+
+                <p class="description">
+                    Découvre les styles, les récits et les personnages
+                    qui rendent la culture manga si captivante.
+                </p>
+
+                <a href="login.html" class="news-link">
+                    Découvrir →
+                </a>
+
+            </article>
+
+
+            <!-- GAMING -->
+
+            <article class="news-card" data-category="gaming">
+
+                <div class="news-icon" aria-hidden="true">🎮</div>
+
+                <div class="category">GAMING</div>
+
+                <h3>Entre dans le monde du gaming</h3>
+
+                <p class="description">
+                    Jeux vidéo, défis, aventures et expériences :
+                    le jeu est aussi un espace de partage et d'imagination.
+                </p>
+
+                <a href="login.html" class="news-link">
+                    Explorer →
+                </a>
+
+            </article>
+
+
+            <article class="news-card" data-category="gaming">
+
+                <div class="news-icon" aria-hidden="true">🕹️</div>
+
+                <div class="category">CULTURE GAMING</div>
+
+                <h3>La passion du jeu vidéo</h3>
+
+                <p class="description">
+                    Parlons des univers virtuels, des styles de jeu
+                    et des expériences qui rassemblent les joueurs.
+                </p>
+
+                <a href="login.html" class="news-link">
+                    En savoir plus →
+                </a>
+
+            </article>
+
+
+            <!-- CULTURE AFRICAINE -->
+
+            <article class="news-card" data-category="afrique">
+
+                <div class="news-icon" aria-hidden="true">🌍</div>
+
+                <div class="category">CULTURE AFRICAINE</div>
+
+                <h3>L'Afrique au cœur de la pop culture</h3>
+
+                <p class="description">
+                    Des imaginaires, des histoires, des traditions
+                    et des visions modernes qui nourrissent la création.
+                </p>
+
+                <a href="login.html" class="news-link">
+                    Découvrir →
+                </a>
+
+            </article>
+
+
+            <article class="news-card" data-category="afrique">
+
+                <div class="news-icon" aria-hidden="true">🥁</div>
+
+                <div class="category">CULTURE & IDENTITÉ</div>
+
+                <h3>Des inspirations venues du continent</h3>
+
+                <p class="description">
+                    Musique, récits, symboles et créativité :
+                    explorons les expressions culturelles africaines.
+                </p>
+
+                <a href="login.html" class="news-link">
+                    Explorer →
+                </a>
+
+            </article>
+
+
+            <!-- CRÉATION -->
+
+            <article class="news-card" data-category="creation">
+
+                <div class="news-icon" aria-hidden="true">🎨</div>
+
+                <div class="category">CRÉATION</div>
+
+                <h3>Place à ton imagination</h3>
+
+                <p class="description">
+                    Illustration, dessin, écriture et concepts originaux :
+                    chaque idée peut donner naissance à un nouvel univers.
+                </p>
+
+                <a href="login.html" class="news-link">
+                    Découvrir →
+                </a>
+
+            </article>
+
+
+            <article class="news-card" data-category="creation">
+
+                <div class="news-icon" aria-hidden="true">✍️</div>
+
+                <div class="category">ART & IMAGINATION</div>
+
+                <h3>Les créateurs façonnent le futur</h3>
+
+                <p class="description">
+                    Découvre la place des artistes et des passionnés
+                    dans la construction de nouvelles histoires.
+                </p>
+
+                <a href="login.html" class="news-link">
+                    Explorer →
+                </a>
+
+            </article>
+
+
+            <!-- CULTURE POP -->
+
+            <article class="news-card" data-category="anime">
+
+                <div class="news-icon" aria-hidden="true">✨</div>
+
+                <div class="category">CULTURE POP</div>
+
+                <h3>Des passions qui nous rassemblent</h3>
+
+                <p class="description">
+                    La pop culture crée des liens entre les univers,
+                    les générations et les communautés.
+                </p>
+
+                <a href="login.html" class="news-link">
+                    Explorer →
+                </a>
+
+            </article>
+
+        </div>
+
+
+        <p class="empty-message" id="emptyMessage">
+            Aucune carte dans cette catégorie.
+        </p>
+
+
+        <!-- APPEL À LA COMMUNAUTÉ -->
+
+        <section class="community-cta">
+
+            <h2>Fais partie de l'aventure YOKAIRA</h2>
+
+            <p>
+                Tu aimes l'anime, le manga, le gaming ou la culture africaine ?
+                Rejoins les passionnés et participe à la construction
+                de notre univers.
+            </p>
+
+            <a href="register.html" class="button">
+                Rejoindre YOKAIRA
+            </a>
+
+        </section>
+
+    </main>
+
+
+    <!-- PIED DE PAGE -->
+
+    <footer>
+
+        <div class="footer-links">
+            <a href="index.html">Accueil</a>
+            <a href="login.html">Univers</a>
+            <a href="actualites.html">Actualités</a>
+            <a href="login.html">Communauté</a>
+            <a href="login.html">Créateurs</a>
+            <a href="login.html">Connexion</a>
+        </div>
+
+        <p class="copyright">
+            © 2026 YOKAIRA — La pop culture africaine du futur.
+        </p>
+
+    </footer>
+
+
+    <!-- FILTRES INTERACTIFS -->
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+
+            const filterButtons = document.querySelectorAll(".filter-btn");
+            const newsCards = document.querySelectorAll(".news-card");
+            const emptyMessage = document.getElementById("emptyMessage");
+
+            filterButtons.forEach(function (button) {
+
+                button.addEventListener("click", function () {
+
+                    const selectedCategory = button.dataset.filter;
+                    let visibleCount = 0;
+
+                    filterButtons.forEach(function (btn) {
+                        btn.classList.remove("active");
+                        btn.setAttribute("aria-pressed", "false");
+                    });
+
+                    button.classList.add("active");
+                    button.setAttribute("aria-pressed", "true");
+
+                    newsCards.forEach(function (card) {
+
+                        const cardCategory = card.dataset.category;
+
+                        const shouldShow =
+                            selectedCategory === "all" ||
+                            cardCategory === selectedCategory;
+
+                        card.hidden = !shouldShow;
+
+                        if (shouldShow) {
+                            visibleCount++;
+                        }
+
+                    });
+
+                    emptyMessage.style.display =
+                        visibleCount === 0 ? "block" : "none";
+
+                });
+
+            });
+
+        });
+    </script>
+
+
+    <!-- PROTECTION DES PAGES MEMBRES -->
+
+    <script type="module" src="member-guard.js"></script>
+
+</body>
+</html>

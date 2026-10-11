@@ -1,0 +1,1120 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#090914">
+
+  <title>Communauté | YOKAIRA</title>
+
+  <style>
+    :root {
+      --bg: #080812;
+      --surface: #111122;
+      --surface2: #19192e;
+      --border: rgba(155, 92, 255, .23);
+      --purple: #a855f7;
+      --cyan: #22d3ee;
+      --pink: #f472b6;
+      --text: #f5f3ff;
+      --muted: #9b9ab8;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      color: var(--text);
+      background:
+        radial-gradient(ellipse at 10% 0%, #25123f 0%, transparent 38%),
+        radial-gradient(ellipse at 100% 30%, #101c3a 0%, transparent 35%),
+        var(--bg);
+      font-family: Inter, system-ui, Arial, sans-serif;
+    }
+
+    button, input, textarea {
+      font: inherit;
+    }
+
+    button {
+      cursor: pointer;
+    }
+
+    a {
+      color: inherit;
+      text-decoration: none;
+    }
+
+    header {
+      position: sticky;
+      top: 0;
+      z-index: 20;
+      padding: 15px 5%;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+      flex-wrap: wrap;
+      background: rgba(8, 8, 18, .88);
+      backdrop-filter: blur(18px);
+      border-bottom: 1px solid var(--border);
+    }
+
+    .logo {
+      font-size: 1.55rem;
+      font-weight: 950;
+      letter-spacing: 2px;
+      color: var(--cyan);
+      text-shadow: 0 0 22px #22d3ee45;
+    }
+
+    nav {
+      display: flex;
+      gap: 18px;
+      flex-wrap: wrap;
+      font-size: .88rem;
+      color: var(--muted);
+    }
+
+    nav a:hover {
+      color: var(--cyan);
+    }
+
+    main {
+      width: min(760px, 94%);
+      margin: 0 auto;
+      padding: 30px 0 65px;
+    }
+
+    .hero {
+      padding: 28px 12px 34px;
+      text-align: center;
+    }
+
+    .eyebrow {
+      display: inline-block;
+      padding: 7px 12px;
+      border: 1px solid #22d3ee40;
+      background: #22d3ee0d;
+      border-radius: 999px;
+      color: var(--cyan);
+      font-size: .75rem;
+      letter-spacing: 1.5px;
+      font-weight: 800;
+    }
+
+    .hero h1 {
+      margin: 17px 0 10px;
+      font-size: clamp(2rem, 7vw, 3.3rem);
+      line-height: 1.08;
+      font-weight: 950;
+      letter-spacing: -1.5px;
+      background: linear-gradient(100deg, #fff, var(--cyan), #c084fc, var(--pink));
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+    }
+
+    .hero p {
+      margin: 0;
+      color: var(--muted);
+      line-height: 1.7;
+    }
+
+    .panel {
+      padding: 20px;
+      margin-bottom: 22px;
+      background: linear-gradient(145deg, #17172bdc, #0e0e1deF);
+      border: 1px solid var(--border);
+      border-radius: 21px;
+      box-shadow: 0 16px 45px #00000020;
+    }
+
+    .composer-top {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 15px;
+    }
+
+    .avatar {
+      width: 45px;
+      height: 45px;
+      flex: 0 0 45px;
+      display: grid;
+      place-items: center;
+      border-radius: 15px;
+      color: white;
+      font-weight: 900;
+      background: linear-gradient(135deg, #8b5cf6, #ec4899);
+      box-shadow: 0 0 20px #a855f728;
+    }
+
+    .composer-title {
+      font-weight: 800;
+    }
+
+    .subtext {
+      color: var(--muted);
+      font-size: .8rem;
+      margin-top: 3px;
+    }
+
+    textarea, input {
+      width: 100%;
+      color: var(--text);
+      background: #090918;
+      border: 1px solid #343451;
+      border-radius: 14px;
+      padding: 14px;
+      outline: none;
+    }
+
+    textarea {
+      min-height: 115px;
+      resize: vertical;
+      line-height: 1.6;
+    }
+
+    textarea:focus, input:focus {
+      border-color: var(--purple);
+      box-shadow: 0 0 0 3px #a855f718;
+    }
+
+    textarea::placeholder, input::placeholder {
+      color: #777691;
+    }
+
+    .composer-footer {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      flex-wrap: wrap;
+      margin-top: 13px;
+    }
+
+    .muted {
+      color: var(--muted);
+      font-size: .82rem;
+    }
+
+    .btn {
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 10px 15px;
+      color: var(--text);
+      background: var(--surface2);
+      font-weight: 750;
+      transition: .2s;
+    }
+
+    .btn:hover {
+      transform: translateY(-1px);
+      border-color: var(--cyan);
+    }
+
+    .btn-primary {
+      color: #080812;
+      background: linear-gradient(100deg, var(--cyan), #a5f3fc);
+      border: 0;
+      box-shadow: 0 5px 22px #22d3ee22;
+    }
+
+    .btn:disabled {
+      opacity: .5;
+      cursor: wait;
+      transform: none;
+    }
+
+    .feed-heading {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      margin: 32px 2px 16px;
+    }
+
+    .feed-heading h2 {
+      margin: 0;
+      font-size: 1.2rem;
+    }
+
+    .live {
+      color: #86efac;
+      font-size: .75rem;
+      font-weight: 800;
+    }
+
+    .post {
+      margin-bottom: 20px;
+      border: 1px solid #a855f72b;
+      border-radius: 22px;
+      overflow: hidden;
+      background: linear-gradient(150deg, #17172bdc, #0e0e1df5);
+      box-shadow: 0 18px 45px #00000025;
+      animation: appear .35s ease both;
+    }
+
+    @keyframes appear {
+      from {
+        opacity: 0;
+        transform: translateY(9px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    .post-inner {
+      padding: 19px 19px 13px;
+    }
+
+    .post-header {
+      display: flex;
+      align-items: center;
+      gap: 11px;
+    }
+
+    .post-author {
+      flex: 1;
+      min-width: 0;
+    }
+
+    .author-name {
+      font-size: .95rem;
+      font-weight: 850;
+      overflow-wrap: anywhere;
+    }
+
+    .member-tag {
+      display: inline-block;
+      margin-left: 6px;
+      padding: 3px 6px;
+      border-radius: 5px;
+      color: var(--cyan);
+      background: #22d3ee10;
+      border: 1px solid #22d3ee35;
+      font-size: .59rem;
+      vertical-align: middle;
+      letter-spacing: .6px;
+    }
+
+    .post-date {
+      margin-top: 5px;
+      color: var(--muted);
+      font-size: .76rem;
+    }
+
+    .post-content {
+      margin: 19px 0 18px;
+      white-space: pre-wrap;
+      overflow-wrap: anywhere;
+      line-height: 1.8;
+      font-size: .98rem;
+    }
+
+    .post-stats {
+      display: flex;
+      justify-content: space-between;
+      gap: 12px;
+      padding: 0 1px 13px;
+      color: var(--muted);
+      font-size: .78rem;
+    }
+
+    .action-bar {
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr;
+      gap: 8px;
+      padding: 11px 13px;
+      background: #09091870;
+      border-top: 1px solid #a855f71c;
+      border-bottom: 1px solid #a855f71c;
+    }
+
+    .action {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 8px;
+      min-width: 0;
+      padding: 11px 5px;
+      border: 1px solid transparent;
+      border-radius: 12px;
+      background: transparent;
+      color: #c2c0dc;
+      font-size: .84rem;
+      font-weight: 750;
+      transition: .2s;
+    }
+
+    .action .icon {
+      font-size: 1.08rem;
+    }
+
+    .action:hover {
+      background: #a855f711;
+      border-color: #a855f72b;
+      color: white;
+    }
+
+    .action.liked {
+      background: #fb718515;
+      color: #fda4af;
+      border-color: #fb718540;
+    }
+
+    .comments-area {
+      padding: 16px 18px 19px;
+    }
+
+    .comments-title {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      margin-bottom: 13px;
+      font-weight: 850;
+      font-size: .88rem;
+    }
+
+    .comments-list {
+      display: grid;
+      gap: 9px;
+    }
+
+    .comment {
+      display: flex;
+      gap: 9px;
+      align-items: flex-start;
+    }
+
+    .comment-avatar {
+      width: 30px;
+      height: 30px;
+      flex: 0 0 30px;
+      display: grid;
+      place-items: center;
+      border-radius: 10px;
+      color: var(--cyan);
+      background: #22d3ee12;
+      border: 1px solid #22d3ee25;
+      font-size: .78rem;
+      font-weight: 800;
+    }
+
+    .comment-bubble {
+      flex: 1;
+      min-width: 0;
+      padding: 10px 12px;
+      border-radius: 5px 14px 14px 14px;
+      background: #090918a8;
+      border: 1px solid #ffffff08;
+    }
+
+    .comment-author {
+      font-size: .78rem;
+      font-weight: 800;
+      color: #c4b5fd;
+      margin-bottom: 4px;
+    }
+
+    .comment-text {
+      white-space: pre-wrap;
+      overflow-wrap: anywhere;
+      line-height: 1.55;
+      font-size: .88rem;
+    }
+
+    .comment-date {
+      margin-top: 5px;
+      font-size: .7rem;
+      color: var(--muted);
+    }
+
+    .comment-form {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      margin-top: 14px;
+    }
+
+    .comment-form input {
+      flex: 1;
+      min-width: 0;
+      padding: 12px 13px;
+      border-radius: 13px;
+    }
+
+    .send-btn {
+      flex: 0 0 auto;
+      width: 44px;
+      height: 44px;
+      display: grid;
+      place-items: center;
+      padding: 0;
+      border-radius: 13px;
+      color: #090914;
+      background: linear-gradient(135deg, var(--cyan), #a5f3fc);
+      border: 0;
+      font-size: 1.1rem;
+      font-weight: 900;
+    }
+
+    .notice {
+      display: none;
+      padding: 13px 15px;
+      margin-bottom: 16px;
+      border-radius: 12px;
+      line-height: 1.5;
+      font-size: .9rem;
+    }
+
+    .notice.error {
+      display: block;
+      color: #fecdd3;
+      border: 1px solid #fb718545;
+      background: #fb718510;
+    }
+
+    .notice.success {
+      display: block;
+      color: #bbf7d0;
+      border: 1px solid #4ade8040;
+      background: #4ade8010;
+    }
+
+    .empty {
+      padding: 32px 20px;
+      text-align: center;
+      border: 1px dashed #a855f74a;
+      border-radius: 18px;
+      background: #11112288;
+      color: var(--muted);
+      line-height: 1.7;
+    }
+
+    .empty strong {
+      display: block;
+      color: var(--text);
+      font-size: 1.05rem;
+      margin-bottom: 8px;
+    }
+
+    .login-box {
+      text-align: center;
+      padding: 32px 20px;
+    }
+
+    .login-box p {
+      color: var(--muted);
+      line-height: 1.7;
+    }
+
+    .login-box a {
+      display: inline-block;
+      margin-top: 10px;
+    }
+
+    footer {
+      text-align: center;
+      padding: 25px 15px;
+      border-top: 1px solid var(--border);
+      color: var(--muted);
+      font-size: .8rem;
+    }
+
+    [hidden] {
+      display: none !important;
+    }
+
+    @media (max-width: 520px) {
+      header {
+        justify-content: center;
+      }
+
+      nav {
+        justify-content: center;
+        gap: 13px;
+      }
+
+      main {
+        width: 94%;
+        padding-top: 18px;
+      }
+
+      .hero {
+        padding-top: 24px;
+      }
+
+      .panel {
+        padding: 16px;
+      }
+
+      .post-inner {
+        padding: 16px 15px 11px;
+      }
+
+      .action-bar {
+        gap: 3px;
+        padding: 8px 7px;
+      }
+
+      .action {
+        flex-direction: column;
+        gap: 4px;
+        font-size: .72rem;
+        padding: 9px 2px;
+      }
+
+      .comments-area {
+        padding: 14px;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+<header>
+  <a href="index.html" class="logo">YOKAIRA</a>
+  <nav>
+    <a href="index.html">Accueil</a>
+    <a href="profil.html">Profil</a>
+    <a href="actualites.html">Actualités</a>
+    <a href="createurs.html">Créateurs</a>
+  </nav>
+</header>
+
+<main>
+  <section class="hero">
+    <span class="eyebrow">✦ TON UNIVERS, TA COMMUNAUTÉ ✦</span>
+    <h1>COMMUNAUTÉ<br>YOKAIRA</h1>
+    <p>La pop culture africaine du futur.<br>Partage. Réagis. Fais vibrer la communauté. ⚡</p>
+  </section>
+
+  <div id="notice" class="notice" role="status" aria-live="polite"></div>
+
+  <section id="loginBox" class="panel login-box" hidden>
+    <h2>🔐 Accède à ton univers</h2>
+    <p>Connecte-toi pour publier, réagir et discuter avec les membres.</p>
+    <a class="btn btn-primary" href="connexion.html">Se connecter</a>
+  </section>
+
+  <section id="communityArea" hidden>
+    <section class="panel">
+      <div class="composer-top">
+        <div class="avatar" id="myAvatar">Y</div>
+        <div>
+          <div class="composer-title">Créer une publication</div>
+          <div class="subtext">Fais entendre ta voix dans l'univers YOKAIRA.</div>
+        </div>
+      </div>
+
+      <form id="postForm">
+        <textarea id="postContent"
+          maxlength="3000"
+          placeholder="Une théorie anime ? Une création ? Un coup de cœur ? Balance ça ici... ✨"
+          required></textarea>
+
+        <div class="composer-footer">
+          <span id="charCount" class="muted">0 / 3000</span>
+          <button id="publishButton" class="btn btn-primary" type="submit">
+            Publier ⚡
+          </button>
+        </div>
+      </form>
+    </section>
+
+    <div class="feed-heading">
+      <h2>⚡ Le fil YOKAIRA</h2>
+      <span class="live">● EN DIRECT</span>
+    </div>
+
+    <div id="postsList">
+      <div class="empty">Chargement du fil communautaire...</div>
+    </div>
+  </section>
+</main>
+
+<footer>
+  © YOKAIRA — La pop culture africaine du futur.
+</footer>
+
+<script type="module">
+  import { initializeApp } from
+    "https://www.gstatic.com/firebasejs/11.6.0/firebase-app.js";
+
+  import {
+    getAuth,
+    onAuthStateChanged
+  } from
+    "https://www.gstatic.com/firebasejs/11.6.0/firebase-auth.js";
+
+  import {
+    getFirestore,
+    collection,
+    addDoc,
+    doc,
+    query,
+    orderBy,
+    limit,
+    onSnapshot,
+    serverTimestamp,
+    setDoc,
+    deleteDoc
+  } from
+    "https://www.gstatic.com/firebasejs/11.6.0/firebase-firestore.js";
+
+  const firebaseConfig = {
+    apiKey: "AIzaSyAGfNN8L3Nepdn8D9ocz9ylVB_6mKbIVcI",
+    authDomain: "yokaira-46d8f.firebaseapp.com",
+    projectId: "yokaira-46d8f",
+    storageBucket: "yokaira-46d8f.firebasestorage.app",
+    messagingSenderId: "1074371889355",
+    appId: "1:1074371889355:web:e358704dd8d7b1a2ceb34e"
+  };
+
+  const app = initializeApp(firebaseConfig);
+  const auth = getAuth(app);
+  const db = getFirestore(app);
+
+  const notice = document.getElementById("notice");
+  const loginBox = document.getElementById("loginBox");
+  const communityArea = document.getElementById("communityArea");
+  const postForm = document.getElementById("postForm");
+  const postContent = document.getElementById("postContent");
+  const charCount = document.getElementById("charCount");
+  const publishButton = document.getElementById("publishButton");
+  const postsList = document.getElementById("postsList");
+  const myAvatar = document.getElementById("myAvatar");
+
+  let currentUser = null;
+  let stopPosts = null;
+  let generation = 0;
+  let postStops = new Map();
+
+  function showNotice(message, type = "error") {
+    notice.textContent = message;
+    notice.className = "notice " + type;
+    notice.style.display = "block";
+  }
+
+  function clearNotice() {
+    notice.textContent = "";
+    notice.className = "notice";
+    notice.style.display = "none";
+  }
+
+  function errorMessage(error) {
+    console.error(error);
+
+    if (error?.code === "permission-denied") {
+      return "Firestore a refusé cette opération. Vérifie les règles de sécurité.";
+    }
+
+    if (error?.code === "unavailable") {
+      return "Connexion indisponible. Vérifie Internet puis réessaie.";
+    }
+
+    return "Une erreur est survenue. Réessaie.";
+  }
+
+  function escapeHTML(value) {
+    return String(value ?? "").replace(/[&<>"']/g, char => ({
+      "&": "&amp;",
+      "<": "&lt;",
+      ">": "&gt;",
+      '"': "&quot;",
+      "'": "&#039;"
+    })[char]);
+  }
+
+  function displayName(user) {
+    return user?.displayName ||
+      user?.email?.split("@")[0] ||
+      "Membre YOKAIRA";
+  }
+
+  function dateText(timestamp) {
+    if (!timestamp || typeof timestamp.toDate !== "function") {
+      return "À l'instant";
+    }
+
+    return timestamp.toDate().toLocaleString("fr-FR", {
+      dateStyle: "medium",
+      timeStyle: "short"
+    });
+  }
+
+  function stopAllPostListeners() {
+    for (const stop of postStops.values()) stop();
+    postStops.clear();
+  }
+
+  function stopEverything() {
+    if (stopPosts) {
+      stopPosts();
+      stopPosts = null;
+    }
+    stopAllPostListeners();
+  }
+
+  postContent.addEventListener("input", () => {
+    charCount.textContent = `${postContent.value.length} / 3000`;
+  });
+
+  postForm.addEventListener("submit", async event => {
+    event.preventDefault();
+    clearNotice();
+
+    if (!currentUser) {
+      showNotice("Connecte-toi pour publier.");
+      return;
+    }
+
+    const content = postContent.value.trim();
+
+    if (!content) {
+      showNotice("Écris quelque chose avant de publier.");
+      return;
+    }
+
+    publishButton.disabled = true;
+    publishButton.textContent = "Envoi...";
+
+    try {
+      await addDoc(collection(db, "posts"), {
+        authorId: currentUser.uid,
+        authorName: displayName(currentUser),
+        content,
+        createdAt: serverTimestamp(),
+        likesCount: 0
+      });
+
+      postForm.reset();
+      charCount.textContent = "0 / 3000";
+      showNotice("Publication envoyée ! ⚡", "success");
+    } catch (error) {
+      showNotice(errorMessage(error));
+    } finally {
+      publishButton.disabled = false;
+      publishButton.textContent = "Publier ⚡";
+    }
+  });
+
+  function attachInteractions(postId, element, version) {
+    const likeButton = element.querySelector(".like-action");
+    const likeCount = element.querySelector(".like-count");
+    const commentCount = element.querySelector(".comment-count");
+    const commentsList = element.querySelector(".comments-list");
+    const commentForm = element.querySelector(".comment-form");
+    const commentInput = element.querySelector(".comment-input");
+    const sendButton = element.querySelector(".send-btn");
+
+    const likesRef = collection(db, "posts", postId, "likes");
+    const commentsRef = collection(db, "posts", postId, "comments");
+
+    let liked = false;
+    let likeBusy = false;
+    let commentsBusy = false;
+
+    const stopLikes = onSnapshot(likesRef, snapshot => {
+      if (version !== generation || !element.isConnected) return;
+
+      likeCount.textContent = snapshot.size;
+      liked = snapshot.docs.some(item => item.id === currentUser.uid);
+
+      likeButton.classList.toggle("liked", liked);
+      likeButton.setAttribute("aria-pressed", String(liked));
+
+      likeButton.querySelector(".action-label").textContent =
+        liked ? "Aimé" : "J'aime";
+
+      likeButton.querySelector(".icon").textContent =
+        liked ? "❤️" : "🤍";
+    }, error => {
+      console.error("Likes :", error);
+    });
+
+    likeButton.addEventListener("click", async () => {
+      if (!currentUser || likeBusy) return;
+
+      likeBusy = true;
+      likeButton.disabled = true;
+
+      try {
+        const myLike = doc(
+          db, "posts", postId, "likes", currentUser.uid
+        );
+
+        if (liked) {
+          await deleteDoc(myLike);
+        } else {
+          await setDoc(myLike, {
+            authorId: currentUser.uid,
+            createdAt: serverTimestamp()
+          });
+        }
+      } catch (error) {
+        showNotice(errorMessage(error));
+      } finally {
+        likeBusy = false;
+        likeButton.disabled = false;
+      }
+    });
+
+    const commentsQuery = query(
+      commentsRef,
+      orderBy("createdAt", "asc"),
+      limit(100)
+    );
+
+    const stopComments = onSnapshot(commentsQuery, snapshot => {
+      if (version !== generation || !element.isConnected) return;
+
+      commentCount.textContent = snapshot.size;
+
+      if (snapshot.empty) {
+        commentsList.innerHTML =
+          '<div class="muted">Aucun commentaire pour le moment. Lance la discussion !</div>';
+        return;
+      }
+
+      commentsList.innerHTML = snapshot.docs.map(item => {
+        const comment = item.data();
+        const name = comment.authorName || "Membre YOKAIRA";
+        const initial = name.trim().charAt(0).toUpperCase() || "Y";
+
+        return `
+          <div class="comment">
+            <div class="comment-avatar">${escapeHTML(initial)}</div>
+            <div class="comment-bubble">
+              <div class="comment-author">${escapeHTML(name)}</div>
+              <div class="comment-text">${escapeHTML(comment.content)}</div>
+              <div class="comment-date">${escapeHTML(dateText(comment.createdAt))}</div>
+            </div>
+          </div>
+        `;
+      }).join("");
+    }, error => {
+      console.error("Commentaires :", error);
+      commentsList.innerHTML =
+        '<div class="muted">Impossible de charger les commentaires.</div>';
+    });
+
+    commentForm.addEventListener("submit", async event => {
+      event.preventDefault();
+
+      if (!currentUser || commentsBusy) return;
+
+      const content = commentInput.value.trim();
+
+      if (!content) return;
+
+      if (content.length > 1000) {
+        showNotice("Le commentaire ne peut pas dépasser 1000 caractères.");
+        return;
+      }
+
+      commentsBusy = true;
+      sendButton.disabled = true;
+
+      try {
+        await addDoc(commentsRef, {
+          authorId: currentUser.uid,
+          authorName: displayName(currentUser),
+          content,
+          createdAt: serverTimestamp()
+        });
+
+        commentInput.value = "";
+      } catch (error) {
+        showNotice(errorMessage(error));
+      } finally {
+        commentsBusy = false;
+        sendButton.disabled = false;
+      }
+    });
+
+    postStops.set(postId, () => {
+      stopLikes();
+      stopComments();
+    });
+  }
+
+  function renderPost(postDoc, version) {
+    const post = postDoc.data();
+    const author = post.authorName || "Membre YOKAIRA";
+    const initial = author.trim().charAt(0).toUpperCase() || "Y";
+
+    const element = document.createElement("article");
+    element.className = "post";
+
+    element.innerHTML = `
+      <div class="post-inner">
+        <div class="post-header">
+          <div class="avatar">${escapeHTML(initial)}</div>
+          <div class="post-author">
+            <div class="author-name">
+              ${escapeHTML(author)}
+              <span class="member-tag">YOKAIRA</span>
+            </div>
+            <div class="post-date">${escapeHTML(dateText(post.createdAt))}</div>
+          </div>
+        </div>
+
+        <div class="post-content">${escapeHTML(post.content)}</div>
+
+        <div class="post-stats">
+          <span>✨ Les réactions de la communauté</span>
+          <span><span class="comment-count">0</span> commentaire(s)</span>
+        </div>
+      </div>
+
+      <div class="action-bar">
+        <button class="action like-action" type="button" aria-pressed="false">
+          <span class="icon">🤍</span>
+          <span class="action-label">J'aime</span>
+          <span class="like-count">0</span>
+        </button>
+
+        <button class="action comment-jump" type="button">
+          <span class="icon">💬</span>
+          <span>Commenter</span>
+        </button>
+
+        <button class="action share-action" type="button">
+          <span class="icon">↗</span>
+          <span>Partager</span>
+        </button>
+      </div>
+
+      <div class="comments-area">
+        <div class="comments-title">
+          <span>💬 Discussion</span>
+          <span class="muted">Communauté YOKAIRA</span>
+        </div>
+
+        <div class="comments-list">
+          <div class="muted">Chargement des commentaires...</div>
+        </div>
+
+        <form class="comment-form">
+          <input
+            class="comment-input"
+            type="text"
+            maxlength="1000"
+            placeholder="Écrire un commentaire..."
+            aria-label="Écrire un commentaire"
+            required
+          >
+          <button class="send-btn" type="submit" aria-label="Envoyer le commentaire">➤</button>
+        </form>
+      </div>
+    `;
+
+    element.querySelector(".comment-jump").addEventListener("click", () => {
+      element.querySelector(".comment-input").focus();
+    });
+
+    element.querySelector(".share-action").addEventListener("click", async () => {
+      const shareText = `${author} sur YOKAIRA : ${post.content}`;
+
+      try {
+        if (navigator.share) {
+          await navigator.share({
+            title: "YOKAIRA — Communauté",
+            text: shareText,
+            url: location.href
+          });
+        } else if (navigator.clipboard) {
+          await navigator.clipboard.writeText(shareText);
+          showNotice("Texte de la publication copié !", "success");
+        } else {
+          showNotice("Le partage n'est pas disponible sur ce navigateur.");
+        }
+      } catch (error) {
+        if (error?.name !== "AbortError") {
+          showNotice("Impossible de partager cette publication.");
+        }
+      }
+    });
+
+    attachInteractions(postDoc.id, element, version);
+    return element;
+  }
+
+  function startCommunity() {
+    stopEverything();
+    clearNotice();
+
+    const version = ++generation;
+
+    postsList.innerHTML =
+      '<div class="empty">Chargement du fil communautaire...</div>';
+
+    const postsQuery = query(
+      collection(db, "posts"),
+      orderBy("createdAt", "desc"),
+      limit(50)
+    );
+
+    stopPosts = onSnapshot(postsQuery, snapshot => {
+      if (version !== generation) return;
+
+      stopAllPostListeners();
+
+      if (snapshot.empty) {
+        postsList.innerHTML = `
+          <div class="empty">
+            <strong>🌌 L'aventure commence ici</strong>
+            Sois le premier à partager une idée avec la communauté !
+          </div>
+        `;
+        return;
+      }
+
+      postsList.innerHTML = "";
+
+      snapshot.docs.forEach(postDoc => {
+        postsList.appendChild(renderPost(postDoc, version));
+      });
+    }, error => {
+      console.error("Publications :", error);
+
+      postsList.innerHTML = `
+        <div class="empty">
+          <strong>Oups !</strong>
+          Impossible de charger les publications.
+          Vérifie ta connexion et les règles Firestore.
+        </div>
+      `;
+    });
+  }
+
+  onAuthStateChanged(auth, user => {
+    currentUser = user;
+
+    if (user) {
+      loginBox.hidden = true;
+      communityArea.hidden = false;
+      myAvatar.textContent = displayName(user).charAt(0).toUpperCase();
+      startCommunity();
+    } else {
+      stopEverything();
+      generation++;
+
+      communityArea.hidden = true;
+      loginBox.hidden = false;
+    }
+  });
+</script>
+
+</body>
+</html>

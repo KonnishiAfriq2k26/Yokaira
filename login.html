@@ -1,0 +1,264 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="theme-color" content="#080b20">
+    <meta name="description" content="Connecte-toi à ton espace YOKAIRA.">
+
+    <title>Connexion — YOKAIRA</title>
+    <link rel="stylesheet" href="style.css">
+
+    <style>
+        main {
+            padding-top: 100px;
+        }
+
+        .login-section {
+            align-items: center;
+            text-align: center;
+        }
+
+        .login-box {
+            width: 100%;
+            max-width: 500px;
+            padding: 30px;
+            border: 1px solid rgba(190, 160, 255, .3);
+            border-radius: 20px;
+            background: rgba(18, 23, 55, .85);
+            text-align: left;
+        }
+
+        .login-box h1 {
+            font-size: clamp(2rem, 8vw, 3rem);
+            letter-spacing: 1px;
+            margin-bottom: 15px;
+        }
+
+        .login-box .text {
+            margin-bottom: 25px;
+        }
+
+        .login-box .button {
+            width: 100%;
+            font: inherit;
+        }
+
+        .login-message {
+            margin-top: 18px;
+            overflow-wrap: anywhere;
+            text-align: center;
+            font-size: 14px;
+        }
+
+        .login-links {
+            margin-top: 25px;
+            text-align: center;
+        }
+
+        .login-links a {
+            color: #c7aaff;
+        }
+
+        .login-links p + p {
+            margin-top: 10px;
+        }
+    </style>
+</head>
+
+<body>
+
+<header>
+    <div class="logo">
+        <a href="index.html" aria-label="Accueil YOKAIRA">
+            <img src="logo.png" alt="YOKAIRA">
+        </a>
+    </div>
+</header>
+
+<main>
+    <section class="login-section">
+
+        <p class="section-tag">HEUREUX DE TE REVOIR</p>
+
+        <div class="login-box">
+            <h1>Connexion</h1>
+
+            <p class="text">
+                Connecte-toi pour retrouver ton espace YOKAIRA.
+            </p>
+
+            <form id="loginForm">
+
+                <div class="form-group">
+                    <label for="loginEmail">Adresse e-mail</label>
+                    <input
+                        type="email"
+                        id="loginEmail"
+                        name="email"
+                        autocomplete="email"
+                        placeholder="ton@email.com"
+                        required
+                    >
+                </div>
+
+                <div class="form-group">
+                    <label for="loginPassword">Mot de passe</label>
+                    <input
+                        type="password"
+                        id="loginPassword"
+                        name="password"
+                        autocomplete="current-password"
+                        placeholder="Ton mot de passe"
+                        required
+                    >
+                </div>
+
+                <button type="submit" class="button" id="loginButton">
+                    Se connecter
+                </button>
+
+                <p
+                    id="loginMessage"
+                    class="login-message"
+                    role="status"
+                    aria-live="polite"
+                ></p>
+
+            </form>
+
+            <div class="login-links">
+                <p>
+                    Pas encore membre ?
+                    <a href="register.html">Créer un compte</a>
+                </p>
+
+                <p>
+                    <a href="index.html">Retour à l'accueil</a>
+                </p>
+            </div>
+        </div>
+
+    </section>
+</main>
+
+<footer>
+    <div class="logo">
+        <a href="index.html">YOKAIRA</a>
+    </div>
+
+    <p>La pop culture africaine du futur.</p>
+    <small>© 2026 YOKAIRA — Tous droits réservés.</small>
+</footer>
+
+<script type="module">
+    import {
+        initializeApp,
+        getApps,
+        getApp
+    } from "https://www.gstatic.com/firebasejs/13.0.0/firebase-app.js";
+
+    import {
+        getAuth,
+        signInWithEmailAndPassword
+    } from "https://www.gstatic.com/firebasejs/13.0.0/firebase-auth.js";
+
+    const firebaseConfig = {
+        apiKey: "AIzaSyAGfNN8L3Nepdn8D9ocz9ylVB_6mKbIVcI",
+        authDomain: "yokaira-46d8f.firebaseapp.com",
+        projectId: "yokaira-46d8f",
+        storageBucket: "yokaira-46d8f.firebasestorage.app",
+        messagingSenderId: "1074371889355",
+        appId: "1:1074371889355:web:e358704dd8d7b1a2ceb34e"
+    };
+
+    const app = getApps().length
+        ? getApp()
+        : initializeApp(firebaseConfig);
+
+    const auth = getAuth(app);
+
+    const loginForm = document.getElementById("loginForm");
+    const loginButton = document.getElementById("loginButton");
+    const loginMessage = document.getElementById("loginMessage");
+
+    loginForm.addEventListener("submit", async (event) => {
+        event.preventDefault();
+
+        const email = document.getElementById("loginEmail").value.trim();
+        const password = document.getElementById("loginPassword").value;
+
+        loginMessage.textContent = "";
+        loginButton.disabled = true;
+        loginButton.textContent = "Connexion...";
+
+        try {
+            const credential = await signInWithEmailAndPassword(
+                auth,
+                email,
+                password
+            );
+
+            const user = credential.user;
+
+            let savedUser = {};
+
+            try {
+                savedUser = JSON.parse(
+                    localStorage.getItem("yokairaUser") || "{}"
+                );
+            } catch {
+                savedUser = {};
+            }
+
+            localStorage.setItem(
+                "yokairaUser",
+                JSON.stringify({
+                    uid: user.uid,
+                    username: user.displayName || savedUser.username || "",
+                    email: user.email || email,
+                    passion: savedUser.passion || ""
+                })
+            );
+
+            window.location.replace("./profil.html");
+
+        } catch (error) {
+            console.error("Erreur de connexion :", error);
+
+            const messages = {
+                "auth/invalid-email":
+                    "L'adresse e-mail n'est pas valide.",
+
+                "auth/invalid-credential":
+                    "E-mail ou mot de passe incorrect.",
+
+                "auth/user-disabled":
+                    "Ce compte a été désactivé.",
+
+                "auth/too-many-requests":
+                    "Trop de tentatives. Réessaie plus tard.",
+
+                "auth/network-request-failed":
+                    "Connexion Internet indisponible. Réessaie.",
+
+                "auth/unauthorized-domain":
+                    "Ce domaine n'est pas autorisé dans Firebase."
+            };
+
+            loginMessage.textContent =
+                messages[error.code] ||
+                "Connexion impossible. Vérifie tes informations et réessaie.";
+
+            loginMessage.style.color = "#ff8caa";
+
+            loginButton.disabled = false;
+            loginButton.textContent = "Se connecter";
+        }
+    });
+</script>
+
+<script src="script.js"></script>
+
+</body>
+</html>

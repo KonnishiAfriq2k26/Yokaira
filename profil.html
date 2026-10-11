@@ -1,0 +1,414 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="theme-color" content="#080b20">
+    <meta name="description" content="Ton espace personnel YOKAIRA.">
+
+    <title>Mon profil — YOKAIRA</title>
+    <link rel="stylesheet" href="style.css">
+
+    <style>
+        main {
+            padding-top: 90px;
+        }
+
+        .profile-section {
+            align-items: center;
+            text-align: center;
+        }
+
+        .profile-card {
+            width: 100%;
+            max-width: 700px;
+            padding: 30px;
+            border: 1px solid rgba(160, 140, 255, .3);
+            border-radius: 22px;
+            background: rgba(18, 23, 55, .85);
+        }
+
+        .profile-photo {
+            width: 130px;
+            height: 130px;
+            margin: 0 auto 20px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 3px solid #a78bfa;
+            box-shadow: 0 0 25px rgba(130, 80, 255, .35);
+        }
+
+        .profile-name {
+            overflow-wrap: anywhere;
+            font-size: clamp(1.8rem, 6vw, 2.8rem);
+            margin-bottom: 8px;
+        }
+
+        .profile-email {
+            overflow-wrap: anywhere;
+            color: #d7d8f4;
+            margin-bottom: 20px;
+        }
+
+        .profile-badges {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 10px;
+            margin: 20px 0;
+        }
+
+        .profile-badges span {
+            padding: 7px 15px;
+            border: 1px solid rgba(160, 140, 255, .4);
+            border-radius: 25px;
+            background: rgba(100, 80, 200, .2);
+        }
+
+        .profile-actions {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(min(100%, 220px), 1fr));
+            gap: 16px;
+            width: 100%;
+            max-width: 850px;
+            margin-top: 35px;
+        }
+
+        .profile-action {
+            padding: 25px;
+            border: 1px solid rgba(160, 140, 255, .3);
+            border-radius: 18px;
+            background: rgba(18, 23, 55, .75);
+            text-align: center;
+        }
+
+        .profile-action h3 {
+            margin-bottom: 10px;
+        }
+
+        .profile-action p {
+            margin-bottom: 20px;
+            color: #d7d8f4;
+        }
+
+        .profile-message {
+            margin-top: 20px;
+            color: #d7d8f4;
+        }
+
+        .profile-buttons {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 12px;
+            margin-top: 25px;
+        }
+
+        .button-secondary {
+            background: transparent;
+        }
+
+        #photoInput {
+            display: none;
+        }
+
+        .photo-label {
+            display: inline-block;
+            cursor: pointer;
+            margin-bottom: 20px;
+        }
+
+        footer nav {
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+
+        @media (max-width: 700px) {
+            .profile-card {
+                padding: 22px 16px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+<header>
+    <div class="logo">
+        <a href="index.html" aria-label="Accueil YOKAIRA">
+            <img src="logo.png" alt="YOKAIRA">
+        </a>
+    </div>
+
+    <nav aria-label="Navigation principale">
+        <a href="index.html">Accueil</a>
+        <a href="profil.html" aria-current="page">Mon profil</a>
+        <a href="login.html" id="logoutLink">Déconnexion</a>
+    </nav>
+</header>
+
+<main>
+
+    <section class="profile-section">
+
+        <p class="section-tag">TON ESPACE PERSONNEL</p>
+        <h1 class="profile-name" id="profileName">Chargement...</h1>
+
+        <div class="profile-card">
+
+            <img
+                id="profilePhoto"
+                class="profile-photo"
+                src="logo.png"
+                alt="Photo de profil"
+            >
+
+            <div>
+                <label for="photoInput" class="button photo-label">
+                    Changer ma photo
+                </label>
+
+                <input
+                    type="file"
+                    id="photoInput"
+                    accept="image/png,image/jpeg,image/webp"
+                >
+            </div>
+
+            <p class="profile-email" id="profileEmail"></p>
+
+            <p>
+                Passion :
+                <strong id="profilePassion">À compléter</strong>
+            </p>
+
+            <div class="profile-badges">
+                <span>Grade : Novice</span>
+                <span>Badge : Bronze</span>
+            </div>
+
+            <p class="profile-message" id="profileMessage" role="status">
+                Chargement de ton espace...
+            </p>
+
+            <div class="profile-buttons">
+                <button type="button" class="button" id="logoutButton">
+                    Se déconnecter
+                </button>
+            </div>
+
+        </div>
+
+        <h2 style="margin-top: 65px;">Explore YOKAIRA</h2>
+
+        <p class="text">
+            Choisis une section pour poursuivre ton aventure.
+        </p>
+
+        <div class="profile-actions">
+
+            <article class="profile-action">
+                <h3>🌌 Univers</h3>
+                <p>Explore les mondes et les histoires de YOKAIRA.</p>
+                <a href="univers.html" class="button">Explorer</a>
+            </article>
+
+            <article class="profile-action">
+                <h3>📰 Actualités</h3>
+                <p>Découvre les sujets qui font vibrer la pop culture.</p>
+                <a href="actualites.html" class="button">Lire</a>
+            </article>
+
+            <article class="profile-action">
+                <h3>💬 Communauté</h3>
+                <p>Retrouve les espaces de discussion et les défis.</p>
+                <a href="communaute.html" class="button">Rejoindre</a>
+            </article>
+
+            <article class="profile-action">
+                <h3>🎨 Créateurs</h3>
+                <p>Explore les disciplines et les talents créatifs.</p>
+                <a href="createurs.html" class="button">Découvrir</a>
+            </article>
+
+        </div>
+
+    </section>
+
+</main>
+
+<footer>
+    <div class="logo">
+        <a href="index.html">YOKAIRA</a>
+    </div>
+
+    <p>La pop culture africaine du futur.</p>
+
+    <small>© 2026 YOKAIRA — Tous droits réservés.</small>
+</footer>
+
+<script type="module">
+    import {
+        initializeApp,
+        getApps,
+        getApp
+    } from "https://www.gstatic.com/firebasejs/13.0.0/firebase-app.js";
+
+    import {
+        getAuth,
+        onAuthStateChanged,
+        signOut
+    } from "https://www.gstatic.com/firebasejs/13.0.0/firebase-auth.js";
+
+    const firebaseConfig = {
+        apiKey: "AIzaSyAGfNN8L3Nepdn8D9ocz9ylVB_6mKbIVcI",
+        authDomain: "yokaira-46d8f.firebaseapp.com",
+        projectId: "yokaira-46d8f",
+        storageBucket: "yokaira-46d8f.firebasestorage.app",
+        messagingSenderId: "1074371889355",
+        appId: "1:1074371889355:web:e358704dd8d7b1a2ceb34e"
+    };
+
+    const app = getApps().length
+        ? getApp()
+        : initializeApp(firebaseConfig);
+
+    const auth = getAuth(app);
+
+    const profileName = document.getElementById("profileName");
+    const profileEmail = document.getElementById("profileEmail");
+    const profilePassion = document.getElementById("profilePassion");
+    const profilePhoto = document.getElementById("profilePhoto");
+    const photoInput = document.getElementById("photoInput");
+    const profileMessage = document.getElementById("profileMessage");
+    const logoutButton = document.getElementById("logoutButton");
+
+    let currentUser = null;
+
+    function showMessage(message) {
+        profileMessage.textContent = message;
+    }
+
+    function getSavedUser() {
+        try {
+            return JSON.parse(
+                localStorage.getItem("yokairaUser") || "{}"
+            );
+        } catch {
+            return {};
+        }
+    }
+
+    onAuthStateChanged(auth, (user) => {
+        if (!user) {
+            localStorage.removeItem("yokairaUser");
+            window.location.replace("./login.html");
+            return;
+        }
+
+        currentUser = user;
+
+        const savedUser = getSavedUser();
+
+        profileName.textContent =
+            user.displayName || savedUser.username || "Membre YOKAIRA";
+
+        profileEmail.textContent = user.email || "";
+
+        profilePassion.textContent =
+            savedUser.passion || "À compléter";
+
+        const savedPhoto = localStorage.getItem(
+            "yokairaProfilePhoto_" + user.uid
+        );
+
+        if (savedPhoto) {
+            profilePhoto.src = savedPhoto;
+        }
+
+        showMessage("Bienvenue dans ton espace YOKAIRA !");
+    });
+
+    photoInput.addEventListener("change", () => {
+        const file = photoInput.files?.[0];
+
+        if (!file || !currentUser) return;
+
+        if (!["image/jpeg", "image/png", "image/webp"].includes(file.type)) {
+            showMessage("Choisis une image JPG, PNG ou WebP.");
+            photoInput.value = "";
+            return;
+        }
+
+        if (file.size > 3 * 1024 * 1024) {
+            showMessage("L'image ne doit pas dépasser 3 Mo.");
+            photoInput.value = "";
+            return;
+        }
+
+        const reader = new FileReader();
+
+        reader.onload = () => {
+            if (typeof reader.result !== "string") {
+                showMessage("Impossible de charger cette image.");
+                return;
+            }
+
+            try {
+                localStorage.setItem(
+                    "yokairaProfilePhoto_" + currentUser.uid,
+                    reader.result
+                );
+
+                profilePhoto.src = reader.result;
+                showMessage("Photo de profil mise à jour.");
+            } catch (error) {
+                console.error(error);
+                showMessage(
+                    "L'image est trop volumineuse pour le stockage local."
+                );
+            }
+        };
+
+        reader.onerror = () => {
+            showMessage("Impossible de lire cette image.");
+        };
+
+        reader.readAsDataURL(file);
+    });
+
+    logoutButton.addEventListener("click", async () => {
+        logoutButton.disabled = true;
+        logoutButton.textContent = "Déconnexion...";
+
+        try {
+            await signOut(auth);
+            localStorage.removeItem("yokairaUser");
+            window.location.replace("./index.html");
+        } catch (error) {
+            console.error("Erreur de déconnexion :", error);
+            showMessage("Impossible de te déconnecter. Réessaie.");
+            logoutButton.disabled = false;
+            logoutButton.textContent = "Se déconnecter";
+        }
+    });
+
+    document.getElementById("logoutLink").addEventListener(
+        "click",
+        async (event) => {
+            event.preventDefault();
+
+            try {
+                await signOut(auth);
+            } finally {
+                localStorage.removeItem("yokairaUser");
+                window.location.replace("./index.html");
+            }
+        }
+    );
+</script>
+
+<script src="script.js"></script>
+
+</body>
+</html>

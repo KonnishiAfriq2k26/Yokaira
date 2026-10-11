@@ -1,0 +1,395 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="theme-color" content="#080b20">
+    <title>Administration — YOKAIRA</title>
+    <link rel="stylesheet" href="style.css">
+
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            background: #080b20;
+            color: #f5f5ff;
+            font-family: Arial, sans-serif;
+        }
+
+        header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 15px;
+            padding: 15px 5%;
+            border-bottom: 1px solid #292d50;
+        }
+
+        header img {
+            width: 55px;
+            height: auto;
+        }
+
+        header a {
+            color: #c4b5fd;
+            text-decoration: none;
+        }
+
+        main {
+            width: min(1100px, 92%);
+            margin: 35px auto;
+        }
+
+        .panel {
+            background: #111631;
+            border: 1px solid #292d50;
+            border-radius: 16px;
+            padding: 24px;
+            margin-bottom: 24px;
+        }
+
+        h1, h2 {
+            color: #c4b5fd;
+        }
+
+        .subtitle {
+            color: #b8bdd8;
+            line-height: 1.6;
+        }
+
+        input, select, textarea {
+            width: 100%;
+            padding: 13px;
+            margin: 8px 0 15px;
+            border-radius: 8px;
+            border: 1px solid #3b416b;
+            background: #080b20;
+            color: white;
+            font-size: 16px;
+        }
+
+        button, .button {
+            display: inline-block;
+            padding: 12px 18px;
+            border: 0;
+            border-radius: 8px;
+            background: #8b5cf6;
+            color: white;
+            font-size: 15px;
+            cursor: pointer;
+            text-decoration: none;
+        }
+
+        button:hover, .button:hover {
+            background: #7042d8;
+        }
+
+        .danger {
+            background: #b42336;
+        }
+
+        .danger:hover {
+            background: #8f1d2b;
+        }
+
+        .stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+            gap: 15px;
+        }
+
+        .stat {
+            padding: 20px;
+            border-radius: 12px;
+            background: #1b2245;
+        }
+
+        .stat strong {
+            display: block;
+            font-size: 28px;
+            margin-top: 10px;
+        }
+
+        .hidden {
+            display: none !important;
+        }
+
+        .message {
+            padding: 12px;
+            border-radius: 8px;
+            margin-top: 12px;
+            line-height: 1.5;
+        }
+
+        .error {
+            background: #471d2a;
+            color: #ffb4c0;
+        }
+
+        .success {
+            background: #153d32;
+            color: #a7f3d0;
+        }
+
+        .member {
+            padding: 16px 0;
+            border-bottom: 1px solid #292d50;
+            overflow-wrap: anywhere;
+        }
+
+        .member:last-child {
+            border-bottom: none;
+        }
+
+        .member p {
+            color: #c5c9e0;
+            line-height: 1.5;
+        }
+
+        .member-actions {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+        }
+
+        .notice {
+            font-size: 13px;
+            color: #b8bdd8;
+            line-height: 1.6;
+        }
+
+        footer {
+            text-align: center;
+            padding: 25px;
+            color: #b8bdd8;
+        }
+    </style>
+</head>
+
+<body>
+
+<header>
+    <a href="index.html">
+        <img src="logo.png" alt="YOKAIRA">
+    </a>
+    <a href="index.html">← Retour au site</a>
+</header>
+
+<main>
+
+    <section id="loginPanel" class="panel">
+        <h1>🔐 Administration YOKAIRA</h1>
+
+        <p class="subtitle">
+            Connecte-toi avec le compte Firebase autorisé comme administrateur.
+        </p>
+
+        <form id="loginForm">
+            <label for="email">Adresse e-mail</label>
+            <input id="email" type="email" autocomplete="username"
+                   required placeholder="admin@exemple.com">
+
+            <label for="password">Mot de passe</label>
+            <input id="password" type="password"
+                   autocomplete="current-password" required>
+
+            <button type="submit">Se connecter</button>
+        </form>
+
+        <div id="loginMessage" aria-live="polite"></div>
+
+        <p class="notice">
+            Un compte Firebase ordinaire ne suffit pas : ton compte doit
+            être explicitement autorisé comme administrateur dans Firebase.
+        </p>
+    </section>
+
+    <section id="adminPanel" class="hidden">
+
+        <div class="panel">
+            <h1>Tableau de bord</h1>
+            <p class="subtitle">
+                Administration de la communauté YOKAIRA.
+            </p>
+
+            <p id="adminIdentity"></p>
+
+            <button id="logoutBtn" class="danger">
+                Se déconnecter
+            </button>
+        </div>
+
+        <div class="panel">
+            <h2>📊 Vue d'ensemble</h2>
+
+            <div class="stats">
+                <div class="stat">
+                    Membres chargés
+                    <strong id="memberCount">0</strong>
+                </div>
+
+                <div class="stat">
+                    Créateurs
+                    <strong>—</strong>
+                </div>
+
+                <div class="stat">
+                    Actualités
+                    <strong>—</strong>
+                </div>
+            </div>
+
+            <p class="notice">
+                Les statistiques des créateurs et des actualités apparaîtront
+                lorsque ces contenus seront connectés à une base de données.
+            </p>
+        </div>
+
+        <div class="panel">
+            <h2>👥 Membres</h2>
+
+            <p class="subtitle">
+                Consulte les inscriptions enregistrées dans Google Sheets.
+            </p>
+
+            <button id="loadMembersBtn">Charger les inscriptions</button>
+
+            <div id="membersMessage" aria-live="polite"></div>
+            <div id="membersList"></div>
+        </div>
+
+        <div class="panel">
+            <h2>📰 Gestion des actualités</h2>
+
+            <p class="subtitle">
+                Publie une actualité en l'ajoutant à la page
+                <code>actualites.html</code>.
+            </p>
+
+            <a class="button" href="actualites.html">
+                Consulter les actualités
+            </a>
+
+            <p class="notice">
+                La publication et la suppression automatiques ne sont pas
+                encore connectées à une base de données.
+            </p>
+        </div>
+
+        <div class="panel">
+            <h2>🎨 Espace créateurs</h2>
+
+            <p class="subtitle">
+                Consulte la galerie et les disciplines créatives.
+            </p>
+
+            <a class="button" href="createurs.html">
+                Ouvrir l'espace créateurs
+            </a>
+
+            <p class="notice">
+                Les œuvres des membres ne sont pas encore enregistrées
+                dans une galerie en ligne.
+            </p>
+        </div>
+
+    </section>
+
+</main>
+
+<footer>
+    © 2026 YOKAIRA — Administration
+</footer>
+
+<script type="module">
+    import { initializeApp }
+        from "https://www.gstatic.com/firebasejs/13.0.0/firebase-app.js";
+
+    import {
+        getAuth,
+        signInWithEmailAndPassword,
+        onAuthStateChanged,
+        signOut
+    } from "https://www.gstatic.com/firebasejs/13.0.0/firebase-auth.js";
+
+    const firebaseConfig = {
+        apiKey: "AIzaSyAGfNN8L3Nepdn8D9ocz9ylVB_6mKbIVcI",
+        authDomain: "yokaira-46d8f.firebaseapp.com",
+        projectId: "yokaira-46d8f",
+        storageBucket: "yokaira-46d8f.firebasestorage.app",
+        messagingSenderId: "1074371889355",
+        appId: "1:1074371889355:web:e358704dd8d7b1a2ceb34e"
+    };
+
+    const app = initializeApp(firebaseConfig);
+    const auth = getAuth(app);
+
+    /*
+      IMPORTANT :
+      L'accès réel doit être protégé par une autorisation administrateur
+      vérifiée côté serveur et dans les règles Firebase.
+      Se connecter avec Firebase ne donne PAS les droits admin.
+    */
+
+    const loginPanel = document.getElementById("loginPanel");
+    const adminPanel = document.getElementById("adminPanel");
+    const loginMessage = document.getElementById("loginMessage");
+
+    function showMessage(element, message, type = "error") {
+        element.className = "message " + type;
+        element.textContent = message;
+    }
+
+    document.getElementById("loginForm").addEventListener("submit", async (event) => {
+        event.preventDefault();
+
+        const email = document.getElementById("email").value.trim();
+        const password = document.getElementById("password").value;
+
+        try {
+            await signInWithEmailAndPassword(auth, email, password);
+            showMessage(loginMessage, "Connexion réussie. Vérification des droits...", "success");
+        } catch (error) {
+            showMessage(loginMessage, "Connexion impossible. Vérifie ton e-mail et ton mot de passe.");
+        }
+    });
+
+    onAuthStateChanged(auth, async (user) => {
+        if (!user) {
+            loginPanel.classList.remove("hidden");
+            adminPanel.classList.add("hidden");
+            return;
+        }
+
+        /*
+          Ne pas afficher le tableau de bord sur la seule base
+          de l'existence d'une session utilisateur.
+          L'autorisation admin doit être implémentée côté serveur.
+        */
+
+        loginPanel.classList.remove("hidden");
+        adminPanel.classList.add("hidden");
+
+        showMessage(
+            loginMessage,
+            "Connecté, mais les droits administrateur ne sont pas encore configurés. Le tableau de bord reste verrouillé."
+        );
+    });
+
+    document.getElementById("logoutBtn").addEventListener("click", async () => {
+        await signOut(auth);
+    });
+
+    document.getElementById("loadMembersBtn").addEventListener("click", () => {
+        showMessage(
+            document.getElementById("membersMessage"),
+            "La lecture des inscriptions nécessite un accès sécurisé côté serveur ou une API autorisée."
+        );
+    });
+</script>
+
+</body>
+</html>
