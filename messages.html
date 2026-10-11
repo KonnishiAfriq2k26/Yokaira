@@ -38,7 +38,7 @@ body {
         radial-gradient(ellipse at 80% 8%, rgba(112, 42, 210, .25), transparent 34%),
         radial-gradient(ellipse at 0% 48%, rgba(36, 37, 126, .25), transparent 40%),
         linear-gradient(180deg, #07091e 0%, #090b23 55%, #060817 100%);
-    padding-bottom: 88px;
+    padding-bottom: 95px;
 }
 
 header {
@@ -305,48 +305,59 @@ h1 {
     font-size: .75rem;
 }
 
-/* VRAIE BARRE DE NAVIGATION OFFICIELLE (AVEC COMMUNAUTÉ FLOTTANTE) */
-.bottom-nav {
+/* VRAIE BARRE DE NAVIGATION OFFICIELLE AVEC BOUTON COMMUNAUTÉ FLOTTANT */
+.yokaira-bottom-nav {
     position: fixed;
-    z-index: 10;
+    z-index: 99999;
+    bottom: 0;
     left: 0;
     right: 0;
-    bottom: 0;
-    min-height: 75px;
-    padding: 10px 4px max(10px, env(safe-area-inset-bottom));
     display: flex;
     justify-content: space-around;
     align-items: center;
-    background: rgba(8, 9, 30, .97);
-    backdrop-filter: blur(18px);
-    border-top: 1px solid rgba(144, 111, 255, .35);
-    border-radius: 22px 22px 0 0;
+    padding: 12px 3px max(12px, env(safe-area-inset-bottom));
+    background: rgba(8, 9, 30, 0.97);
+    backdrop-filter: blur(15px);
+    border-top: 1px solid rgba(144, 111, 255, 0.4);
+    border-radius: 20px 20px 0 0;
 }
 
-.nav-item {
+.yokaira-bottom-nav a {
     flex: 1;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 5px;
+    text-align: center;
     text-decoration: none;
     color: #9892d4;
-    font-size: 10px;
-    white-space: nowrap;
+    font-size: 11px;
 }
 
-.nav-icon {
-    font-size: 23px;
-    line-height: 1.2;
+.yokaira-bottom-nav .icon {
+    display: block;
+    font-size: 24px;
+    margin-bottom: 4px;
 }
 
-.nav-item.active {
-    color: var(--purple);
+.yokaira-bottom-nav a.active {
+    color: #a56aff;
     font-weight: bold;
 }
 
-.nav-item.active .nav-icon {
-    text-shadow: 0 0 16px var(--purple);
+/* Style spécifique pour détacher/flotter le bouton communauté */
+.yokaira-bottom-nav a[href="communaute.html"] {
+    position: relative;
+    top: -12px;
+}
+.yokaira-bottom-nav a[href="communaute.html"] .icon {
+    background: linear-gradient(135deg, #7c3aed, #a855f7);
+    width: 48px;
+    height: 48px;
+    margin: 0 auto 2px;
+    border-radius: 50%;
+    display: grid;
+    place-items: center;
+    color: white;
+    box-shadow: 0 4px 15px rgba(168, 85, 247, 0.4);
+    border: 2px solid rgba(255, 255, 255, 0.2);
+    font-size: 22px;
 }
 
 @media (min-width: 700px) {
@@ -357,7 +368,7 @@ h1 {
         border-right: 1px solid var(--border);
     }
 
-    .bottom-nav {
+    .yokaira-bottom-nav {
         left: 50%;
         right: auto;
         width: 100%;
@@ -431,33 +442,30 @@ h1 {
     </div>
 </div>
 
-<!-- BARRE DE NAVIGATION OFFICIELLE -->
-<nav class="bottom-nav">
-    <a class="nav-item" href="index.html">
-        <span class="nav-icon">⌂</span>
-        <span>Accueil</span>
+<!-- BARRE DE NAVIGATION OFFICIELLE AVEC BOUTON COMMUNAUTÉ FLOTTANT -->
+<nav class="yokaira-bottom-nav">
+    <a href="univers.html" data-page="univers.html">
+        <span class="icon">◉</span>Univers
     </a>
-
-    <a class="nav-item" href="univers.html">
-        <span class="nav-icon">◉</span>
-        <span>Univers</span>
+    <a href="messages.html" data-page="messages.html" class="active">
+        <span class="icon">●</span>Discussions
     </a>
-
-    <a class="nav-item active" href="messages.html">
-        <span class="nav-icon">●</span>
-        <span>Discussions</span>
+    <a href="communaute.html" data-page="communaute.html">
+        <span class="icon">♧</span>Communauté
     </a>
-
-    <a class="nav-item" href="communaute.html">
-        <span class="nav-icon">♧</span>
-        <span>Communauté</span>
-    </a>
-
-    <a class="nav-item" href="profil.html">
-        <span class="nav-icon">♙</span>
-        <span>Profil</span>
+    <a href="profil.html" data-page="profil.html">
+        <span class="icon">♙</span>Profil
     </a>
 </nav>
+
+<script>
+    const pageActuelle = location.pathname.split("/").pop();
+    document.querySelectorAll(".yokaira-bottom-nav a").forEach(lien => {
+        if (lien.dataset.page === pageActuelle) {
+            lien.classList.add("active");
+        }
+    });
+</script>
 
 <script type="module">
     import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.0/firebase-app.js";
