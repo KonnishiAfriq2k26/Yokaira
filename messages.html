@@ -246,7 +246,7 @@ h1 { margin-top: 20px; font-size: 32px; font-weight: 850; }
                 }
             });
 
-            // Récupérer tous les profils de la collection `users` pour afficher les vrais noms et avatars
+            // Récupération des profils dans users (nom + photoURL)
             const usersSnap = await getDocs(collection(db, "users"));
             const namesMap = new Map();
             const photosMap = new Map();
@@ -255,7 +255,9 @@ h1 { margin-top: 20px; font-size: 32px; font-weight: 850; }
                 const d = doc.data();
                 const userName = d.username || d.displayName || d.name || "Membre YOKAIRA";
                 namesMap.set(doc.id, userName);
-                if (d.photoURL) photosMap.set(doc.id, d.photoURL);
+                if (d.photoURL && d.photoURL.trim() !== "") {
+                    photosMap.set(doc.id, d.photoURL);
+                }
             });
 
             if (chatsMap.size === 0) {
@@ -267,8 +269,12 @@ h1 { margin-top: 20px; font-size: 32px; font-weight: 850; }
             for (let [partnerId, info] of chatsMap.entries()) {
                 const name = namesMap.get(partnerId) || "Membre YOKAIRA";
                 const initial = name.charAt(0).toUpperCase();
-                const savedPhoto = photosMap.get(partnerId) || localStorage.getItem("yokairaProfilePhoto_" + partnerId);
-                const avatarHTML = savedPhoto ? `<img src="${savedPhoto}" class="avatar" alt="">` : `<div class="avatar">${initial}</div>`;
+                
+                // Priorité à photoURL dans la DB, puis localStorage
+                const photo = photosMap.get(partnerId) || localStorage.getItem("yokairaProfilePhoto_" + partnerId);
+                const avatarHTML = photo 
+                    ? `<img src="${photo}" class="avatar" alt="">` 
+                    : `<div class="avatar">${initial}</div>`;
 
                 const lastSeen = parseInt(localStorage.getItem("lastSeenMsg_" + info.chatId) || "0", 10);
                 const isUnread = info.senderId !== currentUid && info.msgTime > lastSeen;
@@ -294,7 +300,7 @@ h1 { margin-top: 20px; font-size: 32px; font-weight: 850; }
         }
     }
 
-    // Recherche de membres directement dans la collection `users`
+    // Recherche de membres avec gestion d'avatar photo
     memberSearchInput.addEventListener("input", async (e) => {
         const term = e.target.value.trim().toLowerCase();
         if (term.length < 2) {
@@ -309,7 +315,11 @@ h1 { margin-top: 20px; font-size: 32px; font-weight: 850; }
                 const d = doc.data();
                 const name = d.username || d.displayName || d.name || "";
                 if (doc.id !== auth.currentUser?.uid && name.toLowerCase().includes(term)) {
-                    matched.push({ id: doc.id, name: name });
+                    matched.push({ 
+                        id: doc.id, 
+                        name: name,
+                        photoURL: d.photoURL || localStorage.getItem("yokairaProfilePhoto_" + doc.id) || "" 
+                    });
                 }
             });
             
@@ -321,9 +331,13 @@ h1 { margin-top: 20px; font-size: 32px; font-weight: 850; }
             let html = "";
             matched.forEach(user => {
                 const initial = user.name.charAt(0).toUpperCase();
+                const avatarHTML = (user.photoURL && user.photoURL.trim() !== "")
+                    ? `<img src="${user.photoURL}" class="avatar" style="width:36px;height:36px;" alt="">` 
+                    : `<div class="avatar" style="width:36px;height:36px;font-size:0.8rem;">${initial}</div>`;
+
                 html += `
                     <a href="chat.html?id=${user.id}&name=${encodeURIComponent(user.name)}" class="user-item">
-                        <div class="avatar" style="width:36px;height:36px;font-size:0.8rem;">${initial}</div>
+                        ${avatarHTML}
                         <div><strong>${user.name}</strong><br><small style="color:var(--muted)">Membre YOKAIRA</small></div>
                     </a>
                 `;
