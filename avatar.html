@@ -1,0 +1,277 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mon Avatar | YOKAIRA</title>
+
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            color: #fff;
+            background: #0b0915;
+        }
+
+        header {
+            padding: 20px;
+            text-align: center;
+            background: #151026;
+            border-bottom: 1px solid #35245a;
+        }
+
+        header h1 {
+            margin: 0;
+            color: #bd91ff;
+        }
+
+        header p {
+            color: #c6bfd8;
+            font-size: 14px;
+        }
+
+        main {
+            width: min(100% - 28px, 900px);
+            margin: 25px auto;
+        }
+
+        .avatar-card {
+            padding: 20px;
+            text-align: center;
+            border: 1px solid #49316e;
+            border-radius: 20px;
+            background: linear-gradient(160deg, #211535, #100d1c);
+            box-shadow: 0 0 30px #6d32a522;
+        }
+
+        .avatar-stage {
+            width: 100%;
+            max-width: 340px;
+            height: 390px;
+            margin: 20px auto;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+            border-radius: 18px;
+            background: radial-gradient(
+                ellipse at center,
+                #56358b 0%,
+                #201630 48%,
+                #100d1b 78%
+            );
+        }
+
+        .avatar-stage img {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+        }
+
+        .avatar-stage .placeholder {
+            padding: 25px;
+            color: #c6bfd8;
+            line-height: 1.7;
+        }
+
+        h2 {
+            color: #e0caff;
+        }
+
+        .choices {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+            gap: 12px;
+            margin-top: 22px;
+        }
+
+        .choice {
+            padding: 15px 10px;
+            color: white;
+            background: #211832;
+            border: 1px solid #49316e;
+            border-radius: 12px;
+            cursor: pointer;
+        }
+
+        .choice.active {
+            border: 2px solid #c49aff;
+            background: #382351;
+        }
+
+        .choice strong {
+            display: block;
+            margin-bottom: 7px;
+        }
+
+        .choice span {
+            color: #c6bfd8;
+            font-size: 12px;
+        }
+
+        .save-button {
+            width: 100%;
+            margin-top: 20px;
+            padding: 15px;
+            border: none;
+            border-radius: 12px;
+            background: #a56aff;
+            color: #170c25;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        #message {
+            min-height: 22px;
+            color: #c8ffdb;
+            font-size: 14px;
+        }
+
+        .note {
+            color: #b8aecb;
+            font-size: 13px;
+            line-height: 1.6;
+        }
+    </style>
+</head>
+
+<body>
+
+<header>
+    <h1>YOKAIRA</h1>
+    <p>Mon avatar · Mon identité · Mon univers</p>
+</header>
+
+<main>
+    <section class="avatar-card">
+        <h2>Mon personnage</h2>
+
+        <p class="note">
+            Choisis l'apparence qui te représente dans l'univers YOKAIRA.
+        </p>
+
+        <div class="avatar-stage" id="avatarStage">
+            <div class="placeholder">
+                <strong>Ton avatar arrive !</strong><br>
+                Sélectionne une apparence ci-dessous.
+            </div>
+        </div>
+
+        <h2 id="avatarName">Ninja de l'Ombre</h2>
+
+        <div class="choices">
+            <button class="choice active" data-avatar="ninja">
+                <strong>Ninja de l'Ombre</strong>
+                <span>Apparence de départ</span>
+            </button>
+
+            <button class="choice" data-avatar="samourai">
+                <strong>Samouraï Astral</strong>
+                <span>Guerrier fantasy</span>
+            </button>
+
+            <button class="choice" data-avatar="mage">
+                <strong>Mage Stellaire</strong>
+                <span>Magie et cosmos</span>
+            </button>
+        </div>
+
+        <button class="save-button" id="saveAvatar">
+            Enregistrer mon apparence
+        </button>
+
+        <p id="message" role="status"></p>
+
+        <p class="note">
+            Version de démonstration : les illustrations définitives,
+            les objets équipables et la sauvegarde du compte seront
+            ajoutés aux prochaines étapes.
+        </p>
+    </section>
+</main>
+
+<script>
+    const avatars = {
+        ninja: {
+            nom: "Ninja de l'Ombre",
+            image: ""
+        },
+        samourai: {
+            nom: "Samouraï Astral",
+            image: ""
+        },
+        mage: {
+            nom: "Mage Stellaire",
+            image: ""
+        }
+    };
+
+    const stage = document.getElementById("avatarStage");
+    const nameElement = document.getElementById("avatarName");
+    const message = document.getElementById("message");
+
+    let avatarChoisi = "ninja";
+
+    function afficherAvatar(id) {
+        avatarChoisi = id;
+
+        const avatar = avatars[id];
+
+        nameElement.textContent = avatar.nom;
+
+        if (avatar.image) {
+            stage.innerHTML = "";
+
+            const image = document.createElement("img");
+            image.src = avatar.image;
+            image.alt = avatar.nom;
+
+            stage.appendChild(image);
+        } else {
+            stage.innerHTML = `
+                <div class="placeholder">
+                    <strong>${avatar.nom}</strong><br><br>
+                    Illustration à intégrer.
+                </div>
+            `;
+        }
+
+        document.querySelectorAll(".choice").forEach(button => {
+            button.classList.toggle(
+                "active",
+                button.dataset.avatar === id
+            );
+        });
+
+        message.textContent = "";
+    }
+
+    document.querySelectorAll(".choice").forEach(button => {
+        button.addEventListener("click", () => {
+            afficherAvatar(button.dataset.avatar);
+        });
+    });
+
+    document.getElementById("saveAvatar").addEventListener("click", () => {
+        try {
+            localStorage.setItem("yokairaAvatarDemo", avatarChoisi);
+            message.textContent = "Apparence enregistrée sur cet appareil.";
+        } catch (error) {
+            message.textContent = "Impossible d'enregistrer ce choix.";
+        }
+    });
+
+    const avatarSauvegarde = localStorage.getItem("yokairaAvatarDemo");
+
+    if (avatarSauvegarde && avatars[avatarSauvegarde]) {
+        afficherAvatar(avatarSauvegarde);
+    }
+</script>
+
+</body>
+</html>

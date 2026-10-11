@@ -1,0 +1,683 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#08091e">
+<title>Discussions — YOKAIRA</title>
+
+<style>
+:root {
+    --bg: #08091e;
+    --panel: rgba(17, 19, 55, .88);
+    --panel-light: rgba(32, 31, 80, .78);
+    --border: rgba(139, 103, 255, .24);
+    --purple: #a56aff;
+    --purple-light: #c3a1ff;
+    --text: #f7f5ff;
+    --muted: #a5a0d6;
+    --green: #00e7a1;
+}
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+html {
+    min-height: 100%;
+    background: var(--bg);
+}
+
+body {
+    min-height: 100vh;
+    color: var(--text);
+    font-family: Arial, Helvetica, sans-serif;
+    background:
+        radial-gradient(ellipse at 80% 8%, rgba(112, 42, 210, .25), transparent 34%),
+        radial-gradient(ellipse at 0% 48%, rgba(36, 37, 126, .25), transparent 40%),
+        linear-gradient(180deg, #07091e 0%, #090b23 55%, #060817 100%);
+    padding-bottom: 88px;
+}
+
+/* En-tête */
+
+header {
+    position: relative;
+    padding: 24px 20px 18px;
+    overflow: hidden;
+    background:
+        radial-gradient(ellipse at 80% 0%, rgba(119, 53, 214, .25), transparent 48%),
+        linear-gradient(135deg, rgba(10, 12, 39, .98), rgba(19, 13, 54, .78));
+    border-bottom: 1px solid rgba(151, 106, 255, .15);
+}
+
+.brand {
+    font-size: clamp(28px, 7vw, 39px);
+    font-weight: 900;
+    letter-spacing: -2px;
+    white-space: nowrap;
+}
+
+.brand span {
+    color: var(--purple);
+    text-shadow: 0 0 20px rgba(165, 106, 255, .65);
+}
+
+.tagline {
+    margin-top: 5px;
+    font-size: 10px;
+    letter-spacing: 1.5px;
+    color: var(--purple-light);
+    font-weight: bold;
+}
+
+.header-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 12px;
+}
+
+.new-chat {
+    width: 46px;
+    height: 46px;
+    flex-shrink: 0;
+    border-radius: 50%;
+    border: 1px solid rgba(169, 117, 255, .6);
+    color: white;
+    font-size: 26px;
+    background: rgba(87, 52, 157, .22);
+    box-shadow: 0 0 18px rgba(146, 86, 255, .17);
+    cursor: pointer;
+}
+
+h1 {
+    margin-top: 30px;
+    font-size: clamp(32px, 8vw, 44px);
+    letter-spacing: -1.4px;
+    font-weight: 850;
+}
+
+/* Recherche */
+
+.search-wrap {
+    padding: 0 18px;
+    margin-top: 8px;
+}
+
+.search-box {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 0 16px;
+    height: 56px;
+    border: 1px solid var(--border);
+    border-radius: 30px;
+    background: rgba(30, 29, 75, .76);
+    box-shadow: inset 0 0 18px rgba(117, 81, 231, .06);
+}
+
+.search-icon {
+    font-size: 25px;
+    color: var(--purple-light);
+}
+
+.search-box input {
+    width: 100%;
+    background: transparent;
+    border: 0;
+    outline: none;
+    color: white;
+    font-size: 18px;
+    min-width: 0;
+}
+
+.search-box input::placeholder {
+    color: #8984c6;
+}
+
+/* Filtres */
+
+.filters {
+    display: flex;
+    gap: 9px;
+    padding: 20px 18px 24px;
+    overflow-x: auto;
+    scrollbar-width: none;
+}
+
+.filters::-webkit-scrollbar {
+    display: none;
+}
+
+.filter {
+    flex: 0 0 auto;
+    padding: 12px 20px;
+    color: #b4afe7;
+    font-size: 14px;
+    font-weight: bold;
+    background: rgba(20, 20, 55, .72);
+    border: 1px solid rgba(140, 112, 225, .24);
+    border-radius: 28px;
+    cursor: pointer;
+}
+
+.filter.active {
+    color: white;
+    background: linear-gradient(135deg, #5d32a9, #29165c);
+    border-color: var(--purple);
+    box-shadow: 0 0 16px rgba(157, 94, 255, .32);
+}
+
+/* Archivées */
+
+.archived {
+    width: calc(100% - 36px);
+    margin: 0 18px;
+    padding: 18px 8px;
+    display: flex;
+    align-items: center;
+    gap: 17px;
+    border: 0;
+    border-top: 1px solid rgba(132, 105, 231, .12);
+    border-bottom: 1px solid var(--border);
+    background: transparent;
+    color: white;
+    cursor: pointer;
+    text-align: left;
+}
+
+.archive-icon {
+    width: 48px;
+    font-size: 25px;
+    text-align: center;
+}
+
+.archive-label {
+    flex: 1;
+    font-size: 16px;
+    font-weight: bold;
+}
+
+.archive-count {
+    color: var(--purple);
+    font-size: 18px;
+    font-weight: bold;
+}
+
+/* Liste des discussions */
+
+#conversationList {
+    padding: 0 18px;
+}
+
+.conversation {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    width: 100%;
+    min-height: 101px;
+    padding: 13px 0;
+    color: var(--text);
+    border: 0;
+    border-bottom: 1px solid rgba(136, 115, 226, .20);
+    background: transparent;
+    text-align: left;
+    cursor: pointer;
+}
+
+.avatar-wrap {
+    position: relative;
+    flex: 0 0 70px;
+    width: 70px;
+    height: 70px;
+}
+
+.avatar {
+    width: 70px;
+    height: 70px;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden;
+    background: linear-gradient(145deg, #4b235d, #17254c);
+    border: 3px solid var(--green);
+    box-shadow: 0 0 10px rgba(0, 231, 161, .12);
+    font-size: 29px;
+}
+
+.avatar img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.online-dot {
+    position: absolute;
+    width: 15px;
+    height: 15px;
+    right: 0;
+    bottom: 3px;
+    background: var(--green);
+    border: 3px solid var(--bg);
+    border-radius: 50%;
+}
+
+.conversation-info {
+    flex: 1;
+    min-width: 0;
+}
+
+.conversation-name {
+    font-size: 15px;
+    font-weight: 800;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    margin-bottom: 7px;
+}
+
+.last-message {
+    color: #a9a5dc;
+    font-size: 14px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.conversation-meta {
+    align-self: center;
+    min-width: 42px;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    gap: 9px;
+}
+
+.time {
+    color: var(--green);
+    font-size: 12px;
+    white-space: nowrap;
+}
+
+.unread {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 23px;
+    height: 23px;
+    padding: 0 6px;
+    border-radius: 50px;
+    color: #06291e;
+    background: var(--green);
+    font-size: 12px;
+    font-weight: 900;
+}
+
+.empty-state {
+    display: none;
+    padding: 40px 15px;
+    text-align: center;
+    color: var(--muted);
+    line-height: 1.6;
+}
+
+/* Navigation en bas */
+
+.bottom-nav {
+    position: fixed;
+    z-index: 10;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    min-height: 75px;
+    padding: 10px 4px max(10px, env(safe-area-inset-bottom));
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    background: rgba(8, 9, 30, .97);
+    backdrop-filter: blur(18px);
+    border-top: 1px solid rgba(144, 111, 255, .35);
+    border-radius: 22px 22px 0 0;
+}
+
+.nav-item {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 5px;
+    text-decoration: none;
+    color: #9892d4;
+    font-size: 10px;
+    white-space: nowrap;
+}
+
+.nav-icon {
+    font-size: 23px;
+    line-height: 1.2;
+}
+
+.nav-item.active {
+    color: var(--purple);
+    font-weight: bold;
+}
+
+.nav-item.active .nav-icon {
+    text-shadow: 0 0 16px var(--purple);
+}
+
+/* Adaptation mobile */
+
+@media (min-width: 700px) {
+    body {
+        max-width: 760px;
+        margin: 0 auto;
+        border-left: 1px solid var(--border);
+        border-right: 1px solid var(--border);
+    }
+
+    .bottom-nav {
+        left: 50%;
+        right: auto;
+        width: 100%;
+        max-width: 760px;
+        transform: translateX(-50%);
+    }
+}
+</style>
+</head>
+  <style>
+body {
+    padding-bottom: 95px !important;
+}
+
+.yokaira-bottom-nav {
+    position: fixed;
+    z-index: 99999;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    padding: 12px 3px max(12px, env(safe-area-inset-bottom));
+    background: rgba(8, 9, 30, 0.97);
+    border-top: 1px solid rgba(144, 111, 255, 0.4);
+    border-radius: 20px 20px 0 0;
+}
+
+.yokaira-bottom-nav a {
+    flex: 1;
+    text-align: center;
+    text-decoration: none;
+    color: #9892d4;
+    font-size: 11px;
+}
+
+.yokaira-bottom-nav .icon {
+    display: block;
+    font-size: 24px;
+    margin-bottom: 4px;
+}
+
+.yokaira-bottom-nav a.active {
+    color: #a56aff;
+}
+</style>
+
+<nav class="yokaira-bottom-nav">
+    <a href="index.html" data-page="index.html">
+        <span class="icon">⌂</span>Accueil
+    </a>
+
+    <a href="univers.html" data-page="univers.html">
+        <span class="icon">◉</span>Univers
+    </a>
+
+    <a href="messages.html" data-page="messages.html">
+        <span class="icon">●</span>Discussions
+    </a>
+
+    <a href="communaute.html" data-page="communaute.html">
+        <span class="icon">♧</span>Communauté
+    </a>
+
+    <a href="profil.html" data-page="profil.html">
+        <span class="icon">♙</span>Profil
+    </a>
+</nav>
+
+<script>
+const pageActuelle = location.pathname.split("/").pop();
+
+document.querySelectorAll(".yokaira-bottom-nav a").forEach(lien => {
+    if (lien.dataset.page === pageActuelle) {
+        lien.classList.add("active");
+    }
+});
+</script>
+
+<body>
+
+<header>
+    <div class="header-row">
+        <div>
+            <div class="brand">Y<span>◈</span>KAIRA</div>
+            <div class="tagline">PLUS QU'UNE COMMUNAUTÉ, UNE FAMILLE.</div>
+        </div>
+
+        <button class="new-chat" id="newChatButton"
+                aria-label="Nouvelle discussion"
+                title="Nouvelle discussion">＋</button>
+    </div>
+
+    <h1>Discussions</h1>
+</header>
+
+<div class="search-wrap">
+    <label class="search-box">
+        <span class="search-icon">⌕</span>
+        <input id="searchInput"
+               type="search"
+               placeholder="Rechercher"
+               autocomplete="off"
+               aria-label="Rechercher une discussion">
+    </label>
+</div>
+
+<div class="filters" id="filters">
+    <button class="filter active" data-filter="all">Toutes</button>
+    <button class="filter" data-filter="unread">Non lues</button>
+    <button class="filter" data-filter="favorites">Favoris</button>
+    <button class="filter" data-filter="groups">Groupes</button>
+</div>
+
+<button class="archived" id="archivedButton">
+    <span class="archive-icon">▤</span>
+    <span class="archive-label">Archivées</span>
+    <span class="archive-count" id="archivedCount">0</span>
+    <span aria-hidden="true">›</span>
+</button>
+
+<main>
+    <div id="conversationList"></div>
+    <div class="empty-state" id="emptyState">
+        <div style="font-size:32px;margin-bottom:10px">💬</div>
+        Aucune discussion à afficher.<br>
+        Les conversations apparaîtront ici lorsqu'elles seront connectées.
+    </div>
+</main>
+
+<nav class="bottom-nav">
+    <a class="nav-item" href="index.html">
+        <span class="nav-icon">⌂</span>
+        <span>Accueil</span>
+    </a>
+
+    <a class="nav-item" href="univers.html">
+        <span class="nav-icon">◉</span>
+        <span>Univers</span>
+    </a>
+
+    <a class="nav-item active" href="messages.html">
+        <span class="nav-icon">●</span>
+        <span>Discussions</span>
+    </a>
+
+    <a class="nav-item" href="communaute.html">
+        <span class="nav-icon">♧</span>
+        <span>Communauté</span>
+    </a>
+
+    <a class="nav-item" href="profil.html">
+        <span class="nav-icon">♙</span>
+        <span>Profil</span>
+    </a>
+</nav>
+
+<script>
+/*
+ * YOKAIRA — INTERFACE DES DISCUSSIONS
+ *
+ * Cette version prépare l'interface.
+ * Les conversations réelles seront connectées à Firebase
+ * dans l'étape suivante.
+ */
+
+const demoConversations = [];
+
+const conversationList = document.getElementById("conversationList");
+const searchInput = document.getElementById("searchInput");
+const emptyState = document.getElementById("emptyState");
+const filterButtons = document.querySelectorAll(".filter");
+
+let activeFilter = "all";
+let showingArchived = false;
+
+function renderConversations() {
+    const search = searchInput.value.trim().toLowerCase();
+
+    const filtered = demoConversations.filter((conversation) => {
+        const matchesSearch =
+            conversation.name.toLowerCase().includes(search) ||
+            (conversation.lastMessage || "").toLowerCase().includes(search);
+
+        const matchesFilter =
+            activeFilter === "all" ||
+            (activeFilter === "unread" && conversation.unread > 0) ||
+            (activeFilter === "favorites" && conversation.favorite) ||
+            (activeFilter === "groups" && conversation.group);
+
+        const matchesArchive =
+            Boolean(conversation.archived) === showingArchived;
+
+        return matchesSearch && matchesFilter && matchesArchive;
+    });
+
+    conversationList.innerHTML = "";
+
+    filtered.forEach((conversation) => {
+        const row = document.createElement("button");
+        row.className = "conversation";
+        row.type = "button";
+
+        const avatar = document.createElement("div");
+        avatar.className = "avatar";
+
+        if (conversation.photoURL) {
+            const image = document.createElement("img");
+            image.src = conversation.photoURL;
+            image.alt = "";
+            avatar.appendChild(image);
+        } else {
+            avatar.textContent = conversation.emoji || "👤";
+        }
+
+        const avatarWrap = document.createElement("div");
+        avatarWrap.className = "avatar-wrap";
+        avatarWrap.appendChild(avatar);
+
+        if (conversation.online) {
+            const dot = document.createElement("span");
+            dot.className = "online-dot";
+            avatarWrap.appendChild(dot);
+        }
+
+        const info = document.createElement("div");
+        info.className = "conversation-info";
+
+        const name = document.createElement("div");
+        name.className = "conversation-name";
+        name.textContent = conversation.name;
+
+        const preview = document.createElement("div");
+        preview.className = "last-message";
+        preview.textContent = conversation.lastMessage || "Commencez à discuter";
+
+        info.append(name, preview);
+
+        const meta = document.createElement("div");
+        meta.className = "conversation-meta";
+
+        const time = document.createElement("span");
+        time.className = "time";
+        time.textContent = conversation.time || "";
+
+        meta.appendChild(time);
+
+        if (conversation.unread > 0) {
+            const unread = document.createElement("span");
+            unread.className = "unread";
+            unread.textContent = conversation.unread > 99
+                ? "99+"
+                : String(conversation.unread);
+            meta.appendChild(unread);
+        }
+
+        row.append(avatarWrap, info, meta);
+
+        row.addEventListener("click", () => {
+            alert(
+                "L'ouverture des conversations sera activée lorsque Firebase sera connecté."
+            );
+        });
+
+        conversationList.appendChild(row);
+    });
+
+    emptyState.style.display = filtered.length ? "none" : "block";
+}
+
+searchInput.addEventListener("input", renderConversations);
+
+filterButtons.forEach((button) => {
+    button.addEventListener("click", () => {
+        filterButtons.forEach((item) => item.classList.remove("active"));
+        button.classList.add("active");
+        activeFilter = button.dataset.filter;
+        renderConversations();
+    });
+});
+
+document.getElementById("archivedButton").addEventListener("click", () => {
+    showingArchived = !showingArchived;
+    document.querySelector(".archive-label").textContent =
+        showingArchived ? "Retour aux discussions" : "Archivées";
+    renderConversations();
+});
+
+document.getElementById("newChatButton").addEventListener("click", () => {
+    alert(
+        "La recherche des membres et la création des conversations seront activées lors de la connexion à Firebase."
+    );
+});
+
+renderConversations();
+</script>
+
+</body>
+</html>

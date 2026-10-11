@@ -1,0 +1,88 @@
+<nav class="yokaira-bottom-nav" id="yokairaBottomNav">
+    <a href="index.html" data-page="index.html">
+        <span class="nav-icon">⌂</span>
+        <span>Accueil</span>
+    </a>
+
+    <a href="univers.html" data-page="univers.html">
+        <span class="nav-icon">◉</span>
+        <span>Univers</span>
+    </a>
+
+    <a href="messages.html" data-page="messages.html">
+        <span class="nav-icon">●</span>
+        <span>Discussions</span>
+    </a>
+
+    <a href="communaute.html" data-page="communaute.html">
+        <span class="nav-icon">♧</span>
+        <span>Communauté</span>
+    </a>
+
+    <a href="profil.html" data-page="profil.html">
+        <span class="nav-icon">♙</span>
+        <span>Profil</span>
+    </a>
+</nav>
+
+<style>
+.yokaira-bottom-nav {
+    position: fixed;
+    z-index: 9999;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    min-height: 76px;
+    padding: 10px 4px max(10px, env(safe-area-inset-bottom));
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    background: rgba(8, 9, 30, 0.97);
+    backdrop-filter: blur(18px);
+    border-top: 1px solid rgba(144, 111, 255, 0.35);
+    border-radius: 22px 22px 0 0;
+    box-sizing: border-box;
+}
+
+.yokaira-bottom-nav a {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 5px;
+    text-decoration: none;
+    color: #9892d4;
+    font-family: Arial, sans-serif;
+    font-size: 11px;
+}
+
+.yokaira-bottom-nav .nav-icon {
+    font-size: 25px;
+    line-height: 1.2;
+}
+
+.yokaira-bottom-nav a.active {
+    color: #a56aff;
+    font-weight: bold;
+}
+
+.yokaira-bottom-nav a.active .nav-icon {
+    text-shadow: 0 0 16px #a56aff;
+}
+
+body {
+    padding-bottom: 100px !important;
+}
+</style>
+
+<script>
+(function () {
+    const currentPage = location.pathname.split("/").pop() || "index.html";
+
+    document.querySelectorAll("#yokairaBottomNav a").forEach(link => {
+        if (link.dataset.page === currentPage) {
+            link.classList.add("active");
+        }
+    });
+})();
+</script>
