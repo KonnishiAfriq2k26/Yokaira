@@ -1019,7 +1019,7 @@
         </button>
 
         <button class="action share-action" type="button">
-          <span class="icon">↗</span>
+          <span class="icon">🔄</span>
           <span>Partager</span>
         </button>
       </div>
@@ -1052,26 +1052,25 @@
       element.querySelector(".comment-input").focus();
     });
 
+    // Partage interne directement sur le site
     element.querySelector(".share-action").addEventListener("click", async () => {
-      const shareText = `${author} sur YOKAIRA : ${post.content}`;
+      if (!currentUser) {
+        showNotice("Connecte-toi pour partager une publication.");
+        return;
+      }
 
       try {
-        if (navigator.share) {
-          await navigator.share({
-            title: "YOKAIRA — Communauté",
-            text: shareText,
-            url: location.href
-          });
-        } else if (navigator.clipboard) {
-          await navigator.clipboard.writeText(shareText);
-          showNotice("Texte de la publication copié !", "success");
-        } else {
-          showNotice("Le partage n'est pas disponible sur ce navigateur.");
-        }
+        await addDoc(collection(db, "posts"), {
+          authorId: currentUser.uid,
+          authorName: displayName(currentUser),
+          content: `🔄 Partagé de ${author} :\n\n> "${post.content}"`,
+          createdAt: serverTimestamp(),
+          likesCount: 0
+        });
+
+        showNotice("Publication partagée avec succès sur le fil ! ⚡", "success");
       } catch (error) {
-        if (error?.name !== "AbortError") {
-          showNotice("Impossible de partager cette publication.");
-        }
+        showNotice(errorMessage(error));
       }
     });
 
