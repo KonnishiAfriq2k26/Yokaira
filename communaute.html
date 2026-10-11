@@ -354,7 +354,7 @@
       display: flex;
       justify-content: space-between;
       gap: 12px;
-      padding: 0 1px 13px;
+      padding: 0 19px 13px;
       color: var(--muted);
       font-size: .78rem;
     }
@@ -401,8 +401,11 @@
       border-color: #fb718540;
     }
 
+    /* BANDE GLISSANTE DES COMMENTAIRES (SCROLLABLE) */
     .comments-area {
       padding: 16px 18px 19px;
+      background: rgba(5, 5, 15, 0.25);
+      border-top: 1px solid #a855f71c;
     }
 
     .comments-title {
@@ -410,14 +413,26 @@
       align-items: center;
       justify-content: space-between;
       gap: 12px;
-      margin-bottom: 13px;
+      margin-bottom: 10px;
       font-weight: 850;
       font-size: .88rem;
     }
 
     .comments-list {
-      display: grid;
+      max-height: 180px; /* Hauteur fixe pour créer la bande glissante */
+      overflow-y: auto;  /* Permet de glisser pour voir du premier au dernier commentaire */
+      display: flex;
+      flex-direction: column;
       gap: 9px;
+      padding-right: 4px;
+    }
+    
+    .comments-list::-webkit-scrollbar {
+      width: 4px;
+    }
+    .comments-list::-webkit-scrollbar-thumb {
+      background: var(--border);
+      border-radius: 4px;
     }
 
     .comment {
@@ -473,20 +488,20 @@
       display: flex;
       align-items: center;
       gap: 8px;
-      margin-top: 14px;
+      margin-top: 12px;
     }
 
     .comment-form input {
       flex: 1;
       min-width: 0;
-      padding: 12px 13px;
+      padding: 11px 13px;
       border-radius: 13px;
     }
 
     .send-btn {
       flex: 0 0 auto;
-      width: 44px;
-      height: 44px;
+      width: 42px;
+      height: 42px;
       display: grid;
       place-items: center;
       padding: 0;
@@ -494,7 +509,7 @@
       color: #090914;
       background: linear-gradient(135deg, var(--cyan), #a5f3fc);
       border: 0;
-      font-size: 1.1rem;
+      font-size: 1rem;
       font-weight: 900;
     }
 
@@ -565,7 +580,6 @@
       display: none !important;
     }
 
-    /* Barre de navigation unifiée */
     .yokaira-bottom-nav {
       position: fixed;
       z-index: 99999;
@@ -694,35 +708,17 @@
   © YOKAIRA — La pop culture africaine du futur.
 </footer>
 
-<!-- BARRE DE NAVIGATION DU BAS UNIFIÉE -->
 <nav class="yokaira-bottom-nav">
-    <a href="univers.html" data-page="univers.html">
-        <span class="icon">🌌</span>Univers
-    </a>
-    <a href="messages.html" data-page="messages.html">
-        <span class="icon">💬</span>Discussions
-    </a>
-    <a href="boutique.html" data-page="boutique.html">
-        <span class="icon">🛍️</span>Boutique
-    </a>
-    <a href="avatar.html" data-page="avatar.html">
-        <span class="icon">👤</span>Avatar
-    </a>
-    <a href="profil.html" data-page="profil.html">
-        <span class="icon">⚡</span>Profil
-    </a>
+    <a href="univers.html" data-page="univers.html"><span class="icon">🌌</span>Univers</a>
+    <a href="messages.html" data-page="messages.html"><span class="icon">💬</span>Discussions</a>
+    <a href="boutique.html" data-page="boutique.html"><span class="icon">🛍️</span>Boutique</a>
+    <a href="avatar.html" data-page="avatar.html"><span class="icon">👤</span>Avatar</a>
+    <a href="profil.html" data-page="profil.html"><span class="icon">⚡</span>Profil</a>
 </nav>
 
 <script type="module">
-  import { initializeApp } from
-    "https://www.gstatic.com/firebasejs/11.6.0/firebase-app.js";
-
-  import {
-    getAuth,
-    onAuthStateChanged
-  } from
-    "https://www.gstatic.com/firebasejs/11.6.0/firebase-auth.js";
-
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.0/firebase-app.js";
+  import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/11.6.0/firebase-auth.js";
   import {
     getFirestore,
     collection,
@@ -735,8 +731,7 @@
     serverTimestamp,
     setDoc,
     deleteDoc
-  } from
-    "https://www.gstatic.com/firebasejs/11.6.0/firebase-firestore.js";
+  } from "https://www.gstatic.com/firebasejs/11.6.0/firebase-firestore.js";
 
   const firebaseConfig = {
     apiKey: "AIzaSyAGfNN8L3Nepdn8D9ocz9ylVB_6mKbIVcI",
@@ -875,275 +870,4 @@
     publishButton.disabled = true;
     publishButton.textContent = "Envoi...";
 
-    try {
-      await addDoc(collection(db, "posts"), {
-        authorId: currentUser.uid,
-        authorName: displayName(currentUser),
-        content,
-        mediaUrl: selectedMediaData || "",
-        mediaType: selectedMediaType || "",
-        createdAt: serverTimestamp(),
-        likesCount: 0
-      });
-
-      postForm.reset();
-      selectedMediaData = null;
-      selectedMediaType = null;
-      filePreview.textContent = "";
-      charCount.textContent = "0 / 3000";
-      showNotice("Publication envoyée ! ⚡", "success");
-    } catch (error) {
-      showNotice(errorMessage(error));
-    } finally {
-      publishButton.disabled = false;
-      publishButton.textContent = "Publier ⚡";
-    }
-  });
-
-  function attachInteractions(postId, element, version) {
-    const likeButton = element.querySelector(".like-action");
-    const likeCount = element.querySelector(".like-count");
-    const commentCount = element.querySelector(".comment-count");
-    const commentsList = element.querySelector(".comments-list");
-    const commentForm = element.querySelector(".comment-form");
-    const commentInput = element.querySelector(".comment-input");
-    const sendButton = element.querySelector(".send-btn");
-    const shareButton = element.querySelector(".share-action");
-
-    const likesRef = collection(db, "posts", postId, "likes");
-    const commentsRef = collection(db, "posts", postId, "comments");
-
-    let liked = false;
-    let likeBusy = false;
-    let commentsBusy = false;
-
-    const stopLikes = onSnapshot(likesRef, snapshot => {
-      if (version !== generation || !element.isConnected) return;
-
-      likeCount.textContent = snapshot.size;
-      liked = snapshot.docs.some(item => item.id === currentUser.uid);
-
-      likeButton.classList.toggle("liked", liked);
-      likeButton.setAttribute("aria-pressed", String(liked));
-
-      likeButton.querySelector(".action-label").textContent =
-        liked ? "Aimé" : "J'aime";
-
-      likeButton.querySelector(".icon").textContent =
-        liked ? "❤️" : "🤍";
-    }, error => {
-      console.error("Likes :", error);
-    });
-
-    likeButton.addEventListener("click", async () => {
-      if (!currentUser || likeBusy) return;
-
-      likeBusy = true;
-      likeButton.disabled = true;
-
-      try {
-        const myLike = doc(db, "posts", postId, "likes", currentUser.uid);
-        if (liked) {
-          await deleteDoc(myLike);
-        } else {
-          await setDoc(myLike, { createdAt: serverTimestamp() });
-        }
-      } catch (error) {
-        showNotice(errorMessage(error));
-      } finally {
-        likeBusy = false;
-        likeButton.disabled = false;
-      }
-    });
-
-    // Gestion robuste du bouton Partager
-    shareButton.addEventListener("click", async () => {
-      const shareData = {
-        title: "YOKAIRA Communauté",
-        text: "Viens découvrir cette publication sur l'univers YOKAIRA !",
-        url: window.location.href
-      };
-
-      try {
-        if (navigator.share) {
-          await navigator.share(shareData);
-        } else {
-          await navigator.clipboard.writeText(window.location.href);
-          alert("Lien copié dans le presse-papier !");
-        }
-      } catch (err) {
-        console.log("Partage annulé ou non pris en charge", err);
-      }
-    });
-
-    const qComments = query(commentsRef, orderBy("createdAt", "asc"));
-    const stopComments = onSnapshot(qComments, snapshot => {
-      if (version !== generation || !element.isConnected) return;
-
-      commentCount.textContent = snapshot.size;
-
-      if (snapshot.empty) {
-        commentsList.innerHTML = `<div class="muted" style="font-size: .82rem;">Aucun commentaire pour l'instant. Sois le premier !</div>`;
-        return;
-      }
-
-      let html = "";
-      snapshot.forEach(docSnap => {
-        const c = docSnap.data();
-        const initial = (c.authorName || "M").charAt(0).toUpperCase();
-
-        html += `
-          <div class="comment">
-            <div class="comment-avatar">${initial}</div>
-            <div class="comment-bubble">
-              <div class="comment-author">${escapeHTML(c.authorName)}</div>
-              <div class="comment-text">${escapeHTML(c.content)}</div>
-              <div class="comment-date">${dateText(c.createdAt)}</div>
-            </div>
-          </div>
-        `;
-      });
-      commentsList.innerHTML = html;
-    }, error => {
-      console.error("Commentaires :", error);
-    });
-
-    commentForm.addEventListener("submit", async event => {
-      event.preventDefault();
-      if (!currentUser || commentsBusy) return;
-
-      const text = commentInput.value.trim();
-      if (!text) return;
-
-      commentsBusy = true;
-      sendButton.disabled = true;
-
-      try {
-        await addDoc(commentsRef, {
-          authorId: currentUser.uid,
-          authorName: displayName(currentUser),
-          content: text,
-          createdAt: serverTimestamp()
-        });
-        commentForm.reset();
-      } catch (error) {
-        showNotice(errorMessage(error));
-      } finally {
-        commentsBusy = false;
-        sendButton.disabled = false;
-      }
-    });
-
-    postStops.set(postId + "_likes", stopLikes);
-    postStops.set(postId + "_comments", stopComments);
-  }
-
-  onAuthStateChanged(auth, user => {
-    currentUser = user;
-    generation++;
-    stopEverything();
-
-    if (!user) {
-      loginBox.hidden = false;
-      communityArea.hidden = true;
-      postsList.innerHTML = `<div class="empty"><strong>Connecte-toi</strong> pour voir le fil communautaire.</div>`;
-      return;
-    }
-
-    loginBox.hidden = true;
-    communityArea.hidden = false;
-    myAvatar.textContent = displayName(user).charAt(0).toUpperCase();
-
-    const postsRef = collection(db, "posts");
-    const qPosts = query(postsRef, orderBy("createdAt", "desc"), limit(25));
-
-    stopPosts = onSnapshot(qPosts, snapshot => {
-      stopAllPostListeners();
-
-      if (snapshot.empty) {
-        postsList.innerHTML = `<div class="empty"><strong>Aucune publication pour le moment</strong>Sois le premier à partager ton univers !</div>`;
-        return;
-      }
-
-      let html = "";
-
-      snapshot.forEach(docSnap => {
-        const p = docSnap.data();
-        const postId = docSnap.id;
-        const initial = (p.authorName || "M").charAt(0).toUpperCase();
-
-        let mediaHtml = "";
-        if (p.mediaUrl) {
-          if (p.mediaType === "video") {
-            mediaHtml = `<video src="${p.mediaUrl}" controls class="post-media"></video>`;
-          } else {
-            mediaHtml = `<img src="${p.mediaUrl}" alt="Média partagé" class="post-media">`;
-          }
-        }
-
-        html += `
-          <article class="post" data-id="${postId}">
-            <div class="post-inner">
-              <div class="post-header">
-                <div class="avatar" style="width:38px;height:38px;flex:0 0 38px;border-radius:12px;font-size:.85rem;">${initial}</div>
-                <div class="post-author">
-                  <span class="author-name">${escapeHTML(p.authorName)}</span>
-                  <span class="member-tag">MEMBRE</span>
-                  <div class="post-date">${dateText(p.createdAt)}</div>
-                </div>
-              </div>
-
-              <div class="post-content">${escapeHTML(p.content)}</div>
-              ${mediaHtml}
-            </div>
-
-            <div class="post-stats">
-              <span class="muted"><strong class="like-count">0</strong> j'aime</span>
-              <span class="muted"><strong class="comment-count">0</strong> commentaires</span>
-            </div>
-
-            <div class="action-bar">
-              <button class="action like-action" type="button" aria-pressed="false">
-                <span class="icon">🤍</span>
-                <span class="action-label">J'aime</span>
-              </button>
-              <button class="action" type="button" onclick="const a=this.closest('.post').querySelector('.comments-area'); a.hidden=!a.hidden;">
-                <span class="icon">💬</span>
-                <span>Commenter</span>
-              </button>
-              <button class="action share-action" type="button">
-                <span class="icon">🔗</span>
-                <span>Partager</span>
-              </button>
-            </div>
-
-            <div class="comments-area" hidden>
-              <div class="comments-title">
-                <span>Discussion</span>
-              </div>
-              <div class="comments-list">
-                <div class="muted" style="font-size: .82rem;">Chargement...</div>
-              </div>
-              <form class="comment-form">
-                <input type="text" class="comment-input" placeholder="Écris un commentaire..." required maxlength="1000">
-                <button type="submit" class="send-btn" aria-label="Envoyer">➤</button>
-              </form>
-            </div>
-          </article>
-        `;
-      });
-
-      postsList.innerHTML = html;
-
-      const currentGen = generation;
-      postsList.querySelectorAll(".post").forEach(el => {
-        attachInteractions(el.dataset.id, el, currentGen);
-      });
-    }, error => {
-      showNotice(errorMessage(error));
-    });
-  });
-</script>
-
-</body>
-</html>
+    tr
