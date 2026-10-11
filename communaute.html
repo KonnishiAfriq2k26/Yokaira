@@ -24,7 +24,6 @@
       box-sizing: border-box;
     }
     
-
     body {
       margin: 0;
       min-height: 100vh;
@@ -34,6 +33,7 @@
         radial-gradient(ellipse at 100% 30%, #101c3a 0%, transparent 35%),
         var(--bg);
       font-family: Inter, system-ui, Arial, sans-serif;
+      padding-bottom: 95px !important;
     }
 
     button, input, textarea {
@@ -534,6 +534,39 @@
       display: none !important;
     }
 
+    .yokaira-bottom-nav {
+      position: fixed;
+      z-index: 99999;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      display: flex;
+      justify-content: space-around;
+      align-items: center;
+      padding: 12px 3px max(12px, env(safe-area-inset-bottom));
+      background: rgba(8, 9, 30, 0.97);
+      border-top: 1px solid rgba(144, 111, 255, 0.4);
+      border-radius: 20px 20px 0 0;
+    }
+
+    .yokaira-bottom-nav a {
+      flex: 1;
+      text-align: center;
+      text-decoration: none;
+      color: #9892d4;
+      font-size: 11px;
+    }
+
+    .yokaira-bottom-nav .icon {
+      display: block;
+      font-size: 24px;
+      margin-bottom: 4px;
+    }
+
+    .yokaira-bottom-nav a.active {
+      color: #a56aff;
+    }
+
     @media (max-width: 520px) {
       header {
         justify-content: center;
@@ -579,59 +612,19 @@
     }
   </style>
 </head>
-<style>
-body {
-    padding-bottom: 95px !important;
-}
 
-.yokaira-bottom-nav {
-    position: fixed;
-    z-index: 99999;
-    bottom: 0;
-    left: 0;
-    right: 0;
-    display: flex;
-    justify-content: space-around;
-    align-items: center;
-    padding: 12px 3px max(12px, env(safe-area-inset-bottom));
-    background: rgba(8, 9, 30, 0.97);
-    border-top: 1px solid rgba(144, 111, 255, 0.4);
-    border-radius: 20px 20px 0 0;
-}
-
-.yokaira-bottom-nav a {
-    flex: 1;
-    text-align: center;
-    text-decoration: none;
-    color: #9892d4;
-    font-size: 11px;
-}
-
-.yokaira-bottom-nav .icon {
-    display: block;
-    font-size: 24px;
-    margin-bottom: 4px;
-}
-
-.yokaira-bottom-nav a.active {
-    color: #a56aff;
-}
-</style>
+<body>
 
 <nav class="yokaira-bottom-nav">
-
     <a href="univers.html" data-page="univers.html">
         <span class="icon">◉</span>Univers
     </a>
-
     <a href="messages.html" data-page="messages.html">
         <span class="icon">●</span>Discussions
     </a>
-
     <a href="communaute.html" data-page="communaute.html">
         <span class="icon">♧</span>Communauté
     </a>
-
     <a href="profil.html" data-page="profil.html">
         <span class="icon">♙</span>Profil
     </a>
@@ -639,14 +632,12 @@ body {
 
 <script>
 const pageActuelle = location.pathname.split("/").pop();
-
 document.querySelectorAll(".yokaira-bottom-nav a").forEach(lien => {
     if (lien.dataset.page === pageActuelle) {
         lien.classList.add("active");
     }
 });
 </script>
-<body>
 
 <header>
   <a href="index.html" class="logo">YOKAIRA</a>
