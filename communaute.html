@@ -231,6 +231,37 @@
       transform: none;
     }
 
+    .media-upload-label {
+      background: rgba(139, 92, 246, 0.2);
+      border: 1px solid rgba(139, 92, 246, 0.4);
+      color: #c4b5fd;
+      padding: 8px 14px;
+      border-radius: 10px;
+      cursor: pointer;
+      font-size: 0.85rem;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      transition: 0.2s;
+    }
+
+    .media-upload-label:hover {
+      background: rgba(139, 92, 246, 0.35);
+    }
+
+    #mediaFileInput {
+      display: none;
+    }
+
+    .post-media {
+      width: 100%;
+      max-height: 400px;
+      border-radius: 14px;
+      object-fit: cover;
+      margin-top: 12px;
+      background: #000;
+    }
+
     .feed-heading {
       display: flex;
       align-items: center;
@@ -632,7 +663,14 @@
           placeholder="Une théorie anime ? Une création ? Un coup de cœur ? Balance ça ici... ✨"
           required></textarea>
 
+        <div id="filePreview" class="muted" style="margin-top: 10px;"></div>
+
         <div class="composer-footer">
+          <label for="mediaFileInput" class="media-upload-label">
+            📷📁 Photo / Vidéo
+          </label>
+          <input type="file" id="mediaFileInput" accept="image/*,video/*">
+
           <span id="charCount" class="muted">0 / 3000</span>
           <button id="publishButton" class="btn btn-primary" type="submit">
             Publier ⚡
@@ -722,11 +760,16 @@
   const publishButton = document.getElementById("publishButton");
   const postsList = document.getElementById("postsList");
   const myAvatar = document.getElementById("myAvatar");
+  const mediaFileInput = document.getElementById("mediaFileInput");
+  const filePreview = document.getElementById("filePreview");
 
   let currentUser = null;
   let stopPosts = null;
   let generation = 0;
   let postStops = new Map();
+
+  let selectedMediaData = null;
+  let selectedMediaType = null;
 
   function showNotice(message, type = "error") {
     notice.textContent = message;
@@ -742,15 +785,12 @@
 
   function errorMessage(error) {
     console.error(error);
-
     if (error?.code === "permission-denied") {
       return "Firestore a refusé cette opération. Vérifie les règles de sécurité.";
     }
-
     if (error?.code === "unavailable") {
       return "Connexion indisponible. Vérifie Internet puis réessaie.";
     }
-
     return "Une erreur est survenue. Réessaie.";
   }
 
@@ -774,7 +814,6 @@
     if (!timestamp || typeof timestamp.toDate !== "function") {
       return "À l'instant";
     }
-
     return timestamp.toDate().toLocaleString("fr-FR", {
       dateStyle: "medium",
       timeStyle: "short"
@@ -798,6 +837,25 @@
     charCount.textContent = `${postContent.value.length} / 3000`;
   });
 
+  mediaFileInput.addEventListener("change", (e) => {
+    const file = e.target.files[0];
+    if (!file) return;
+
+    if (file.size > 4 * 1024 * 1024) {
+      showNotice("Le fichier est trop volumineux (Max 4 Mo).");
+      mediaFileInput.value = "";
+      return;
+    }
+
+    const reader = new FileReader();
+    reader.onload = (event) => {
+      selectedMediaData = event.target.result;
+      selectedMediaType = file.type.startsWith("video") ? "video" : "image";
+      filePreview.textContent = `Fichier joint : ${file.name}`;
+    };
+    reader.readAsDataURL(file);
+  });
+
   postForm.addEventListener("submit", async event => {
     event.preventDefault();
     clearNotice();
@@ -809,8 +867,8 @@
 
     const content = postContent.value.trim();
 
-    if (!content) {
-      showNotice("Écris quelque chose avant de publier.");
+    if (!content && !selectedMediaData) {
+      showNotice("Écris quelque chose ou joins un média avant de publier.");
       return;
     }
 
@@ -822,11 +880,16 @@
         authorId: currentUser.uid,
         authorName: displayName(currentUser),
         content,
+        mediaUrl: selectedMediaData || "",
+        mediaType: selectedMediaType || "",
         createdAt: serverTimestamp(),
         likesCount: 0
       });
 
       postForm.reset();
+      selectedMediaData = null;
+      selectedMediaType = null;
+      filePreview.textContent = "";
       charCount.textContent = "0 / 3000";
       showNotice("Publication envoyée ! ⚡", "success");
     } catch (error) {
@@ -845,6 +908,7 @@
     const commentForm = element.querySelector(".comment-form");
     const commentInput = element.querySelector(".comment-input");
     const sendButton = element.querySelector(".send-btn");
+    const shareButton = element.querySelector(".share-action");
 
     const likesRef = collection(db, "posts", postId, "likes");
     const commentsRef = collection(db, "posts", postId, "comments");
@@ -878,17 +942,11 @@
       likeButton.disabled = true;
 
       try {
-        const myLike = doc(
-          db, "posts", postId, "likes", currentUser.uid
-        );
-
+        const myLike = doc(db, "posts", postId, "likes", currentUser.uid);
         if (liked) {
           await deleteDoc(myLike);
         } else {
-          await setDoc(myLike, {
-            authorId: currentUser.uid,
-            createdAt: serverTimestamp()
-          });
+          await setDoc(myLike, { createdAt: serverTimestamp() });
         }
       } catch (error) {
         showNotice(errorMessage(error));
@@ -898,58 +956,64 @@
       }
     });
 
-    const commentsQuery = query(
-      commentsRef,
-      orderBy("createdAt", "asc"),
-      limit(100)
-    );
+    // Gestion robuste du bouton Partager
+    shareButton.addEventListener("click", async () => {
+      const shareData = {
+        title: "YOKAIRA Communauté",
+        text: "Viens découvrir cette publication sur l'univers YOKAIRA !",
+        url: window.location.href
+      };
 
-    const stopComments = onSnapshot(commentsQuery, snapshot => {
+      try {
+        if (navigator.share) {
+          await navigator.share(shareData);
+        } else {
+          await navigator.clipboard.writeText(window.location.href);
+          alert("Lien copié dans le presse-papier !");
+        }
+      } catch (err) {
+        console.log("Partage annulé ou non pris en charge", err);
+      }
+    });
+
+    const qComments = query(commentsRef, orderBy("createdAt", "asc"));
+    const stopComments = onSnapshot(qComments, snapshot => {
       if (version !== generation || !element.isConnected) return;
 
       commentCount.textContent = snapshot.size;
 
       if (snapshot.empty) {
-        commentsList.innerHTML =
-          '<div class="muted">Aucun commentaire pour le moment. Lance la discussion !</div>';
+        commentsList.innerHTML = `<div class="muted" style="font-size: .82rem;">Aucun commentaire pour l'instant. Sois le premier !</div>`;
         return;
       }
 
-      commentsList.innerHTML = snapshot.docs.map(item => {
-        const comment = item.data();
-        const name = comment.authorName || "Membre YOKAIRA";
-        const initial = name.trim().charAt(0).toUpperCase() || "Y";
+      let html = "";
+      snapshot.forEach(docSnap => {
+        const c = docSnap.data();
+        const initial = (c.authorName || "M").charAt(0).toUpperCase();
 
-        return `
+        html += `
           <div class="comment">
-            <div class="comment-avatar">${escapeHTML(initial)}</div>
+            <div class="comment-avatar">${initial}</div>
             <div class="comment-bubble">
-              <div class="comment-author">${escapeHTML(name)}</div>
-              <div class="comment-text">${escapeHTML(comment.content)}</div>
-              <div class="comment-date">${escapeHTML(dateText(comment.createdAt))}</div>
+              <div class="comment-author">${escapeHTML(c.authorName)}</div>
+              <div class="comment-text">${escapeHTML(c.content)}</div>
+              <div class="comment-date">${dateText(c.createdAt)}</div>
             </div>
           </div>
         `;
-      }).join("");
+      });
+      commentsList.innerHTML = html;
     }, error => {
       console.error("Commentaires :", error);
-      commentsList.innerHTML =
-        '<div class="muted">Impossible de charger les commentaires.</div>';
     });
 
     commentForm.addEventListener("submit", async event => {
       event.preventDefault();
-
       if (!currentUser || commentsBusy) return;
 
-      const content = commentInput.value.trim();
-
-      if (!content) return;
-
-      if (content.length > 1000) {
-        showNotice("Le commentaire ne peut pas dépasser 1000 caractères.");
-        return;
-      }
+      const text = commentInput.value.trim();
+      if (!text) return;
 
       commentsBusy = true;
       sendButton.disabled = true;
@@ -958,11 +1022,10 @@
         await addDoc(commentsRef, {
           authorId: currentUser.uid,
           authorName: displayName(currentUser),
-          content,
+          content: text,
           createdAt: serverTimestamp()
         });
-
-        commentInput.value = "";
+        commentForm.reset();
       } catch (error) {
         showNotice(errorMessage(error));
       } finally {
@@ -971,187 +1034,115 @@
       }
     });
 
-    postStops.set(postId, () => {
-      stopLikes();
-      stopComments();
-    });
-  }
-
-  function renderPost(postDoc, version) {
-    const post = postDoc.data();
-    const author = post.authorName || "Membre YOKAIRA";
-    const initial = author.trim().charAt(0).toUpperCase() || "Y";
-
-    const element = document.createElement("article");
-    element.className = "post";
-
-    element.innerHTML = `
-      <div class="post-inner">
-        <div class="post-header">
-          <div class="avatar">${escapeHTML(initial)}</div>
-          <div class="post-author">
-            <div class="author-name">
-              ${escapeHTML(author)}
-              <span class="member-tag">YOKAIRA</span>
-            </div>
-            <div class="post-date">${escapeHTML(dateText(post.createdAt))}</div>
-          </div>
-        </div>
-
-        <div class="post-content">${escapeHTML(post.content)}</div>
-
-        <div class="post-stats">
-          <span>✨ Les réactions de la communauté</span>
-          <span><span class="comment-count">0</span> commentaire(s)</span>
-        </div>
-      </div>
-
-      <div class="action-bar">
-        <button class="action like-action" type="button" aria-pressed="false">
-          <span class="icon">🤍</span>
-          <span class="action-label">J'aime</span>
-          <span class="like-count">0</span>
-        </button>
-
-        <button class="action comment-jump" type="button">
-          <span class="icon">💬</span>
-          <span>Commenter</span>
-        </button>
-
-        <button class="action share-action" type="button">
-          <span class="icon">🔄</span>
-          <span>Partager</span>
-        </button>
-      </div>
-
-      <div class="comments-area">
-        <div class="comments-title">
-          <span>💬 Discussion</span>
-          <span class="muted">Communauté YOKAIRA</span>
-        </div>
-
-        <div class="comments-list">
-          <div class="muted">Chargement des commentaires...</div>
-        </div>
-
-        <form class="comment-form">
-          <input
-            class="comment-input"
-            type="text"
-            maxlength="1000"
-            placeholder="Écrire un commentaire..."
-            aria-label="Écrire un commentaire"
-            required
-          >
-          <button class="send-btn" type="submit" aria-label="Envoyer le commentaire">➤</button>
-        </form>
-      </div>
-    `;
-
-    element.querySelector(".comment-jump").addEventListener("click", () => {
-      element.querySelector(".comment-input").focus();
-    });
-
-    // Partage interne directement sur le site
-    element.querySelector(".share-action").addEventListener("click", async () => {
-      if (!currentUser) {
-        showNotice("Connecte-toi pour partager une publication.");
-        return;
-      }
-
-      try {
-        await addDoc(collection(db, "posts"), {
-          authorId: currentUser.uid,
-          authorName: displayName(currentUser),
-          content: `🔄 Partagé de ${author} :\n\n> "${post.content}"`,
-          createdAt: serverTimestamp(),
-          likesCount: 0
-        });
-
-        showNotice("Publication partagée avec succès sur le fil ! ⚡", "success");
-      } catch (error) {
-        showNotice(errorMessage(error));
-      }
-    });
-
-    attachInteractions(postDoc.id, element, version);
-    return element;
-  }
-
-  function startCommunity() {
-    stopEverything();
-    clearNotice();
-
-    const version = ++generation;
-
-    postsList.innerHTML =
-      '<div class="empty">Chargement du fil communautaire...</div>';
-
-    const postsQuery = query(
-      collection(db, "posts"),
-      orderBy("createdAt", "desc"),
-      limit(50)
-    );
-
-    stopPosts = onSnapshot(postsQuery, snapshot => {
-      if (version !== generation) return;
-
-      stopAllPostListeners();
-
-      if (snapshot.empty) {
-        postsList.innerHTML = `
-          <div class="empty">
-            <strong>🌌 L'aventure commence ici</strong>
-            Sois le premier à partager une idée avec la communauté !
-          </div>
-        `;
-        return;
-      }
-
-      postsList.innerHTML = "";
-
-      snapshot.docs.forEach(postDoc => {
-        postsList.appendChild(renderPost(postDoc, version));
-      });
-    }, error => {
-      console.error("Publications :", error);
-
-      postsList.innerHTML = `
-        <div class="empty">
-          <strong>Oups !</strong>
-          Impossible de charger les publications.
-          Vérifie ta connexion et les règles Firestore.
-        </div>
-      `;
-    });
+    postStops.set(postId + "_likes", stopLikes);
+    postStops.set(postId + "_comments", stopComments);
   }
 
   onAuthStateChanged(auth, user => {
     currentUser = user;
+    generation++;
+    stopEverything();
 
-    if (user) {
-      loginBox.hidden = true;
-      communityArea.hidden = false;
-      myAvatar.textContent = displayName(user).charAt(0).toUpperCase();
-      startCommunity();
-    } else {
-      stopEverything();
-      generation++;
-
-      communityArea.hidden = true;
+    if (!user) {
       loginBox.hidden = false;
+      communityArea.hidden = true;
+      postsList.innerHTML = `<div class="empty"><strong>Connecte-toi</strong> pour voir le fil communautaire.</div>`;
+      return;
     }
+
+    loginBox.hidden = true;
+    communityArea.hidden = false;
+    myAvatar.textContent = displayName(user).charAt(0).toUpperCase();
+
+    const postsRef = collection(db, "posts");
+    const qPosts = query(postsRef, orderBy("createdAt", "desc"), limit(25));
+
+    stopPosts = onSnapshot(qPosts, snapshot => {
+      stopAllPostListeners();
+
+      if (snapshot.empty) {
+        postsList.innerHTML = `<div class="empty"><strong>Aucune publication pour le moment</strong>Sois le premier à partager ton univers !</div>`;
+        return;
+      }
+
+      let html = "";
+
+      snapshot.forEach(docSnap => {
+        const p = docSnap.data();
+        const postId = docSnap.id;
+        const initial = (p.authorName || "M").charAt(0).toUpperCase();
+
+        let mediaHtml = "";
+        if (p.mediaUrl) {
+          if (p.mediaType === "video") {
+            mediaHtml = `<video src="${p.mediaUrl}" controls class="post-media"></video>`;
+          } else {
+            mediaHtml = `<img src="${p.mediaUrl}" alt="Média partagé" class="post-media">`;
+          }
+        }
+
+        html += `
+          <article class="post" data-id="${postId}">
+            <div class="post-inner">
+              <div class="post-header">
+                <div class="avatar" style="width:38px;height:38px;flex:0 0 38px;border-radius:12px;font-size:.85rem;">${initial}</div>
+                <div class="post-author">
+                  <span class="author-name">${escapeHTML(p.authorName)}</span>
+                  <span class="member-tag">MEMBRE</span>
+                  <div class="post-date">${dateText(p.createdAt)}</div>
+                </div>
+              </div>
+
+              <div class="post-content">${escapeHTML(p.content)}</div>
+              ${mediaHtml}
+            </div>
+
+            <div class="post-stats">
+              <span class="muted"><strong class="like-count">0</strong> j'aime</span>
+              <span class="muted"><strong class="comment-count">0</strong> commentaires</span>
+            </div>
+
+            <div class="action-bar">
+              <button class="action like-action" type="button" aria-pressed="false">
+                <span class="icon">🤍</span>
+                <span class="action-label">J'aime</span>
+              </button>
+              <button class="action" type="button" onclick="const a=this.closest('.post').querySelector('.comments-area'); a.hidden=!a.hidden;">
+                <span class="icon">💬</span>
+                <span>Commenter</span>
+              </button>
+              <button class="action share-action" type="button">
+                <span class="icon">🔗</span>
+                <span>Partager</span>
+              </button>
+            </div>
+
+            <div class="comments-area" hidden>
+              <div class="comments-title">
+                <span>Discussion</span>
+              </div>
+              <div class="comments-list">
+                <div class="muted" style="font-size: .82rem;">Chargement...</div>
+              </div>
+              <form class="comment-form">
+                <input type="text" class="comment-input" placeholder="Écris un commentaire..." required maxlength="1000">
+                <button type="submit" class="send-btn" aria-label="Envoyer">➤</button>
+              </form>
+            </div>
+          </article>
+        `;
+      });
+
+      postsList.innerHTML = html;
+
+      const currentGen = generation;
+      postsList.querySelectorAll(".post").forEach(el => {
+        attachInteractions(el.dataset.id, el, currentGen);
+      });
+    }, error => {
+      showNotice(errorMessage(error));
+    });
   });
-</script>
-
-<script>
-const pageActuelle = location.pathname.split("/").pop();
-
-document.querySelectorAll(".yokaira-bottom-nav a").forEach(lien => {
-    if (lien.dataset.page === pageActuelle) {
-        lien.classList.add("active");
-    }
-});
 </script>
 
 </body>
