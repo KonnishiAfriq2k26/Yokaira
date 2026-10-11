@@ -50,19 +50,36 @@
             margin-bottom: 20px;
         }
 
+        /* NOUVEAU DESIGN DES BADGES & GRADES */
         .profile-badges {
             display: flex;
             flex-wrap: wrap;
             justify-content: center;
-            gap: 10px;
-            margin: 20px 0;
+            gap: 12px;
+            margin: 24px 0;
         }
 
         .profile-badges span {
-            padding: 7px 15px;
-            border: 1px solid rgba(160, 140, 255, .4);
-            border-radius: 25px;
-            background: rgba(100, 80, 200, .2);
+            padding: 8px 18px;
+            font-size: 13px;
+            font-weight: bold;
+            letter-spacing: 0.5px;
+            color: #f3e8ff;
+            background: linear-gradient(135deg, rgba(139, 92, 246, 0.25), rgba(76, 29, 149, 0.4));
+            border: 1px solid rgba(167, 139, 250, 0.5);
+            border-radius: 30px;
+            box-shadow: 0 0 15px rgba(139, 92, 246, 0.25);
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        /* Style spécifique pour le badge (le 2ème élément) */
+        .profile-badges span:nth-child(2) {
+            background: linear-gradient(135deg, rgba(234, 179, 8, 0.25), rgba(161, 98, 7, 0.4));
+            border-color: rgba(250, 204, 21, 0.6);
+            box-shadow: 0 0 15px rgba(234, 179, 8, 0.25);
+            color: #fef08a;
         }
 
         .profile-actions {
@@ -243,8 +260,8 @@ document.querySelectorAll(".yokaira-bottom-nav a").forEach(lien => {
             </p>
 
             <div class="profile-badges">
-                <span>Grade : Novice</span>
-                <span>Badge : Bronze</span>
+                <span>⚡ Grade : Novice</span>
+                <span>🛡️ Badge : Bronze</span>
             </div>
 
             <p class="profile-message" id="profileMessage" role="status">
