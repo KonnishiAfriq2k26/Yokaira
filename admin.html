@@ -134,27 +134,6 @@
             color: #a7f3d0;
         }
 
-        .member {
-            padding: 16px 0;
-            border-bottom: 1px solid #292d50;
-            overflow-wrap: anywhere;
-        }
-
-        .member:last-child {
-            border-bottom: none;
-        }
-
-        .member p {
-            color: #c5c9e0;
-            line-height: 1.5;
-        }
-
-        .member-actions {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 8px;
-        }
-
         .notice {
             font-size: 13px;
             color: #b8bdd8;
@@ -306,14 +285,14 @@
 
 <script type="module">
     import { initializeApp }
-        from "https://www.gstatic.com/firebasejs/13.0.0/firebase-app.js";
+        from "https://www.gstatic.com/firebasejs/11.6.0/firebase-app.js";
 
     import {
         getAuth,
         signInWithEmailAndPassword,
         onAuthStateChanged,
         signOut
-    } from "https://www.gstatic.com/firebasejs/13.0.0/firebase-auth.js";
+    } from "https://www.gstatic.com/firebasejs/11.6.0/firebase-auth.js";
 
     const firebaseConfig = {
         apiKey: "AIzaSyAGfNN8L3Nepdn8D9ocz9ylVB_6mKbIVcI",
@@ -326,13 +305,6 @@
 
     const app = initializeApp(firebaseConfig);
     const auth = getAuth(app);
-
-    /*
-      IMPORTANT :
-      L'accès réel doit être protégé par une autorisation administrateur
-      vérifiée côté serveur et dans les règles Firebase.
-      Se connecter avec Firebase ne donne PAS les droits admin.
-    */
 
     const loginPanel = document.getElementById("loginPanel");
     const adminPanel = document.getElementById("adminPanel");
@@ -363,12 +335,6 @@
             adminPanel.classList.add("hidden");
             return;
         }
-
-        /*
-          Ne pas afficher le tableau de bord sur la seule base
-          de l'existence d'une session utilisateur.
-          L'autorisation admin doit être implémentée côté serveur.
-        */
 
         loginPanel.classList.remove("hidden");
         adminPanel.classList.add("hidden");
