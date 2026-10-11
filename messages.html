@@ -42,7 +42,6 @@ body {
 }
 
 /* En-tête */
-
 header {
     position: relative;
     padding: 24px 20px 18px;
@@ -101,7 +100,6 @@ h1 {
 }
 
 /* Recherche */
-
 .search-wrap {
     padding: 0 18px;
     margin-top: 8px;
@@ -139,7 +137,6 @@ h1 {
 }
 
 /* Filtres */
-
 .filters {
     display: flex;
     gap: 9px;
@@ -172,7 +169,6 @@ h1 {
 }
 
 /* Archivées */
-
 .archived {
     width: calc(100% - 36px);
     margin: 0 18px;
@@ -208,7 +204,6 @@ h1 {
 }
 
 /* Liste des discussions */
-
 #conversationList {
     padding: 0 18px;
 }
@@ -325,8 +320,7 @@ h1 {
     line-height: 1.6;
 }
 
-/* Navigation en bas */
-
+/* Navigation en bas unifiée */
 .bottom-nav {
     position: fixed;
     z-index: 10;
@@ -369,8 +363,6 @@ h1 {
 .nav-item.active .nav-icon {
     text-shadow: 0 0 16px var(--purple);
 }
-
-/* Adaptation mobile */
 
 @media (min-width: 700px) {
     body {
@@ -442,15 +434,15 @@ h1 {
     </div>
 </main>
 
-<!-- BARRE DE NAVIGATION DU BAS MISE À JOUR (SANS ACCUEIL) -->
+<!-- BARRE DE NAVIGATION DU BAS UNIFIÉE -->
 <nav class="bottom-nav">
     <a class="nav-item" href="univers.html">
-        <span class="nav-icon">◉</span>
+        <span class="nav-icon">🌌</span>
         <span>Univers</span>
     </a>
 
     <a class="nav-item active" href="messages.html">
-        <span class="nav-icon">●</span>
+        <span class="nav-icon">💬</span>
         <span>Discussions</span>
     </a>
 
@@ -465,15 +457,12 @@ h1 {
     </a>
 
     <a class="nav-item" href="profil.html">
-        <span class="nav-icon">♙</span>
+        <span class="nav-icon">⚡</span>
         <span>Profil</span>
     </a>
 </nav>
 
 <script>
-/*
- * YOKAIRA — INTERFACE DES DISCUSSIONS
- */
 const demoConversations = [];
 
 const conversationList = document.getElementById("conversationList");
