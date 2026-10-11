@@ -320,6 +320,94 @@ h1 {
     line-height: 1.6;
 }
 
+/* MODALE AJOUT D'AMI */
+.modal-overlay {
+    position: fixed;
+    inset: 0;
+    z-index: 99999;
+    background: rgba(3, 5, 18, 0.85);
+    backdrop-filter: blur(8px);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 20px;
+}
+
+.modal-overlay[hidden] {
+    display: none;
+}
+
+.modal-card {
+    width: 100%;
+    max-width: 400px;
+    background: #111337;
+    border: 1px solid var(--purple);
+    border-radius: 20px;
+    padding: 25px;
+    box-shadow: 0 0 30px rgba(165, 106, 255, 0.3);
+}
+
+.modal-card h2 {
+    font-size: 22px;
+    margin-bottom: 15px;
+    color: var(--text);
+}
+
+.modal-card p {
+    color: var(--muted);
+    font-size: 13px;
+    margin-bottom: 20px;
+}
+
+.modal-input {
+    width: 100%;
+    height: 48px;
+    padding: 0 16px;
+    background: #08091e;
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    color: white;
+    font-size: 15px;
+    outline: none;
+    margin-bottom: 20px;
+}
+
+.modal-input:focus {
+    border-color: var(--purple);
+}
+
+.modal-actions {
+    display: flex;
+    gap: 10px;
+}
+
+.modal-btn {
+    flex: 1;
+    height: 44px;
+    border-radius: 10px;
+    font-weight: bold;
+    cursor: pointer;
+    font-size: 14px;
+    border: none;
+}
+
+.modal-btn-submit {
+    background: linear-gradient(135deg, #702af2, #a56aff);
+    color: white;
+}
+
+.modal-btn-cancel {
+    background: #1e1d4b;
+    color: var(--muted);
+}
+
+#addFriendMessage {
+    margin-top: 12px;
+    font-size: 13px;
+    color: var(--green);
+    min-height: 18px;
+}
+
 /* Navigation en bas unifiée */
 .bottom-nav {
     position: fixed;
@@ -393,8 +481,8 @@ h1 {
         </div>
 
         <button class="new-chat" id="newChatButton"
-                aria-label="Nouvelle discussion"
-                title="Nouvelle discussion">＋</button>
+                aria-label="Ajouter un ami"
+                title="Ajouter un ami">＋</button>
     </div>
 
     <h1>Discussions</h1>
@@ -430,9 +518,23 @@ h1 {
     <div class="empty-state" id="emptyState">
         <div style="font-size:32px;margin-bottom:10px">💬</div>
         Aucune discussion à afficher.<br>
-        Les conversations apparaîtront ici lorsqu'elles seront connectées.
+        Ajoute des amis pour commencer à discuter !
     </div>
 </main>
+
+<!-- FENÊTRE MODALE AJOUT D'AMI -->
+<div class="modal-overlay" id="addFriendModal" hidden>
+    <div class="modal-card">
+        <h2>Ajouter un ami</h2>
+        <p>Entre le pseudo ou l'email de ton ami pour l'ajouter à tes discussions.</p>
+        <input type="text" id="friendIdentifier" class="modal-input" placeholder="Pseudo ou email...">
+        <div class="modal-actions">
+            <button type="button" class="modal-btn modal-btn-cancel" id="cancelAddFriend">Annuler</button>
+            <button type="button" class="modal-btn modal-btn-submit" id="submitAddFriend">Rechercher / Ajouter</button>
+        </div>
+        <div id="addFriendMessage"></div>
+    </div>
+</div>
 
 <!-- BARRE DE NAVIGATION DU BAS UNIFIÉE -->
 <nav class="bottom-nav">
@@ -470,8 +572,50 @@ const searchInput = document.getElementById("searchInput");
 const emptyState = document.getElementById("emptyState");
 const filterButtons = document.querySelectorAll(".filter");
 
+const addFriendModal = document.getElementById("addFriendModal");
+const newChatButton = document.getElementById("newChatButton");
+const cancelAddFriend = document.getElementById("cancelAddFriend");
+const submitAddFriend = document.getElementById("submitAddFriend");
+const friendIdentifier = document.getElementById("friendIdentifier");
+const addFriendMessage = document.getElementById("addFriendMessage");
+
 let activeFilter = "all";
 let showingArchived = false;
+
+// Gestion de la modale d'ajout d'ami
+newChatButton.addEventListener("click", () => {
+    friendIdentifier.value = "";
+    addFriendMessage.textContent = "";
+    addFriendModal.hidden = false;
+    friendIdentifier.focus();
+});
+
+cancelAddFriend.addEventListener("click", () => {
+    addFriendModal.hidden = true;
+});
+
+addFriendModal.addEventListener("click", (e) => {
+    if (e.target === addFriendModal) {
+        addFriendModal.hidden = true;
+    }
+});
+
+submitAddFriend.addEventListener("click", () => {
+    const val = friendIdentifier.value.trim();
+    if (!val) {
+        addFriendMessage.style.color = "#ff8080";
+        addFriendMessage.textContent = "Veuillez entrer un pseudo ou un email.";
+        return;
+    }
+
+    addFriendMessage.style.color = "#00e7a1";
+    addFriendMessage.textContent = "Recherche de '" + val + "' en cours...";
+
+    // Simulation ou branchement Firebase futur
+    setTimeout(() => {
+        addFriendMessage.textContent = "Fonctionnalité en cours de liaison avec Firebase.";
+    }, 1000);
+});
 
 function renderConversations() {
     const search = searchInput.value.trim().toLowerCase();
@@ -554,13 +698,6 @@ function renderConversations() {
         }
 
         row.append(avatarWrap, info, meta);
-
-        row.addEventListener("click", () => {
-            alert(
-                "L'ouverture des conversations sera activée lorsque Firebase sera connecté."
-            );
-        });
-
         conversationList.appendChild(row);
     });
 
@@ -583,12 +720,6 @@ document.getElementById("archivedButton").addEventListener("click", () => {
     document.querySelector(".archive-label").textContent =
         showingArchived ? "Retour aux discussions" : "Archivées";
     renderConversations();
-});
-
-document.getElementById("newChatButton").addEventListener("click", () => {
-    alert(
-        "La recherche des membres et la création des conversations seront activées lors de la connexion à Firebase."
-    );
 });
 
 renderConversations();
