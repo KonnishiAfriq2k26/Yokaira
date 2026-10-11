@@ -18,6 +18,114 @@
             padding-bottom: 95px !important;
         }
 
+        /* BOUTON ACCÈS ADMIN EN ROUGE DANS LE HEADER */
+        .admin-red-btn {
+            background: rgba(239, 68, 68, 0.15);
+            border: 1px solid rgba(239, 68, 68, 0.5);
+            color: #fca5a5;
+            padding: 6px 12px;
+            border-radius: 10px;
+            cursor: pointer;
+            font-size: 0.85rem;
+            font-weight: bold;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            transition: 0.2s;
+        }
+        .admin-red-btn:hover {
+            background: rgba(239, 68, 68, 0.3);
+            border-color: #ef4444;
+        }
+
+        /* FENÊTRE LATÉRALE GAUCHE (DRAWER) */
+        .admin-sidebar-overlay {
+            position: fixed;
+            inset: 0;
+            background: rgba(5, 5, 15, 0.75);
+            backdrop-filter: blur(5px);
+            z-index: 100000;
+            opacity: 0;
+            visibility: hidden;
+            transition: 0.3s ease;
+        }
+        .admin-sidebar-overlay.open {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .admin-sidebar {
+            position: fixed;
+            top: 0;
+            left: -320px;
+            width: 280px;
+            height: 100%;
+            background: linear-gradient(160deg, #131128, #090916);
+            border-right: 1px solid rgba(239, 68, 68, 0.4);
+            z-index: 100001;
+            padding: 25px 20px;
+            display: flex;
+            flex-direction: column;
+            transition: 0.3s ease-in-out;
+            box-shadow: 10px 0 30px rgba(0,0,0,0.5);
+            overflow-y: auto;
+        }
+        .admin-sidebar.open {
+            left: 0;
+        }
+
+        .admin-sidebar-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 25px;
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+            padding-bottom: 15px;
+        }
+
+        .admin-sidebar-header h3 {
+            margin: 0;
+            color: #ef4444;
+            font-size: 1.1rem;
+        }
+
+        .close-sidebar-btn {
+            background: none;
+            border: none;
+            color: #9b9ab8;
+            font-size: 1.2rem;
+            cursor: pointer;
+        }
+
+        .admin-section-title {
+            font-size: 0.75rem;
+            letter-spacing: 1.5px;
+            color: #ef4444;
+            font-weight: 800;
+            margin: 20px 0 10px 0;
+        }
+
+        .admin-card-box {
+            background: rgba(25, 25, 46, 0.6);
+            border: 1px solid rgba(239, 68, 68, 0.25);
+            padding: 12px 14px;
+            border-radius: 12px;
+            font-size: 0.85rem;
+            line-height: 1.5;
+            color: #d1d5db;
+            margin-bottom: 12px;
+        }
+
+        .admin-restricted-warning {
+            color: #ff4d4d !important;
+            font-weight: bold;
+            font-size: 0.78rem;
+            display: block;
+            margin-top: 8px;
+            border-top: 1px dashed rgba(255, 77, 77, 0.3);
+            padding-top: 6px;
+        }
+
         /* BOUTON FLOTTANT COMMUNAUTÉ (AU-DESSUS DE L'AVATAR) */
         .floating-community-btn {
             position: fixed;
@@ -97,10 +205,15 @@
 
 <!-- EN-TÊTE -->
 <header>
-    <div class="logo">
-        <a href="index.html" aria-label="Retour à l'accueil">
-            <img src="logo.png" alt="Logo YOKAIRA">
-        </a>
+    <div style="display: flex; align-items: center; gap: 12px;">
+        <button id="openAdminBtn" class="admin-red-btn" aria-label="Espace Administrateur Sécurisé">
+            🔒 Espace Admin
+        </button>
+        <div class="logo">
+            <a href="index.html" aria-label="Retour à l'accueil">
+                <img src="logo.png" alt="Logo YOKAIRA">
+            </a>
+        </div>
     </div>
 
     <nav aria-label="Navigation principale">
@@ -312,6 +425,33 @@
     </small>
 </footer>
 
+<!-- FENÊTRE LATÉRALE GAUCHE (ADMIN & SUPER ADMIN) -->
+<div id="adminOverlay" class="admin-sidebar-overlay"></div>
+<aside id="adminSidebar" class="admin-sidebar">
+    <div class="admin-sidebar-header">
+        <h3>⚡ QG Admin</h3>
+        <button id="closeAdminBtn" class="close-sidebar-btn" aria-label="Fermer">✕</button>
+    </div>
+
+    <div class="admin-section-title">LES MOTS DU SUPER ADMIN</div>
+    <div class="admin-card-box">
+        <strong>Annonce officielle :</strong><br>
+        "Bienvenue dans l'écosystème YOKAIRA. L'aventure ne fait que commencer, restez connectés pour les prochaines grosses mises à jour." ⚡
+        <span class="admin-restricted-warning">⚠ Rubrique réservée uniquement au Super Admin.</span>
+    </div>
+
+    <div class="admin-section-title">ESPACE ADMINISTRATEUR</div>
+    <div class="admin-card-box">
+        🔒 <strong>Mode Sécurisé</strong><br>
+        Panneau de contrôle des flux et modération des posts en direct.
+        <span class="admin-restricted-warning">⚠ Options réservées uniquement aux administrateurs.</span>
+    </div>
+
+    <div style="margin-top: auto; padding-top: 20px; font-size: 0.75rem; color: #6b7280; text-align: center;">
+        YOKAIRA Core v2.6
+    </div>
+</aside>
+
 <!-- BOUTON FLOTTANT COMMUNAUTÉ -->
 <a href="communaute.html" class="floating-community-btn">
     <span style="font-size: 14px;">👥</span> Communauté
@@ -336,8 +476,43 @@
     </a>
 </nav>
 
-<!-- ANIMATIONS -->
+<!-- ANIMATIONS & CONTRÔLES -->
 <script src="script.js"></script>
+
+<script>
+    // Sécurisation de l'accès Admin par Email et Mot de passe
+    const adminSidebar = document.getElementById("adminSidebar");
+    const adminOverlay = document.getElementById("adminOverlay");
+    const openAdminBtn = document.getElementById("openAdminBtn");
+    const closeAdminBtn = document.getElementById("closeAdminBtn");
+
+    // Identifiants admin de test (tu pourras les modifier facilement ici)
+    const ADMIN_EMAIL = "admin@yokaira.com";
+    const ADMIN_PASS = "yokaira2026";
+
+    openAdminBtn.addEventListener("click", () => {
+        const emailInput = prompt("Entrez l'email administrateur :");
+        if (!emailInput) return;
+
+        const passInput = prompt("Entrez le mot de passe administrateur :");
+        if (!passInput) return;
+
+        if (emailInput.trim() === ADMIN_EMAIL && passInput.trim() === ADMIN_PASS) {
+            adminSidebar.classList.add("open");
+            adminOverlay.classList.add("open");
+        } else {
+            alert("Accès refusé : identifiants administrateur incorrects.");
+        }
+    });
+
+    function closeAdminPanel() {
+        adminSidebar.classList.remove("open");
+        adminOverlay.classList.remove("open");
+    }
+
+    closeAdminBtn.addEventListener("click", closeAdminPanel);
+    adminOverlay.addEventListener("click", closeAdminPanel);
+</script>
 
 <!-- CONTRÔLE DE CONNEXION -->
 <script type="module" src="member-guard.js"></script>
