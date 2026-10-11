@@ -67,25 +67,17 @@ h1 { margin-top: 20px; font-size: 32px; font-weight: 850; }
     display: grid; place-items: center; font-weight: bold; font-size: 1.1rem; object-fit: cover; flex-shrink: 0;
 }
 
-/* Badge de nouveau message (pastille lumineuse) */
 .unread-badge {
-    position: absolute;
-    top: 0;
-    right: 0;
-    width: 14px;
-    height: 14px;
-    background: var(--green);
-    border: 2px solid #08091e;
-    border-radius: 50%;
+    position: absolute; top: 0; right: 0;
+    width: 14px; height: 14px; background: var(--green);
+    border: 2px solid #08091e; border-radius: 50%;
     box-shadow: 0 0 10px var(--green);
 }
 
 .conv-info { flex: 1; min-width: 0; }
-.conv-header { display: flex; justify-content: space-between; align-items: center; }
 .conv-name { font-weight: bold; font-size: 1rem; margin-bottom: 4px; }
 .conv-last { color: var(--muted); font-size: .85rem; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
 
-/* Texte mis en valeur en cas de message non lu */
 .conversation-item.has-unread .conv-name { color: #fff; text-shadow: 0 0 8px rgba(165, 106, 255, 0.5); }
 .conversation-item.has-unread .conv-last { color: #fff; font-weight: bold; }
 
@@ -254,26 +246,30 @@ h1 { margin-top: 20px; font-size: 32px; font-weight: 850; }
                 }
             });
 
+            // Récupérer tous les profils de la collection `users` pour afficher les vrais noms et avatars
+            const usersSnap = await getDocs(collection(db, "users"));
+            const namesMap = new Map();
+            const photosMap = new Map();
+
+            usersSnap.forEach(doc => {
+                const d = doc.data();
+                const userName = d.username || d.displayName || d.name || "Membre YOKAIRA";
+                namesMap.set(doc.id, userName);
+                if (d.photoURL) photosMap.set(doc.id, d.photoURL);
+            });
+
             if (chatsMap.size === 0) {
                 conversationList.innerHTML = `<div class="empty-state">Aucune discussion active.<br>Clique sur le bouton <strong>＋</strong> en haut pour démarrer une conversation.</div>`;
                 return;
             }
 
-            const postsSnap = await getDocs(query(collection(db, "posts"), limit(100)));
-            const namesMap = new Map();
-            postsSnap.forEach(p => {
-                const d = p.data();
-                if (d.authorId && d.authorName) namesMap.set(d.authorId, d.authorName);
-            });
-
             let html = "";
             for (let [partnerId, info] of chatsMap.entries()) {
                 const name = namesMap.get(partnerId) || "Membre YOKAIRA";
                 const initial = name.charAt(0).toUpperCase();
-                const savedPhoto = localStorage.getItem("yokairaProfilePhoto_" + partnerId);
+                const savedPhoto = photosMap.get(partnerId) || localStorage.getItem("yokairaProfilePhoto_" + partnerId);
                 const avatarHTML = savedPhoto ? `<img src="${savedPhoto}" class="avatar" alt="">` : `<div class="avatar">${initial}</div>`;
 
-                // Vérification si le message est non lu (reçu et plus récent que la dernière visite)
                 const lastSeen = parseInt(localStorage.getItem("lastSeenMsg_" + info.chatId) || "0", 10);
                 const isUnread = info.senderId !== currentUid && info.msgTime > lastSeen;
 
@@ -298,6 +294,7 @@ h1 { margin-top: 20px; font-size: 32px; font-weight: 850; }
         }
     }
 
+    // Recherche de membres directement dans la collection `users`
     memberSearchInput.addEventListener("input", async (e) => {
         const term = e.target.value.trim().toLowerCase();
         if (term.length < 2) {
@@ -305,15 +302,16 @@ h1 { margin-top: 20px; font-size: 32px; font-weight: 850; }
             return;
         }
         try {
-            const snap = await getDocs(query(collection(db, "posts"), limit(50)));
-            const usersMap = new Map();
+            const snap = await getDocs(collection(db, "users"));
+            let matched = [];
+
             snap.forEach(doc => {
                 const d = doc.data();
-                if (d.authorId && d.authorName && d.authorId !== auth.currentUser?.uid) {
-                    usersMap.set(d.authorId, d.authorName);
+                const name = d.username || d.displayName || d.name || "";
+                if (doc.id !== auth.currentUser?.uid && name.toLowerCase().includes(term)) {
+                    matched.push({ id: doc.id, name: name });
                 }
             });
-            const matched = Array.from(usersMap.entries()).map(([id, name]) => ({ id, name })).filter(u => u.name.toLowerCase().includes(term));
             
             if (matched.length === 0) {
                 searchResults.innerHTML = `<div style="text-align: center; color: var(--muted); padding: 10px;">Aucun membre trouvé.</div>`;
