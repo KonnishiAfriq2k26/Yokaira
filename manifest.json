@@ -1,11 +1,11 @@
 {
-  "name": "YOKAIRA",
-  "short_name": "YOKAIRA",
-  "start_url": "/univers.html",
+  "name": "Konnishi'Afriq",
+  "short_name": "KonnishiAfriq",
+  "start_url": "/",
   "display": "standalone",
-  "background_color": "#08091e",
-  "theme_color": "#08091e",
-  "description": "Plus qu'une communauté, une famille.",
+  "background_color": "#080812",
+  "theme_color": "#080812",
+  "description": "L'application de la culture et de la communauté africaine.",
   "icons": [
     {
       "src": "icon-192.png",
